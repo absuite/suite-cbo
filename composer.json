@@ -1,0 +1,19 @@
+{
+    "name": "absuite/suite-cbo",
+    "description": "suite cbo model for laravel5",
+	"license": "MIT",
+    "authors": [
+        {
+            "name": "absuite",
+            "email": "absuite@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Suite\\Cbo\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,101 @@
+<template>
+  <md-part>
+    <md-part-toolbar>
+      <md-part-toolbar-group>
+        <md-button @click.native="save" :disabled="!canSave">保存</md-button>
+        <md-button @click.native="cancel">放弃</md-button>
+        <md-button @click.native="create">新增</md-button>
+      </md-part-toolbar-group>
+      <md-part-toolbar-group>
+        <md-button @click.native="copy" :disabled="!canCopy">复制</md-button>
+      </md-part-toolbar-group>
+      <md-part-toolbar-group>
+        <md-button @click.native="list">列表</md-button>
+      </md-part-toolbar-group>
+      <md-part-toolbar-pager @paging="paging" :options="model.pager"></md-part-toolbar-pager>
+      <span class="flex"></span>
+      <md-part-toolbar-crumbs>
+        <md-part-toolbar-crumb>物料</md-part-toolbar-crumb>
+        <md-part-toolbar-crumb>编辑</md-part-toolbar-crumb>
+      </md-part-toolbar-crumbs>
+    </md-part-toolbar>
+    <md-part-body>
+      <md-content>
+        <md-input-container>
+          <label>编码</label>
+          <md-input required v-model="model.main.code"></md-input>
+        </md-input-container>
+        <md-input-container>
+          <label>名称</label>
+          <md-input required v-model="model.main.name"></md-input>
+        </md-input-container>
+        <md-input-container>
+          <label>形态</label>
+          <md-enum md-enum-id="suite.cbo.item.form.enum" v-model="model.main.form_enum"></md-enum>
+        </md-input-container>
+         <md-input-container>
+          <label>分类</label>
+          <md-input-ref md-ref-id="suite.cbo.item.category.ref" v-model="model.main.category"/>
+        </md-input-container>
+        <md-input-container>
+          <label>计量单位</label>
+          <md-input-ref required md-ref-id="suite.cbo.unit.ref" v-model="model.main.unit"></md-input-ref>
+        </md-input-container>
+        <md-input-container>
+          <label>默认单价</label>
+          <md-input type="number" v-model="model.main.price"></md-input>
+        </md-input-container>
+        <md-input-container>
+          <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
+        </md-input-container>
+        <md-input-container>
+          <label>备注</label>
+          <md-textarea v-model="model.main.memo"></md-textarea>
+        </md-input-container>
+      </md-content>
+      <md-loading :loading="loading"></md-loading>
+    </md-part-body>
+  </md-part>
+</template>
+<script>
+  import model from '../../gmf-sys/core/mixin/model';
+  export default {
+    data() {
+      return {
+      };
+    },
+    mixins: [model],
+    computed: {
+      canSave() {
+        return this.validate(true);
+      }
+    },
+    methods: {
+      validate(notToast){
+        var validator=this.$validate(this.model.main,{
+          'code':'required',
+          'name':'required',
+          'unit':'required',
+          });
+        var fail=validator.fails();
+        if(fail&&!notToast){
+          this.$toast(validator.errors.all());
+        }
+        return !fail;
+      },
+      initModel(){
+        return {
+          main:{'code':'','name':'','memo':'',is_effective:true,category:null,unit:null}
+        }
+      },
+      list() {
+        this.$router.push({ name: 'module', params: { module: 'cbo.item.list' }});
+      },
+    },
+    created() {
+      this.model.entity='suite.cbo.item';
+      this.model.order="code";
+      this.route='cbo/items';
+    },
+  };
+</script>
