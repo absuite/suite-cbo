@@ -81,7 +81,7 @@ class RouteRegistrar {
 			$router->post('/doc-types/batch', ['uses' => 'DocTypeController@batchStore']);
 			$router->resource('doc-types', 'DocTypeController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
-			$router->post('/teams/batch', ['uses' => 'PersonController@batchStore']);
+			$router->post('/persons/batch', ['uses' => 'PersonController@batchStore']);
 			$router->resource('persons', 'PersonController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
 			$router->post('/project-categories/batch', ['uses' => 'ProjectCategoryController@batchStore']);
