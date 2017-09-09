@@ -61,7 +61,7 @@ class DeptController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->intersect(['code', 'name', 'type_enum', 'is_effective']);
+		$input = $request->only(['code', 'name', 'type_enum', 'is_effective']);
 		$input = InputHelper::fillEntity($input, $request, ['manager']);
 		$validator = Validator::make($input, [
 			'code' => [

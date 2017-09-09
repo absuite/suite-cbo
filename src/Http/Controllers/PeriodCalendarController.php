@@ -61,7 +61,7 @@ class PeriodCalendarController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->intersect(['code', 'name']);
+		$input = $request->only(['code', 'name']);
 		$validator = Validator::make($input, [
 			'code' => [
 				'required',

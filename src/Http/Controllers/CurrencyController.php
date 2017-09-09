@@ -58,7 +58,7 @@ class CurrencyController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->intersect(['code', 'name', 'symbol']);
+		$input = $request->only(['code', 'name', 'symbol']);
 		$validator = Validator::make($input, [
 			'code' => [
 				'required',

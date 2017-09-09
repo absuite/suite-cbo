@@ -57,7 +57,7 @@ class CountryController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->intersect(['code', 'name', 'short_name', 'is_effective']);
+		$input = $request->only(['code', 'name', 'short_name', 'is_effective']);
 		$validator = Validator::make($input, [
 			'code' => [
 				'required',

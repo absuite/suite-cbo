@@ -63,7 +63,7 @@ class ItemController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->intersect(['code', 'name', 'memo', 'category', 'currency', 'trader', 'unit']);
+		$input = $request->only(['code', 'name', 'memo', 'category', 'currency', 'trader', 'unit']);
 		$input = InputHelper::fillEntity($input, $request, ['category', 'currency', 'trader', 'unit']);
 		$validator = Validator::make($input, [
 			'code' => [

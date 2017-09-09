@@ -60,7 +60,7 @@ class WhController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->intersect(['code', 'name', 'is_effective', 'org', 'dept', 'manager']);
+		$input = $request->only(['code', 'name', 'is_effective', 'org', 'dept', 'manager']);
 		$input = InputHelper::fillEntity($input, $request, ['org', 'dept', 'manager']);
 		$validator = Validator::make($input, [
 			'code' => [
