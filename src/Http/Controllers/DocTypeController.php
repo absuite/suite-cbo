@@ -3,7 +3,6 @@ namespace Suite\Cbo\Http\Controllers;
 
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
 
@@ -17,7 +16,7 @@ class DocTypeController extends Controller {
 	}
 	public function show(Request $request, string $id) {
 		$query = Models\DocType::where('id', '!=', '');
-		$data = $query->where('id', $id)->orWhere('code', $id)->first();
+		$data = $query->where('id', $id)->first();
 		return $this->toJson($data);
 	}
 
@@ -29,26 +28,17 @@ class DocTypeController extends Controller {
 	public function store(Request $request) {
 		$input = $request->all();
 		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\DocType)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\DocType)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
+			'code' => 'required',
+			'name' => 'required',
+			'biz_type_enum' => 'required',
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
 
 		$input['ent_id'] = $request->oauth_ent_id;
+		$data = Models\DocType::updateOrCreate(['ent_id' => $input['ent_id'], 'biz_type_enum' => $input['biz_type_enum'], 'code' => $input['code']], $input);
 
-		$data = Models\DocType::create($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -60,24 +50,17 @@ class DocTypeController extends Controller {
 	public function update(Request $request, $id) {
 		$input = $request->only(['code', 'name', 'biz_type_enum']);
 		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\DocType)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\DocType)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
+			'code' => 'required',
+			'name' => 'required',
+			'biz_type_enum' => 'required',
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		Models\DocType::where('id', $id)->update($input);
-		return $this->show($request, $id);
+		$input['ent_id'] = $request->oauth_ent_id;
+		$data = Models\DocType::updateOrCreate(['ent_id' => $input['ent_id'], 'biz_type_enum' => $input['biz_type_enum'], 'code' => $input['code']], $input);
+
+		return $this->show($request, $data->id);
 	}
 	/**
 	 * DELETE
@@ -96,6 +79,7 @@ class DocTypeController extends Controller {
 			'datas' => 'required|array|min:1',
 			'datas.*.code' => 'required',
 			'datas.*.name' => 'required',
+			'datas.*.biz_type_enum' => 'required',
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
@@ -104,7 +88,7 @@ class DocTypeController extends Controller {
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['code', 'name', 'biz_type_enum']);
-			Models\DocType::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			Models\DocType::updateOrCreate(['ent_id' => $entId, 'biz_type_enum' => $data['biz_type_enum'], 'code' => $data['code']], $data);
 		}
 		return $this->toJson(true);
 	}
