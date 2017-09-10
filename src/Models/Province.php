@@ -12,6 +12,9 @@ class Province extends Model {
 	protected $table = 'suite_cbo_provinces';
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'code', 'name', 'short_name', 'area_id', 'country_id', 'is_effective'];
+	protected $casts = [
+		'is_effective' => 'integer',
+	];
 	public function country() {
 		return $this->belongsTo('Suite\Cbo\Models\Country');
 	}

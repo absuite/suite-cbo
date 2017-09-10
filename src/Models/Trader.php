@@ -13,6 +13,9 @@ class Trader extends Model {
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'category_id', 'code', 'name'
 		, 'country_id', 'province_id', 'division_id', 'area_id', 'is_supplier', 'is_customer', 'is_effective'];
+	protected $casts = [
+		'is_effective' => 'integer',
+	];
 	public function category() {
 		return $this->belongsTo('Suite\Cbo\Models\TraderCategory');
 	}

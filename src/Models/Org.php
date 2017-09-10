@@ -12,6 +12,9 @@ class Org extends Model {
 	protected $table = 'suite_cbo_orgs';
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'code', 'name', 'short_name', 'avatar', 'manager_id', 'is_effective'];
+	protected $casts = [
+		'is_effective' => 'integer',
+	];
 	public function ent() {
 		return $this->belongsTo('Gmf\Sys\Models\Ent');
 	}

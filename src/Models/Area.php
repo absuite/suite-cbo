@@ -12,6 +12,9 @@ class Area extends Model {
 	protected $table = 'suite_cbo_areas';
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'country_id', 'code', 'name', 'short_name', 'is_effective'];
+	protected $casts = [
+		'is_effective' => 'integer',
+	];
 	public function country() {
 		return $this->belongsTo('Suite\Cbo\Models\Country');
 	}

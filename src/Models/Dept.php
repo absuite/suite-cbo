@@ -14,7 +14,9 @@ class Dept extends Model {
 	public $incrementing = false;
 	protected $keyType = 'string';
 	protected $fillable = ['id', 'ent_id', 'code', 'name', 'org_id', 'type_enum', 'manager_id', 'is_effective'];
-
+	protected $casts = [
+		'is_effective' => 'integer',
+	];
 	public function ent() {
 		return $this->belongsTo('Gmf\Sys\Models\Ent');
 	}

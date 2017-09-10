@@ -12,6 +12,9 @@ class Work extends Model {
 	protected $table = 'suite_cbo_works';
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'code', 'name', 'org_id', 'dept_id', 'is_effective'];
+	protected $casts = [
+		'is_effective' => 'integer',
+	];
 
 	public function ent() {
 		return $this->belongsTo('Gmf\Sys\Models\Ent');
