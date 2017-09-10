@@ -1,10 +1,10 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class DocTypeController extends Controller {
@@ -58,7 +58,7 @@ class DocTypeController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name']);
+		$input = $request->only(['code', 'name', 'biz_type_enum']);
 		$validator = Validator::make($input, [
 			'code' => [
 				'required',
@@ -103,7 +103,7 @@ class DocTypeController extends Controller {
 		$entId = $request->oauth_ent_id;
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name']);
+			$data = array_only($v, ['code', 'name', 'biz_type_enum']);
 			Models\DocType::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
 		}
 		return $this->toJson(true);

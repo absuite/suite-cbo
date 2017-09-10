@@ -22,6 +22,10 @@
     <md-part-body>
       <md-content>
         <md-input-container>
+          <label>类型</label>
+          <md-enum md-enum-id="suite.cbo.biz.type.enum" v-model="model.main.biz_type_enum"></md-enum>
+        </md-input-container>
+        <md-input-container>
           <label>编码</label>
           <md-input required v-model="model.main.code"></md-input>
         </md-input-container>
@@ -35,40 +39,39 @@
   </md-part>
 </template>
 <script>
-  import model from '../../gmf-sys/core/mixin/model';
-  export default {
-    data() {
-      return {
-      };
+import model from '../../gmf-sys/core/mixin/model';
+export default {
+  data() {
+    return {};
+  },
+  mixins: [model],
+  computed: {
+    canSave() {
+      return this.validate(true);
+    }
+  },
+  methods: {
+    validate(notToast) {
+      var validator = this.$validate(this.model.main, { 'code': 'required', 'name': 'required' });
+      var fail = validator.fails();
+      if (fail && !notToast) {
+        this.$toast(validator.errors.all());
+      }
+      return !fail;
     },
-    mixins: [model],
-    computed: {
-      canSave() {
-        return this.validate(true);
+    initModel() {
+      return {
+        main: { 'code': '', 'name': '', 'memo': '' }
       }
     },
-    methods: {
-      validate(notToast){
-        var validator=this.$validate(this.model.main,{'code':'required','name':'required'});
-        var fail=validator.fails();
-        if(fail&&!notToast){
-          this.$toast(validator.errors.all());
-        }
-        return !fail;
-      },
-      initModel(){
-        return {
-          main:{'code':'','name':'','memo':''}
-        }
-      },
-      list() {
-        this.$router.push({ name: 'module', params: { module: 'cbo.doc.type.list' }});
-      },
+    list() {
+      this.$router.push({ name: 'module', params: { module: 'cbo.doc.type.list' } });
     },
-    created() {
-      this.model.entity='suite.cbo.doc.type';
-      this.model.order="code";
-      this.route='cbo/doc-types';
-    },
-  };
+  },
+  created() {
+    this.model.entity = 'suite.cbo.doc.type';
+    this.model.order = "code";
+    this.route = 'cbo/doc-types';
+  },
+};
 </script>

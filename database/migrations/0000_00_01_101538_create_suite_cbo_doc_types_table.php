@@ -16,6 +16,7 @@ class CreateSuiteCboDocTypesTable extends Migration {
 
 		$md->string('id', 100)->primary();
 		$md->entity('ent', 'gmf.sys.ent')->nullable()->comment('企业');
+		$md->enum('biz_type', 'suite.cbo.biz.type.enum')->nullable()->comment('业务类型');
 		$md->string('code')->nullable()->comment('编码');
 		$md->string('name')->comment('名称');
 		$md->text('memo')->nullable()->comment('备注');
