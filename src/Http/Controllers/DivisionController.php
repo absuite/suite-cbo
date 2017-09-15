@@ -2,23 +2,23 @@
 
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class DivisionController extends Controller {
 	public function index(Request $request) {
-		$query = Models\Division::with('country', 'province');
+		$query = Models\Division::with('country', 'province', 'area');
 
 		$data = $query->get();
 
 		return $this->toJson($data);
 	}
 	public function show(Request $request, string $id) {
-		$query = Models\Division::with('country', 'province');
+		$query = Models\Division::with('country', 'province', 'area');
 		$data = $query->where('id', $id)->orWhere('code', $id)->first();
 		return $this->toJson($data);
 	}
@@ -30,7 +30,7 @@ class DivisionController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$input = InputHelper::fillEntity($input, $request, ['country', 'province']);
+		$input = InputHelper::fillEntity($input, $request, ['country', 'province', 'area']);
 		$validator = Validator::make($input, [
 			'code' => [
 				'required',
@@ -60,7 +60,7 @@ class DivisionController extends Controller {
 	 */
 	public function update(Request $request, $id) {
 		$input = $request->only(['code', 'name', 'short_name', 'is_effective']);
-		$input = InputHelper::fillEntity($input, $request, ['country', 'province']);
+		$input = InputHelper::fillEntity($input, $request, ['country', 'province', 'area']);
 		$validator = Validator::make($input, [
 			'code' => [
 				'required',

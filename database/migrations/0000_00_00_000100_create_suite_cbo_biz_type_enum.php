@@ -23,6 +23,9 @@ class CreateSuiteCboBizTypeEnum extends Migration {
 		$md->string('process')->comment('工序转移')->default(4);
 		$md->string('receivables')->comment('收款')->default(4);
 		$md->string('payment')->comment('付款')->default(4);
+		$md->string('ar')->comment('应收')->default(4);
+		$md->string('ap')->comment('应付')->default(4);
+		$md->string('plan')->comment('计划预算')->default(4);
 		$md->string('expense')->comment('费用报销')->default(4);
 		$md->string('voucher')->comment('收支凭证')->default(4);
 		$md->build();
