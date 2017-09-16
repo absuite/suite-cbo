@@ -29,6 +29,10 @@
           <label>名称</label>
           <md-input required v-model="model.main.name"></md-input>
         </md-input-container>
+        <md-input-container>
+          <label>类型</label>
+          <md-enum md-enum-id="suite.cbo.trader.type.enum" v-model="model.main.type_enum"></md-enum>
+        </md-input-container>
       </md-content>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>

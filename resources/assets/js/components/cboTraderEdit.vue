@@ -55,10 +55,8 @@
           <md-input-ref md-ref-id="suite.cbo.area.ref" v-model="model.main.area"/>
         </md-input-container>
         <md-input-container>
-          <md-checkbox required v-model="model.main.is_supplier">供应商</md-checkbox>
-        </md-input-container>
-        <md-input-container>
-          <md-checkbox required v-model="model.main.is_customer">客户</md-checkbox>
+          <label>类型</label>
+          <md-enum md-enum-id="suite.cbo.trader.type.enum" v-model="model.main.type_enum"></md-enum>
         </md-input-container>
         <md-input-container>
           <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
