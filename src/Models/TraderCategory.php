@@ -11,13 +11,13 @@ class TraderCategory extends Model {
 	use Snapshotable, HasGuard;
 	protected $table = 'suite_cbo_trader_categories';
 	public $incrementing = false;
-	protected $fillable = ['id', 'ent_id', 'code', 'name'];
+	protected $fillable = ['id', 'ent_id', 'code', 'name', 'type_enum'];
 
 	public static function build(Closure $callback) {
 		tap(new Builder, function ($builder) use ($callback) {
 			$callback($builder);
 
-			$data = array_only($builder->toArray(), ['id', 'ent_id', 'code', 'name']);
+			$data = array_only($builder->toArray(), ['id', 'ent_id', 'code', 'name', 'type_enum']);
 
 			static::create($data);
 		});

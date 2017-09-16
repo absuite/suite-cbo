@@ -1,11 +1,11 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class WhController extends Controller {
@@ -37,12 +37,6 @@ class WhController extends Controller {
 					$query->where('ent_id', $request->oauth_ent_id);
 				}),
 			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\Wh)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
@@ -64,12 +58,6 @@ class WhController extends Controller {
 		$input = InputHelper::fillEntity($input, $request, ['org', 'dept', 'manager']);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\Wh)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\Wh)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);
@@ -107,7 +95,14 @@ class WhController extends Controller {
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['code', 'name', 'memo']);
-			$data = InputHelper::fillEntity($data, $v, ['org', 'dept', 'manager']);
+			$data = InputHelper::fillEntity($data, $v,
+				[
+					'org' => ['type' => Models\Org::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'dept' => ['type' => Models\Dept::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'manager' => ['type' => Models\Person::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+				],
+				['ent_id' => $entId]
+			);
 			Models\Wh::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
 		}
 		return $this->toJson(true);

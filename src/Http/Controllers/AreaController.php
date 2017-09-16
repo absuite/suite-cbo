@@ -2,19 +2,17 @@
 
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class AreaController extends Controller {
 	public function index(Request $request) {
 		$query = Models\Area::with('country');
-
 		$data = $query->get();
-
 		return $this->toJson($data);
 	}
 	public function show(Request $request, string $id) {
@@ -30,15 +28,14 @@ class AreaController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$input = InputHelper::fillEntity($input, $request, ['country']);
+		$input = InputHelper::fillEntity($input, $request,
+			[
+				'country' => ['type' => Models\Country::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+			],
+			['ent_id' => $request->oauth_ent_id]
+		);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\Area)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\Area)->getTable())->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);
@@ -61,15 +58,14 @@ class AreaController extends Controller {
 	 */
 	public function update(Request $request, $id) {
 		$input = $request->only(['code', 'name', 'short_name', 'country', 'is_effective']);
-		$input = InputHelper::fillEntity($input, $request, ['country']);
+		$input = InputHelper::fillEntity($input, $request,
+			[
+				'country' => ['type' => Models\Country::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+			],
+			['ent_id' => $request->oauth_ent_id]
+		);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\Area)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\Area)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);
@@ -108,7 +104,12 @@ class AreaController extends Controller {
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['code', 'name', 'short_name']);
-			$data = InputHelper::fillEntity($data, $v, ['country']);
+			$data = InputHelper::fillEntity($data, $v,
+				[
+					'country' => ['type' => Models\Country::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+				],
+				['ent_id' => $entId]
+			);
 			Models\Area::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
 		}
 		return $this->toJson(true);

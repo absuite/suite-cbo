@@ -1,10 +1,10 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class ItemCategoryController extends Controller {
@@ -35,12 +35,6 @@ class ItemCategoryController extends Controller {
 					$query->where('ent_id', $request->oauth_ent_id);
 				}),
 			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\ItemCategory)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
 		]);
 		$input['ent_id'] = $request->oauth_ent_id;
 		if ($validator->fails()) {
@@ -60,12 +54,6 @@ class ItemCategoryController extends Controller {
 		$input = $request->only(['code', 'name']);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\ItemCategory)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\ItemCategory)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);

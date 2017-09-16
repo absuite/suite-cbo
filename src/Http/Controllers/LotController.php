@@ -1,10 +1,10 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class LotController extends Controller {
@@ -35,12 +35,6 @@ class LotController extends Controller {
 					$query->where('ent_id', $request->oauth_ent_id);
 				}),
 			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\Lot)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
@@ -61,12 +55,6 @@ class LotController extends Controller {
 		$input = $request->only(['code', 'name']);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\Lot)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\Lot)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);

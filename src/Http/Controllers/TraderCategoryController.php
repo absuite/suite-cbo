@@ -1,10 +1,10 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class TraderCategoryController extends Controller {
@@ -17,7 +17,7 @@ class TraderCategoryController extends Controller {
 	}
 	public function show(Request $request, string $id) {
 		$query = Models\TraderCategory::where('id', '!=', '');
-		$data = $query->where('id', $id)->orWhere('code', $id)->first();
+		$data = $query->where('id', $id)->first();
 		return $this->toJson($data);
 	}
 
@@ -30,12 +30,6 @@ class TraderCategoryController extends Controller {
 		$input = $request->all();
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\TraderCategory)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\TraderCategory)->getTable())->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);
@@ -61,12 +55,6 @@ class TraderCategoryController extends Controller {
 		$input = $request->only(['code', 'name']);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\TraderCategory)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\TraderCategory)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);
@@ -104,7 +92,7 @@ class TraderCategoryController extends Controller {
 		$entId = $request->oauth_ent_id;
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name']);
+			$data = array_only($v, ['code', 'name', 'type_enum']);
 			Models\TraderCategory::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
 		}
 		return $this->toJson(true);

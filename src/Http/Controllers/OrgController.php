@@ -2,11 +2,11 @@
 
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class OrgController extends Controller {
@@ -38,12 +38,6 @@ class OrgController extends Controller {
 					$query->where('ent_id', $request->oauth_ent_id);
 				}),
 			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\Org)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
@@ -65,12 +59,6 @@ class OrgController extends Controller {
 		$input = InputHelper::fillEntity($input, $request, ['manager']);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\Org)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\Org)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);

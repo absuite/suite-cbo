@@ -2,10 +2,10 @@
 
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class CountryController extends Controller {
@@ -36,12 +36,6 @@ class CountryController extends Controller {
 					$query->where('ent_id', $request->oauth_ent_id);
 				}),
 			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\Country)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
@@ -60,12 +54,6 @@ class CountryController extends Controller {
 		$input = $request->only(['code', 'name', 'short_name', 'is_effective']);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\Country)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\Country)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);

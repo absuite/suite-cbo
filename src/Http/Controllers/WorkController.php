@@ -2,11 +2,11 @@
 
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class WorkController extends Controller {
@@ -38,12 +38,6 @@ class WorkController extends Controller {
 					$query->where('ent_id', $request->oauth_ent_id);
 				}),
 			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\Work)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
@@ -65,12 +59,6 @@ class WorkController extends Controller {
 		$input = InputHelper::fillEntity($input, $request, ['org', 'dept']);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\Work)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\Work)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);
@@ -110,7 +98,13 @@ class WorkController extends Controller {
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['code', 'name']);
-			$data = InputHelper::fillEntity($data, $v, ['org', 'dept']);
+			$data = InputHelper::fillEntity($data, $v,
+				[
+					'org' => ['type' => Models\Org::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'dept' => ['type' => Models\Dept::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+				],
+				['ent_id' => $entId]
+			);
 			Models\Work::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
 		}
 		return $this->toJson(true);

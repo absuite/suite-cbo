@@ -16,6 +16,7 @@ class CreateSuiteCboTraderCategoriesTable extends Migration {
 
 		$md->string('id', 100)->primary();
 		$md->entity('ent', 'gmf.sys.ent')->nullable()->comment('企业');
+		$md->enum('type', 'suite.cbo.trader.type.enum')->nullable()->comment('类型');
 		$md->string('code')->nullable()->comment('编码');
 		$md->string('name')->comment('名称');
 		$md->text('memo')->nullable()->comment('备注');

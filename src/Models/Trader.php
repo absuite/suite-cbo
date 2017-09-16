@@ -12,7 +12,7 @@ class Trader extends Model {
 	protected $table = 'suite_cbo_traders';
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'category_id', 'code', 'name'
-		, 'country_id', 'province_id', 'division_id', 'area_id', 'is_supplier', 'is_customer', 'is_effective'];
+		, 'country_id', 'province_id', 'division_id', 'area_id', 'type_enum', 'is_effective'];
 	protected $casts = [
 		'is_effective' => 'integer',
 	];

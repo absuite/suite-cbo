@@ -38,12 +38,6 @@ class DivisionController extends Controller {
 					$query->where('ent_id', $request->oauth_ent_id);
 				}),
 			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\Division)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
 		]);
 		$input['ent_id'] = $request->oauth_ent_id;
 		if ($validator->fails()) {
@@ -63,12 +57,6 @@ class DivisionController extends Controller {
 		$input = InputHelper::fillEntity($input, $request, ['country', 'province', 'area']);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\Division)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\Division)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);
@@ -107,7 +95,14 @@ class DivisionController extends Controller {
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['code', 'name', 'short_name']);
-			$data = InputHelper::fillEntity($data, $v, ['area', 'province', 'country']);
+			$data = InputHelper::fillEntity($data, $v,
+				[
+					'area' => ['type' => Models\Area::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'province' => ['type' => Models\Province::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'country' => ['type' => Models\Country::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+				],
+				['ent_id' => $entId]
+			);
 			Models\Division::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
 		}
 		return $this->toJson(true);

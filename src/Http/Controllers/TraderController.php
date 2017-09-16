@@ -1,11 +1,11 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class TraderController extends Controller {
@@ -37,12 +37,6 @@ class TraderController extends Controller {
 					$query->where('ent_id', $request->oauth_ent_id);
 				}),
 			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\Trader)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
@@ -59,16 +53,10 @@ class TraderController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name']);
-		$input = InputHelper::fillEntity($input, $request, ['category']);
+		$input = $request->only(['code', 'name', 'type_enum', 'is_effective']);
+		$input = InputHelper::fillEntity($input, $request, ['category', 'country', 'province', 'division', 'area']);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\Trader)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\Trader)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);
@@ -106,8 +94,17 @@ class TraderController extends Controller {
 		$entId = $request->oauth_ent_id;
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name', 'is_supplier', 'is_customer']);
-			$data = InputHelper::fillEntity($data, $v, ['category', 'area', 'country', 'province', 'division']);
+			$data = array_only($v, ['code', 'name', 'type_enum']);
+			$data = InputHelper::fillEntity($data, $v,
+				[
+					'category' => ['type' => Models\TraderCategory::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'area' => ['type' => Models\Area::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'country' => ['type' => Models\Country::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'province' => ['type' => Models\Province::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'division' => ['type' => Models\Division::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+				],
+				['ent_id' => $entId]
+			);
 			Models\Trader::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
 		}
 		return $this->toJson(true);

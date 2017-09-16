@@ -2,11 +2,11 @@
 
 namespace Suite\Cbo\Http\Controllers;
 
-use Suite\Cbo\Models;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Suite\Cbo\Models;
 use Validator;
 
 class ItemController extends Controller {
@@ -41,12 +41,6 @@ class ItemController extends Controller {
 					$query->where('ent_id', $request->oauth_ent_id);
 				}),
 			],
-			'name' => [
-				'required',
-				Rule::unique((new Models\Item)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
@@ -63,16 +57,10 @@ class ItemController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name', 'memo', 'category', 'currency', 'trader', 'unit']);
+		$input = $request->only(['code', 'name', 'memo', 'form_enum']);
 		$input = InputHelper::fillEntity($input, $request, ['category', 'currency', 'trader', 'unit']);
 		$validator = Validator::make($input, [
 			'code' => [
-				'required',
-				Rule::unique((new Models\Item)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
-			],
-			'name' => [
 				'required',
 				Rule::unique((new Models\Item)->getTable())->ignore($id)->where(function ($query) use ($request) {
 					$query->where('ent_id', $request->oauth_ent_id);
@@ -110,8 +98,16 @@ class ItemController extends Controller {
 		$entId = $request->oauth_ent_id;
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name', 'memo']);
-			$data = InputHelper::fillEntity($data, $v, ['currency', 'category', 'unit', 'trader']);
+			$data = array_only($v, ['code', 'name', 'memo', 'form_enum']);
+			$data = InputHelper::fillEntity($data, $v,
+				[
+					'currency' => ['type' => Models\Currency::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'category' => ['type' => Models\ItemCategory::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'unit' => ['type' => Models\Unit::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+					'trader' => ['type' => Models\Trader::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+				],
+				['ent_id' => $entId]
+			);
 			Models\Item::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
 		}
 		return $this->toJson(true);

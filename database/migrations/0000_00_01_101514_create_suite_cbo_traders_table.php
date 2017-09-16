@@ -24,8 +24,7 @@ class CreateSuiteCboTradersTable extends Migration {
 		$md->string('code')->nullable()->comment('编码');
 		$md->string('name')->nullable()->comment('名称');
 		$md->string('short_name')->nullable()->comment('简称');
-		$md->boolean('is_supplier')->default(0)->comment('供应商');
-		$md->boolean('is_customer')->default(0)->comment('客户');
+		$md->enum('type', 'suite.cbo.trader.type.enum')->nullable()->comment('类型');
 		$md->text('memo')->nullable()->comment('备注');
 		$md->boolean('is_effective')->default(1)->comment('生效的');
 		$md->timestamps();

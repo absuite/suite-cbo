@@ -1,10 +1,13 @@
 
 
 import components from './components';
-
+import oauth from './oauth';
+import sys from './sys';
 
 const options = {
     components,
+    oauth,
+    sys
 };
 
 options.install = (Vue) => {
