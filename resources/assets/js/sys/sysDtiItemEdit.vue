@@ -19,12 +19,13 @@
     <md-part-body>
       <md-content>
         <md-input-container>
+          <label>接口</label>
+          <md-input-ref md-ref-id="gmf.sys.dti.local.ref" v-model="model.main.local" />
+        </md-input-container>
+
+        <md-input-container>
           <label>分类</label>
           <md-input-ref md-ref-id="gmf.sys.dti.category.ref" v-model="model.main.category" />
-        </md-input-container>
-        <md-input-container>
-          <label>接口</label>
-          <md-input-ref md-ref-id="gmf.sys.dti.ref" @init="initDtiRef" v-model="model.main.dti" />
         </md-input-container>
         <md-input-container>
           <label>编码</label>
@@ -36,11 +37,23 @@
         </md-input-container>
         <md-input-container>
           <label>类型</label>
-          <md-enum md-enum-id="gmf.sys.dti.param.type.enum" v-model="model.main.type_enum" />
+          <md-enum md-enum-id="gmf.sys.dti.method.enum" v-model="model.main.method_enum" />
         </md-input-container>
         <md-input-container>
-          <label>值</label>
-          <md-input v-model="model.main.value"></md-input>
+          <label>接口路径</label>
+          <md-input v-model="model.main.path"></md-input>
+        </md-input-container>
+        <md-input-container>
+          <label>请求头</label>
+          <md-textarea v-model="model.main.header"></md-textarea>
+        </md-input-container>
+        <md-input-container>
+          <label>请求体</label>
+          <md-textarea v-model="model.main.body"></md-textarea>
+        </md-input-container>
+        <md-input-container>
+          <label>备注</label>
+          <md-textarea v-model="model.main.memo"></md-textarea>
         </md-input-container>
       </md-content>
       <md-loading :loading="loading"></md-loading>
@@ -73,11 +86,11 @@ export default {
     },
     initModel() {
       return {
-        main: { 'code': '', 'name': '', 'type_enum': 'fixed' }
+        main: { 'code': '', 'name': '', 'method_enum': 'post' ,'local':null,'category':null}
       }
     },
     list() {
-      this.$router.push({ name: 'module', params: { module: 'sys.dti.params.list' } });
+      this.$router.push({ name: 'module', params: { module: 'sys.dti.item.list' } });
     },
     initDtiRef(options) {
       if (this.model.main.category) {
@@ -88,7 +101,7 @@ export default {
     }
   },
   created() {
-    this.route = 'sys/dti-parmas';
+    this.route = 'sys/dtis';
   },
 };
 </script>

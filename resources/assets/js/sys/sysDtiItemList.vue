@@ -13,7 +13,7 @@
       </md-part-toolbar-crumbs>
     </md-part-toolbar>
     <md-part-body>
-      <md-query @select="select" @dblclick="edit" ref="list" md-query-id="gmf.sys.dti.param.list"></md-query>
+      <md-query @select="select" @dblclick="edit" ref="list" md-query-id="gmf.sys.dti.list"></md-query>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
   </md-part>
@@ -28,10 +28,10 @@ export default {
   },
   methods: {
     create() {
-      this.$router.push({ name: 'module', params: { module: 'sys.dti.param.edit' } });
+      this.$router.push({ name: 'module', params: { module: 'sys.dti.item.edit' } });
     },
     edit(item) {
-      this.$router.push({ name: 'id', params: { module: 'sys.dti.param.edit', id: item.id } });
+      this.$router.push({ name: 'id', params: { module: 'sys.dti.item.edit', id: item.id } });
     },
     remove() {
       if (!this.selectRows || !this.selectRows.length) {
@@ -40,7 +40,7 @@ export default {
       }
       this.loading++;
       const ids = this._.map(this.selectRows, 'id').toString();
-      this.$http.delete('sys/dti-params/' + ids).then(response => {
+      this.$http.delete('sys/dtis/' + ids).then(response => {
         this.load();
         this.loading--;
         this.$toast(this.$lang.LANG_DELETESUCCESS);
