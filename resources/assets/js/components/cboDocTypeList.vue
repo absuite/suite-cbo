@@ -5,6 +5,7 @@
         <md-button @click.native="create">新增</md-button>
         <md-button @click.native="remove" :disabled="!(selectRows&&selectRows.length)">删除</md-button>
       </md-part-toolbar-group>
+      <span class="flex"></span>
       <md-part-toolbar-group>
         <md-layout md-gutter>
           <md-layout>
@@ -14,7 +15,6 @@
           </md-layout>
         </md-layout>
       </md-part-toolbar-group>
-      <span class="flex"></span>
       <md-part-toolbar-crumbs>
         <md-part-toolbar-crumb>单据类型</md-part-toolbar-crumb>
         <md-part-toolbar-crumb>列表</md-part-toolbar-crumb>
@@ -27,25 +27,26 @@
   </md-part>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        selectRows: [],
-        loading:0
-      };
+export default {
+  data() {
+    return {
+      selectRows: [],
+      loading: 0
+    };
+  },
+  beforeRouteEnter(to, from, next) {
+
+  },
+  methods: {
+    create() {
+      this.$router.push({ name: 'module', params: { module: 'cbo.doc.type.edit' } });
     },
-    beforeRouteEnter (to, from, next) {
-      
+    edit(item) {
+      this.$router.push({ name: 'id', params: { module: 'cbo.doc.type.edit', id: item.id } });
     },
-    methods: {
-      create(){
-        this.$router.push({ name: 'module', params: { module: 'cbo.doc.type.edit' }});
-      },
-      edit(item){
-        this.$router.push({ name: 'id', params: { module: 'cbo.doc.type.edit',id:item.id }});
-      },
-      doFetch(q) {
+    doFetch(q) {
       if (this.currentQ != q) {
+        this.currentQ = q;
         this.load();
       }
       this.currentQ = q;
@@ -61,28 +62,28 @@
         };
       }
     },
-      remove(){
-        if(!this.selectRows||!this.selectRows.length){
-          this.$toast(this.$lang.LANG_NODELETEDATA);
-          return;
-        }
-        this.loading++;
-        const ids=this._.map(this.selectRows,'id').toString();
-        this.$http.delete('cbo/doc-types/'+ids).then(response => {
-          this.load();
-          this.loading--;
-          this.$toast(this.$lang.LANG_DELETESUCCESS);
-        }, response => {
-          this.$toast(this.$lang.LANG_DELETEFAIL);
-          this.loading--;
-        });
-      },
-      select(items){
-        this.selectRows=items;
-      },
-      load(){
-        this.$refs.list.pagination(1);
+    remove() {
+      if (!this.selectRows || !this.selectRows.length) {
+        this.$toast(this.$lang.LANG_NODELETEDATA);
+        return;
       }
+      this.loading++;
+      const ids = this._.map(this.selectRows, 'id').toString();
+      this.$http.delete('cbo/doc-types/' + ids).then(response => {
+        this.load();
+        this.loading--;
+        this.$toast(this.$lang.LANG_DELETESUCCESS);
+      }, response => {
+        this.$toast(this.$lang.LANG_DELETEFAIL);
+        this.loading--;
+      });
+    },
+    select(items) {
+      this.selectRows = items;
+    },
+    load() {
+      this.$refs.list.pagination(1);
     }
-  };
+  }
+};
 </script>
