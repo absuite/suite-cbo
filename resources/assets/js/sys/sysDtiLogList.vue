@@ -5,6 +5,15 @@
         <md-button @click.native="remove" :disabled="!(selectRows&&selectRows.length)">删除</md-button>
       </md-part-toolbar-group>
       <span class="flex"></span>
+      <md-part-toolbar-group>
+        <md-layout md-gutter>
+          <md-layout>
+            <md-input-container class="md-inset">
+              <md-input :fetch="doFetch" placeholder="search" @keyup.enter.native="load()"></md-input>
+            </md-input-container>
+          </md-layout>
+        </md-layout>
+      </md-part-toolbar-group>
       <md-part-toolbar-crumbs>
         <md-part-toolbar-crumb>接口</md-part-toolbar-crumb>
         <md-part-toolbar-crumb>日志</md-part-toolbar-crumb>
@@ -12,7 +21,7 @@
       </md-part-toolbar-crumbs>
     </md-part-toolbar>
     <md-part-body>
-      <md-query @select="select" ref="list" md-query-id="gmf.sys.dti.log.list"></md-query>
+      <md-query @select="select" ref="list" @init="initQuery" md-query-id="gmf.sys.dti.log.list"></md-query>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
   </md-part>
@@ -41,6 +50,28 @@ export default {
         this.$toast(this.$lang.LANG_DELETEFAIL);
         this.loading--;
       });
+    },
+    doFetch(q) {
+      if (this.currentQ != q) {
+        this.currentQ = q;
+        this.load();
+      }
+      this.currentQ = q;
+    },
+    initQuery(options) {
+      options.wheres.filter = false;
+      if (this.currentQ) {
+        var isDate = this.currentQ.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+        options.wheres.filter = {
+          "or": [
+            { name: 'dti.name', operator: 'like', value: this.currentQ },
+            { name: 'dti.category.name', operator: 'like', value: this.currentQ }
+          ]
+        };
+        if (isDate) {
+          options.wheres.filter.or.push({ name: 'date', operator: '>=', value: this.currentQ });
+        }
+      }
     },
     select(items) {
       this.selectRows = items;
