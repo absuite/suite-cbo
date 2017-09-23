@@ -5,6 +5,15 @@
         <md-button @click.native="create">新增</md-button>
         <md-button @click.native="remove" :disabled="!(selectRows&&selectRows.length)">删除</md-button>
       </md-part-toolbar-group>
+      <md-part-toolbar-group>
+        <md-layout md-gutter>
+          <md-layout>
+            <md-input-container class="md-inset">
+              <md-input :fetch="doFetch" placeholder="search" @keyup.enter.native="load()"></md-input>
+            </md-input-container>
+          </md-layout>
+        </md-layout>
+      </md-part-toolbar-group>
       <span class="flex"></span>
       <md-part-toolbar-crumbs>
         <md-part-toolbar-crumb>接口</md-part-toolbar-crumb>
@@ -13,7 +22,7 @@
       </md-part-toolbar-crumbs>
     </md-part-toolbar>
     <md-part-body>
-      <md-query @select="select" @dblclick="edit" ref="list" md-query-id="gmf.sys.dti.param.list"></md-query>
+      <md-query @select="select" @dblclick="edit" @init="initQuery" ref="list" md-query-id="gmf.sys.dti.param.list"></md-query>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
   </md-part>
@@ -32,6 +41,23 @@ export default {
     },
     edit(item) {
       this.$router.push({ name: 'id', params: { module: 'sys.dti.param.edit', id: item.id } });
+    },
+    doFetch(q) {
+      if (this.currentQ != q) {
+        this.load();
+      }
+      this.currentQ = q;
+    },
+    initQuery(options) {
+      options.wheres.filter = false;
+      if (this.currentQ) {
+        options.wheres.filter = {
+          "or": [
+            { name: 'code', operator: 'like', value: this.currentQ },
+            { name: 'name', operator: 'like', value: this.currentQ }
+          ]
+        };
+      }
     },
     remove() {
       if (!this.selectRows || !this.selectRows.length) {
