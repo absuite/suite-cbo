@@ -1,46 +1,73 @@
 <template>
   <md-part>
-    <md-subheader>我的企业</md-subheader>
-    <md-content class="md-cards padding">
-      <md-card v-for="item in datas" :key="item">
-        <md-card-area>
-          <md-card-media>
-            <img src="/img/vendor/gmf-sys/cover/1.jpg">
-          </md-card-media>
-          <md-card-header>
-            <div class="md-title">{{ item.name }}</div>
-            <div class="md-subhead">{{ item.memo }}</div>
-          </md-card-header>
-        </md-card-area>
-        <md-card-actions>
-          <md-button>Action</md-button>
-          <md-button>Action</md-button>
-        </md-card-actions>
-      </md-card>
-    </md-content>
+    <md-part-toolbar>
+      <md-part-toolbar-group>
+        <md-button @click.native="create">新增</md-button>
+      </md-part-toolbar-group>
+      <span class="flex"></span>
+      <md-part-toolbar-group>
+        <md-layout md-gutter>
+          <md-layout>
+            <md-input-container class="md-inset">
+              <md-input :fetch="doFetch" placeholder="search" @keyup.enter.native="load()"></md-input>
+            </md-input-container>
+          </md-layout>
+        </md-layout>
+      </md-part-toolbar-group>
+      <md-part-toolbar-crumbs>
+        <md-part-toolbar-crumb>企业</md-part-toolbar-crumb>
+        <md-part-toolbar-crumb>列表</md-part-toolbar-crumb>
+      </md-part-toolbar-crumbs>
+    </md-part-toolbar>
+    <md-part-body>
+      <md-query @select="select" @dblclick="edit" @init="initQuery" ref="list" md-query-id="gmf.sys.ent.list"></md-query>
+      <md-loading :loading="loading"></md-loading>
+    </md-part-body>
   </md-part>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        datas:[],
-        loading:0
-      };
+export default {
+  data() {
+    return {
+      selectRows: [],
+      loading: 0
+    };
+  },
+  methods: {
+    create() {
+      this.$router.push({ name: 'module', params: { module: 'sys.ent.edit' } });
     },
-    methods: {
-      loadData(){
-        this.$http.get('sys/ents/my').then(response => {
-            //this.datas=response.data.data;
-            for (var i = 0; i <20; i++) {
-              this.datas.push(response.data.data[0]);
-            }
-          }, response => {
-        });
-      },
+    edit(item) {
+      this.$router.push({ name: 'id', params: { module: 'sys.ent.edit', id: item.id } });
     },
-    mounted() {
-      this.loadData();
+    doFetch(q) {
+      if (this.currentQ != q) {
+        this.currentQ = q;
+        this.load();
+      }
+      this.currentQ = q;
     },
-  };
+    initQuery(options) {
+      options.wheres.filter = false;
+      if (this.currentQ) {
+        options.wheres.filter = {
+          "or": [
+            { name: 'code', operator: 'like', value: this.currentQ },
+            { name: 'name', operator: 'like', value: this.currentQ }
+          ]
+        };
+      }
+    },
+    remove() {
+
+    },
+    select(items) {
+      this.selectRows = items;
+    },
+    load() {
+      this.$refs.list.pagination(1);
+    }
+  },
+  mounted() {},
+};
 </script>

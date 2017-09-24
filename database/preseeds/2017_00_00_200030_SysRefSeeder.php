@@ -27,6 +27,7 @@ class SysRefSeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.ent.ref')->entity('gmf.sys.ent')
 					->fields(['id', 'code' => '编码', 'name' => '名称', 'memo' => '备注']);
 				$builder->orders(['code', 'created_at' => 'desc']);
+				$builder->filter('a0.id in (select ent_id from gmf_sys_ent_users where user_id=#{userId}#)');
 			});
 
 			$id = "d0ff8e5063b311e798c5671dd1c0dabd";

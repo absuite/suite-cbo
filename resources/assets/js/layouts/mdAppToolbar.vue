@@ -74,7 +74,7 @@ export default {
       this.$router.push({ name: 'module', params: { module: 'entchange' } });
     },
     onCreateEnt() {
-      alert(1);
+      this.$router.push({ name: 'module', params: { module: 'sys.ent.edit' } });
     },
     onSelectEnt(ent) {
       this.$root.userData.ent = ent;

@@ -11,6 +11,7 @@ import sysRoleEdit from './sysRoleEdit.vue';
 import sysRoleList from './sysRoleList.vue';
 
 import sysEntList from './sysEntList.vue';
+import sysEntEdit from './sysEntEdit.vue';
 
 
 import sysDtiCategoryEdit from './sysDtiCategoryEdit.vue';
@@ -39,6 +40,7 @@ export default function install(Vue) {
   Vue.component('sysRoleList', sysRoleList);
 
   Vue.component('sysEntList', sysEntList);
+  Vue.component('sysEntEdit', sysEntEdit);
 
   Vue.component('sysDtiCategoryEdit', sysDtiCategoryEdit);
   Vue.component('sysDtiCategoryList', sysDtiCategoryList);
