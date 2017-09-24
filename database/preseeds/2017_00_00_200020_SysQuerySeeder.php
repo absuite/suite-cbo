@@ -90,6 +90,7 @@ class SysQuerySeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.dti.category.list')->entity('gmf.sys.dti.category')
 					->fields(['id', 'code', 'name', 'host']);
 				$builder->orders(['code', 'created_at' => 'desc']);
+				$builder->filter('a0.ent_id=#{entId}#');
 			});
 
 			$id = "82181ce09ab911e7ab870b9c8d3a3e1b";
@@ -97,6 +98,7 @@ class SysQuerySeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.dti.param.list')->entity('gmf.sys.dti.param')
 					->fields(['id', 'category.name', 'dti.name', 'code', 'name', 'type_enum', 'value']);
 				$builder->orders(['category.code', 'dti.code', 'code', 'created_at' => 'desc']);
+				$builder->filter('a0.ent_id=#{entId}#');
 			});
 
 			$id = "b7609c2062e111e7821eb75781824e97";
@@ -104,6 +106,7 @@ class SysQuerySeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.dti.list')->entity('gmf.sys.dti')
 					->fields(['id', 'category.name', 'local.name', 'code', 'name', 'method_enum', 'path', 'body', 'header']);
 				$builder->orders(['category.code', 'local.code', 'code', 'created_at' => 'desc']);
+				$builder->filter('a0.ent_id=#{entId}#');
 			});
 
 			$id = "6d8961009b9311e7b892f9f5b12cd8b3";
@@ -118,6 +121,7 @@ class SysQuerySeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.dti.log.list')->entity('gmf.sys.dti.log')
 					->fields(['id', 'dti.category.name', 'dti.local.name', 'dti.name', 'memo', 'state_enum', 'created_at', 'content', 'session']);
 				$builder->orders(['created_at' => 'desc', 'session' => 'desc']);
+				$builder->filter('a0.ent_id=#{entId}#');
 			});
 		});
 	}

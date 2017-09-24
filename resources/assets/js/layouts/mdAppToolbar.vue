@@ -15,11 +15,13 @@
       <md-icon>search</md-icon>
     </md-button>
     <md-menu md-direction="bottom left" ref="menuEnts">
-      <md-button md-menu-trigger>测试企业
+      <md-button md-menu-trigger>{{ $root.userData.ent.name }}
         <md-icon>arrow_drop_down</md-icon>
       </md-button>
       <md-menu-content>
-        <md-menu-item v-for="item in $root.userData.ents" :key="item.id">{{item.name }}</md-menu-item>
+        <md-menu-item v-for="item in $root.userData.ents" :key="item.id" @selected="onSelectEnt(item)">{{item.name }}</md-menu-item>
+        <md-divider></md-divider>
+        <md-menu-item @selected="onCreateEnt">创建企业</md-menu-item>
       </md-menu-content>
     </md-menu>
     <md-button class="md-icon-button">
@@ -59,10 +61,24 @@ export default {
     mdToken: String,
     mdTitle: String
   },
+  watch: {
+    "$root.userData.entId": function(v, o) {
+      this.onChangeEnt();
+    }
+  },
   methods: {
     toggle() {
       this.$emit('toggle');
-    }
+    },
+    onChangeEnt() {
+      this.$router.push({ name: 'module', params: { module: 'entchange' } });
+    },
+    onCreateEnt() {
+      alert(1);
+    },
+    onSelectEnt(ent) {
+      this.$root.userData.ent = ent;
+    },
   }
 };
 </script>

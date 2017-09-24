@@ -88,6 +88,7 @@ class SysRefSeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.dti.category.ref')->entity('gmf.sys.dti.category')
 					->fields(['id', 'code', 'name']);
 				$builder->orders(['code', 'created_at' => 'desc']);
+				$builder->filter('a0.ent_id=#{entId}#');
 			});
 
 			$id = "52e41aa09ab911e78ba3a54271f08887";
@@ -95,6 +96,7 @@ class SysRefSeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.dti.param.ref')->entity('gmf.sys.dti.param')
 					->fields(['id', 'code', 'name', 'type_enum', 'value']);
 				$builder->orders(['code', 'created_at' => 'desc']);
+				$builder->filter('a0.ent_id=#{entId}#');
 			});
 
 			$id = "ba2803e09b9311e78dcf79eb91bc712f";
@@ -102,6 +104,7 @@ class SysRefSeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.dti.ref')->entity('gmf.sys.dti')
 					->fields(['id', 'category.name', 'local.name', 'code', 'name', 'method_enum', 'path', 'body', 'header']);
 				$builder->orders(['category.code', 'local.code', 'code', 'created_at' => 'desc']);
+				$builder->filter('a0.ent_id=#{entId}#');
 			});
 
 			$id = "ba2828c09b9311e791494f12b81a59cd";
@@ -115,6 +118,7 @@ class SysRefSeeder extends Seeder {
 			Models\Query::build(function (Builder $builder) use ($id) {
 				$builder->id($id)->name('gmf.sys.dti.log.ref')->entity('gmf.sys.dti.log')
 					->fields(['id', 'dti.name', 'memo', 'state_enum', 'created_at', 'session']);
+				$builder->filter('a0.ent_id=#{entId}#');
 			});
 		});
 	}
