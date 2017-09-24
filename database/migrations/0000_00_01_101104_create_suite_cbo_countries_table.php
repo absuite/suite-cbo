@@ -15,7 +15,6 @@ class CreateSuiteCboCountriesTable extends Migration {
 		$md->mdEntity('suite.cbo.country')->comment('国家')->tableName('suite_cbo_countries');
 
 		$md->string('id', 100)->primary();
-		$md->entity('ent', 'gmf.sys.ent')->nullable()->comment('企业');
 		$md->string('code')->nullable()->comment('编码');
 		$md->string('name')->comment('名称');
 		$md->string('short_name')->nullable()->comment('简称');

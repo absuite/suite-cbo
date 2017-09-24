@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use Suite\Cbo\Models;
 
 class CboDivisionSeeder extends Seeder {
-	private $entId = '';
+	public $entId = '';
 
 	/**
 	 * Run the database seeds.
@@ -13,7 +13,12 @@ class CboDivisionSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->entId = config('gmf.ent.id');
+		if (empty($this->entId)) {
+			$this->entId = config('gmf.ent.id');
+		}
+		if (empty($this->entId)) {
+			return;
+		}
 
 		Models\Division::where('ent_id', $this->entId)->delete();
 

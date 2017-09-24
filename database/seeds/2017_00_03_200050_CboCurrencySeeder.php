@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use Suite\Cbo\Models;
 
 class CboCurrencySeeder extends Seeder {
-	private $entId = '';
+	public $entId = '';
 
 	/**
 	 * Run the database seeds.
@@ -13,7 +13,12 @@ class CboCurrencySeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->entId = config('gmf.ent.id');
+		if (empty($this->entId)) {
+			$this->entId = config('gmf.ent.id');
+		}
+		if (empty($this->entId)) {
+			return;
+		}
 		Models\Currency::where('ent_id', $this->entId)->delete();
 
 		Models\Currency::build(function (Builder $b) {$b->ent_id($this->entId)->code("CNY")->name("人民币")->symbol("￥");});

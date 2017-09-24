@@ -26,7 +26,7 @@ class Area extends Model {
 
 			$tmpItem = false;
 			if (!empty($builder->country)) {
-				$tmpItem = Country::where('ent_id', $builder->ent_id)->where(function ($query) use ($builder) {
+				$tmpItem = Country::where(function ($query) use ($builder) {
 					$query->where('code', $builder->country)->orWhere('name', $builder->country);
 				})->first();
 			}

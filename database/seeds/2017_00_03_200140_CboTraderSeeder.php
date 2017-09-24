@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use Suite\Cbo\Models;
 
 class CboTraderSeeder extends Seeder {
-	private $entId = '';
+	public $entId = '';
 
 	/**
 	 * Run the database seeds.
@@ -13,7 +13,12 @@ class CboTraderSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->entId = config('gmf.ent.id');
+		if (empty($this->entId)) {
+			$this->entId = config('gmf.ent.id');
+		}
+		if (empty($this->entId)) {
+			return;
+		}
 
 		Models\Trader::where('ent_id', $this->entId)->delete();
 		Models\Trader::build(function (Builder $b) {$b->ent_id($this->entId)->code("800")->name("800集团公司")->short_name("")->category("")->area("");});

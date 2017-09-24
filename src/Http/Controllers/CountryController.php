@@ -4,7 +4,6 @@ namespace Suite\Cbo\Http\Controllers;
 
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
 
@@ -32,15 +31,11 @@ class CountryController extends Controller {
 		$validator = Validator::make($input, [
 			'code' => [
 				'required',
-				Rule::unique((new Models\Country)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
 			],
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$input['ent_id'] = $request->oauth_ent_id;
 		$data = Models\Country::create($input);
 		return $this->show($request, $data->id);
 	}
@@ -55,9 +50,6 @@ class CountryController extends Controller {
 		$validator = Validator::make($input, [
 			'code' => [
 				'required',
-				Rule::unique((new Models\Country)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
-				}),
 			],
 		]);
 		if ($validator->fails()) {
@@ -88,11 +80,10 @@ class CountryController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$entId = $request->oauth_ent_id;
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['code', 'name', 'short_name']);
-			Models\Country::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			Models\Country::updateOrCreate(['code' => $data['code']], $data);
 		}
 		return $this->toJson(true);
 	}
