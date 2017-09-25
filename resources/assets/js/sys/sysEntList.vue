@@ -21,8 +21,8 @@
     </md-part-toolbar>
     <md-part-body>
       <md-query @select="select" @dblclick="edit" @init="initQuery" ref="list" md-query-id="gmf.sys.ent.list"></md-query>
-      <md-loading :loading="loading"></md-loading>
     </md-part-body>
+    <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>
 <script>

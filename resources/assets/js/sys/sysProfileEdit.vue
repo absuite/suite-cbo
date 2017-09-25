@@ -29,47 +29,46 @@
           <md-textarea maxlength="70" v-model="model.main.memo"></md-textarea>
         </md-input-container>
       </md-content>
-      <md-loading :loading="loading"></md-loading>
     </md-part-body>
+    <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>
 <script>
 import model from '../../gmf-sys/core/mixin/model';
-  export default {
-    data() {
-      return {
-      };
+export default {
+  data() {
+    return {};
+  },
+  mixins: [model],
+  computed: {
+    canSave() {
+      return this.validate(true);
+    }
+  },
+  methods: {
+    validate(notToast) {
+      var validator = this.$validate(this.model.main, {
+        'code': 'required|max:255|min:3',
+        'name': 'required',
+        'scope_enum': 'required'
+      });
+      var fail = validator.fails();
+      if (fail && !notToast) {
+        this.$toast(validator.errors.all());
+      }
+      return !fail;
     },
-    mixins: [model],
-    computed: {
-      canSave() {
-        return this.validate(true);
+    initModel() {
+      return {
+        main: { 'code': '', 'name': '', 'memo': '', 'scope_enum': '' }
       }
     },
-    methods: {
-      validate(notToast){
-        var validator=this.$validate(this.model.main,{
-          'code':'required|max:255|min:3',
-          'name':'required',
-          'scope_enum':'required'
-        });
-        var fail=validator.fails();
-        if(fail&&!notToast){
-          this.$toast(validator.errors.all());
-        }
-        return !fail;
-      },
-      initModel(){
-        return {
-          main:{'code':'','name':'','memo':'','scope_enum':''}
-        }
-      },
-      list() {
-        this.$router.push({ name: 'module', params: { module: 'sys.profile.list' }});
-      },
+    list() {
+      this.$router.push({ name: 'module', params: { module: 'sys.profile.list' } });
     },
-    created() {
-      this.route='sys/profiles';
-    },
-  };
+  },
+  created() {
+    this.route = 'sys/profiles';
+  },
+};
 </script>

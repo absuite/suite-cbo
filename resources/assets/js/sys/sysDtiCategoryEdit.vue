@@ -31,8 +31,8 @@
           <md-input required v-model="model.main.host"></md-input>
         </md-input-container>
       </md-content>
-      <md-loading :loading="loading"></md-loading>
     </md-part-body>
+    <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>
 <script>
@@ -61,7 +61,7 @@ export default {
     },
     initModel() {
       return {
-        main: { 'code': '', 'name': '', 'host': ''}
+        main: { 'code': '', 'name': '', 'host': '' }
       }
     },
     list() {

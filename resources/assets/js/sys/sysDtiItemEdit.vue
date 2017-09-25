@@ -22,7 +22,6 @@
           <label>接口</label>
           <md-input-ref md-ref-id="gmf.sys.dti.local.ref" v-model="model.main.local" />
         </md-input-container>
-
         <md-input-container>
           <label>分类</label>
           <md-input-ref md-ref-id="gmf.sys.dti.category.ref" v-model="model.main.category" />
@@ -56,8 +55,8 @@
           <md-textarea v-model="model.main.memo"></md-textarea>
         </md-input-container>
       </md-content>
-      <md-loading :loading="loading"></md-loading>
     </md-part-body>
+    <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>
 <script>
@@ -86,7 +85,7 @@ export default {
     },
     initModel() {
       return {
-        main: { 'code': '', 'name': '', 'method_enum': 'post' ,'local':null,'category':null}
+        main: { 'code': '', 'name': '', 'method_enum': 'post', 'local': null, 'category': null }
       }
     },
     list() {

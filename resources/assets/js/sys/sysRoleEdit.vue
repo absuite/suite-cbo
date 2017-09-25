@@ -25,8 +25,8 @@
           <md-textarea maxlength="70" v-model="model.main.memo"></md-textarea>
         </md-input-container>
       </md-content>
-      <md-loading :loading="loading"></md-loading>
     </md-part-body>
+    <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>
 <script>

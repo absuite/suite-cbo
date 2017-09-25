@@ -22,8 +22,8 @@
     </md-part-toolbar>
     <md-part-body>
       <md-query @select="select" ref="list" @init="initQuery" md-query-id="gmf.sys.dti.log.list"></md-query>
-      <md-loading :loading="loading"></md-loading>
     </md-part-body>
+    <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>
 <script>

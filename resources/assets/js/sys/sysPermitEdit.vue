@@ -25,43 +25,42 @@
           <md-textarea maxlength="70" v-model="model.main.memo"></md-textarea>
         </md-input-container>
       </md-content>
-      <md-loading :loading="loading"></md-loading>
     </md-part-body>
+    <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>
 <script>
 import model from '../../gmf-sys/core/mixin/model';
-  export default {
-    data() {
-      return {
-      };
+export default {
+  data() {
+    return {};
+  },
+  mixins: [model],
+  computed: {
+    canSave() {
+      return this.validate(true);
+    }
+  },
+  methods: {
+    validate(notToast) {
+      var validator = this.$validate(this.model.main, { 'code': 'required|max:255|min:3', 'name': 'required' });
+      var fail = validator.fails();
+      if (fail && !notToast) {
+        this.$toast(validator.errors.all());
+      }
+      return !fail;
     },
-    mixins: [model],
-    computed: {
-      canSave() {
-        return this.validate(true);
+    initModel() {
+      return {
+        main: { 'code': '', 'name': '', 'memo': '' }
       }
     },
-    methods: {
-      validate(notToast){
-        var validator=this.$validate(this.model.main,{'code':'required|max:255|min:3','name':'required'});
-        var fail=validator.fails();
-        if(fail&&!notToast){
-          this.$toast(validator.errors.all());
-        }
-        return !fail;
-      },
-      initModel(){
-        return {
-          main:{'code':'','name':'','memo':''}
-        }
-      },
-      list() {
-        this.$router.push({ name: 'module', params: { module: 'sys.permit.list' }});
-      },
+    list() {
+      this.$router.push({ name: 'module', params: { module: 'sys.permit.list' } });
     },
-    created() {
-      this.route='sys/permits';
-    },
-  };
+  },
+  created() {
+    this.route = 'sys/permits';
+  },
+};
 </script>
