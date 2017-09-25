@@ -6,6 +6,9 @@
         <md-button @click.native="cancel">放弃</md-button>
         <md-button @click.native="create">新增</md-button>
       </md-part-toolbar-group>
+      <md-button @click.native="seedDatas">导入演示数据</md-button>
+      <md-part-toolbar-group>
+      </md-part-toolbar-group>
       <md-part-toolbar-group>
         <md-button @click.native="list">列表</md-button>
       </md-part-toolbar-group>
@@ -58,6 +61,17 @@ export default {
       return {
         main: { 'code': '', 'name': ''}
       }
+    },
+    seedDatas(){
+      if(!this.model.main.id){
+        this.$toast('先保存，再操作此功能!');
+        return;
+      }
+      this.$http.post('sys/ents/seed/' + this.model.main.id).then(response => {
+        this.$toast('导入数据成功!');
+      }, response => {
+        this.$toast('导入失败!');
+      });
     },
     list() {
       this.$router.push({ name: 'module', params: { module: 'sys.ent.list' } });
