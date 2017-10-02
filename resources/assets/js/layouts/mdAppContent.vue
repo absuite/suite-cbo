@@ -17,6 +17,7 @@
 </template>
 <script>
 import common from '../../gmf-sys/core/utils/common';
+
 export default {
   props: {
     mdToken: String,
@@ -98,22 +99,29 @@ export default {
         fullPath: route.fullPath,
         params: route.params,
         active: true
-      }
-      if (activeTab) {
+      };
+      //un active not current node;
+      if (activeTab && newTab.code !== activeTab.code) {
         activeTab.active = false;
       }
-      activeTab = newTab;
       if (oldTab) {
-        activeTab.name = oldTab.name;
-        if (activeTab.params.refresh === true || oldTab.fullPath !== activeTab.fullPath) {
-          this.navTabs.splice(ind, 1, activeTab);
-        } else {
-          oldTab.active = true;
+        oldTab.active = true;
+        if (newTab.params.refresh === true || oldTab.fullPath !== newTab.fullPath) {
+          oldTab.id = common.uniqueId();
         }
       } else {
-        this.getTabInfo(activeTab.code);
-        this.navTabs.push(activeTab);
+        this.getTabInfo(newTab.code);
+        this.navTabs.push(newTab);
       }
+    },
+    getCurrentTabInd() {
+      var ind = -1;
+      common.forEach(this.navTabs, function(t, i) {
+        if (t.active) {
+          ind = i;
+        }
+      });
+      return ind;
     },
     getTabInfo(code) {
       if (!code) return;
@@ -126,12 +134,33 @@ export default {
         });
       });
     },
+    refresh() {
+      var ind = this.getCurrentTabInd();
+      if (ind >= 0) {
+        var tab = this.navTabs[ind];
+        tab.id = common.uniqueId();
+      }
+    }
   },
   created() {
 
   },
   mounted() {
     this.routePageTab(this.$route);
+    document.onkeydown = (e) => {
+      var ev = window.event || e;
+      var code = ev.keyCode || ev.which;
+      if (code == 116 && !ev.ctrlKey) {
+        if (ev.preventDefault) {
+          ev.preventDefault();
+          this.refresh();
+        } else {
+          ev.keyCode = 0;
+          ev.returnValue = false;
+          this.refresh();
+        }
+      }
+    }
   }
 };
 </script>
