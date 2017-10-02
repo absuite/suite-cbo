@@ -53,6 +53,27 @@ class CboSysComponentSeeder extends Seeder {
 			});
 
 			Models\Component::build(function (Builder $builder) {
+				$builder->code('sysPermitEdit')->name('权限');
+			});
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sysPermitList')->name('权限列表');
+			});
+
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sysRoleEdit')->name('角色');
+			});
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sysRoleList')->name('角色列表');
+			});
+
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sysEntEdit')->name('企业');
+			});
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sysEntList')->name('企业列表');
+			});
+
+			Models\Component::build(function (Builder $builder) {
 				$builder->code('dashboard')->name('首页')->path('dashboard');
 			});
 		});
