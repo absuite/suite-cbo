@@ -1,0 +1,55 @@
+.md-pags {
+  .md-pag-tabs {
+    background: #80cbc4;
+    box-shadow: 0 1px 1px rgb(73, 151, 142);
+    .md-pag-tab {
+      padding: .1rem;
+      padding: .05rem .25rem 0.05rem 0.1rem;
+      display: inline-block;
+      cursor: pointer;
+      position: relative;
+      &:hover {
+        background: #32b7a8;
+        color: #fff;
+      }
+      &.md-active {
+        background: #e0f2f1;
+        color: inherit;
+      }
+      .md-delete {
+        width: 0.24rem;
+        min-width: 0.24rem;
+        height: 0.24rem;
+        min-height: 0.24rem;
+        margin: 0;
+        padding: 0;
+        top: .04rem;
+        right: 0;
+        position: absolute;
+        display: none;
+
+        .md-icon {
+          width: 0.18rem;
+          min-width: 0.18rem;
+          height: 0.18rem;
+          min-height: 0.18rem;
+          margin: 0;
+          font-size: 0.18rem;
+        }
+      }
+      &:hover {
+        .md-delete {
+          display: block;
+        }
+      }
+    }
+  }
+  .md-pag-container {
+    .md-pag {
+      display: none;
+      &.md-active {
+        display: block;
+      }
+    }
+  }
+}

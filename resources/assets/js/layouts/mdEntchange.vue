@@ -6,7 +6,7 @@ export default {
   props: {},
   methods: {
     goForce() {
-      this.$router.push({ name: 'module', params: { module: 'dashboard' } });
+      this.$router.replace({ name: 'module', params: { module: 'dashboard',refresh:true,standalone:true } });
     }
   },
   created() {

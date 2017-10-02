@@ -71,10 +71,10 @@ export default {
       this.$emit('toggle');
     },
     onChangeEnt() {
-      this.$router.push({ name: 'module', params: { module: 'entchange' } });
+      this.$router.replace({ name: 'module', params: { module: 'entchange',refresh:true,standalone:true } });
     },
     onCreateEnt() {
-      this.$router.push({ name: 'module', params: { module: 'sys.ent.edit' } });
+      this.$router.replace({ name: 'module', params: { module: 'sys.ent.edit' } });
     },
     onSelectEnt(ent) {
       this.$root.userData.ent = ent;
