@@ -72,10 +72,10 @@ class CboComponentSeeder extends Seeder {
 			});
 
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('cbo.Division.Edit')->name('区域')->path('cboDivisionEdit');
+				$builder->code('cbo.Division.Edit')->name('城市区县')->path('cboDivisionEdit');
 			});
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('cbo.Division.List')->name('区域列表')->path('cboDivisionList');
+				$builder->code('cbo.Division.List')->name('城市区县列表')->path('cboDivisionList');
 			});
 
 			Models\Component::build(function (Builder $builder) {
