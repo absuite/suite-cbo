@@ -28,7 +28,7 @@ class RouteRegistrar {
 	 * @return void
 	 */
 	public function all() {
-		$this->router->group(['prefix' => 'cbo', 'middleware' => ['api', 'ent_check']], function ($router) {
+		$this->router->group(['prefix' => 'cbo', 'middleware' => ['auth:api', 'ent_check']], function ($router) {
 			$router->post('/orgs/batch', ['uses' => 'OrgController@batchStore']);
 			$router->resource('orgs', 'OrgController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 

@@ -71,7 +71,11 @@ export default {
       this.$emit('toggle');
     },
     onChangeEnt() {
-      this.$router.replace({ name: 'module', params: { module: 'entchange',refresh:true,standalone:true } });
+      this.$http.get('getconfig').then(response => {
+        if (!response.data.data) return;
+        this.$set(this.$root,'userConfig',response.data.data);
+        this.$router.replace({ name: 'module', params: { module: 'entchange', refresh: true, standalone: true } });
+      });
     },
     onCreateEnt() {
       this.$router.replace({ name: 'module', params: { module: 'sys.ent.edit' } });
