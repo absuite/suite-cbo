@@ -80,7 +80,7 @@ class PeriodCalendar extends Model {
 			$toTime = strtotime($relativeExp, $fromTime);
 
 			$b = new Builder;
-			$b->calendar_id($calendar->id)
+			$b->calendar_id($calendar->id)->ent_id($calendar->ent_id)
 				->from_date(date('Y-m-d', $fromTime))->to_date(date('Y-m-d', $toTime))
 				->year(date('Y', $fromTime))
 				->month(date('m', $fromTime))
