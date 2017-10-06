@@ -11,7 +11,7 @@ class CountryController extends Controller {
 	public function index(Request $request) {
 		$query = Models\Country::where('id', '!=', '');
 
-		$data = $query->get();
+		$data = $query->paginate(10);
 
 		return $this->toJson($data);
 	}
