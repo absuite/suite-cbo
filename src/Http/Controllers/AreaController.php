@@ -101,6 +101,7 @@ class AreaController extends Controller {
 			return $this->toError($validator->errors());
 		}
 		$entId = $request->oauth_ent_id;
+
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['code', 'name', 'short_name']);
