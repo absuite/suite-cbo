@@ -4,11 +4,11 @@ import sysLanguageEdit from './sysLanguageEdit.vue';
 import sysProfileEdit from './sysProfileEdit.vue';
 import sysProfileList from './sysProfileList.vue';
 
-import sysPermitEdit from './sysPermitEdit.vue';
-import sysPermitList from './sysPermitList.vue';
+import sysAuthorityPermitEdit from './sysAuthorityPermitEdit.vue';
+import sysAuthorityPermitList from './sysAuthorityPermitList.vue';
 
-import sysRoleEdit from './sysRoleEdit.vue';
-import sysRoleList from './sysRoleList.vue';
+import sysAuthorityRoleEdit from './sysAuthorityRoleEdit.vue';
+import sysAuthorityRoleList from './sysAuthorityRoleList.vue';
 
 import sysEntList from './sysEntList.vue';
 import sysEntEdit from './sysEntEdit.vue';
@@ -33,12 +33,6 @@ export default function install(Vue) {
   Vue.component('sysProfileEdit', sysProfileEdit);
   Vue.component('sysProfileList', sysProfileList);
 
-  Vue.component('sysPermitEdit', sysPermitEdit);
-  Vue.component('sysPermitList', sysPermitList);
-
-  Vue.component('sysRoleEdit', sysRoleEdit);
-  Vue.component('sysRoleList', sysRoleList);
-
   Vue.component('sysEntList', sysEntList);
   Vue.component('sysEntEdit', sysEntEdit);
 
@@ -52,4 +46,10 @@ export default function install(Vue) {
 
   Vue.component('sysDtiItemEdit', sysDtiItemEdit);
   Vue.component('sysDtiItemList', sysDtiItemList);
+
+  Vue.component('sysAuthorityPermitEdit', sysAuthorityPermitEdit);
+  Vue.component('sysAuthorityPermitList', sysAuthorityPermitList);
+
+  Vue.component('sysAuthorityRoleEdit', sysAuthorityRoleEdit);
+  Vue.component('sysAuthorityRoleList', sysAuthorityRoleList);
 }

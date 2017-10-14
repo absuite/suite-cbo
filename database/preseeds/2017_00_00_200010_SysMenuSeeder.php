@@ -47,27 +47,37 @@ class SysMenuSeeder extends Seeder {
 			// });
 
 			//授权管理
-			// $id = "a8f2332009f511e79b378ddefe01d4d3";
-			// Menu::build(function (Builder $builder) use ($id) {
-			// 	$builder->id($id)->code('sys.auth')->name('授权管理')->parent('sys')
-			// 		->sequence($this->sequence . '0400')->tag($this->tag);
-			// });
+			$id = "6264bdc0b0a211e7bbcd0b83f0aa9283";
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->code('sys.authority')->name('授权管理')->parent('sys')
+					->sequence($this->sequence . '0400')->tag($this->tag);
+			});
 
-			// $id = "c8280fa009f311e7bd4f454fce5c2e80";
-			// Menu::build(function (Builder $builder) use ($id) {
-			// 	$builder->id($id)->code('sys.setting.permit')->name('权限管理')->parent('sys.auth')
-			// 		->uri('sys.permit.list')->sequence($this->sequence . '0103')->tag($this->tag);
-			// });
-			// $id = "225ab5a00a0111e7a41adfddbd890d92";
-			// Menu::build(function (Builder $builder) use ($id) {
-			// 	$builder->id($id)->code('sys.setting.role')->name('角色管理')->parent('sys.auth')
-			// 		->uri('sys.role.list')->sequence($this->sequence . '0104')->tag($this->tag);
-			// });
-			// $id = "a8f2343009f511e7bc7f7d10e070b72a";
-			// Menu::build(function (Builder $builder) use ($id) {
-			// 	$builder->id($id)->code('sys.user.list')->name('用户管理')->parent('sys.auth')
-			// 		->uri('sys.user.list')->sequence($this->sequence . '0401')->tag($this->tag);
-			// });
+			$id = "6264c180b0a211e78974bb13c32073b7";
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->code('sys.authority.role')->name('角色管理')->parent('sys.authority')
+					->uri('sys.authority.role.list')->sequence($this->sequence . '0104')->tag($this->tag);
+			});
+			$id = "6264c2d0b0a211e7a06455dcad2290f4";
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->code('sys.authority.role.user')->name('用户角色')->parent('sys.authority')
+					->uri('sys.authority.role.user.list')->sequence($this->sequence . '0401')->tag($this->tag);
+			});
+			$id = "6264c3a0b0a211e78231c3dc846e0b14";
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->code('sys.authority.role.menu')->name('角色-菜单')->parent('sys.authority')
+					->uri('sys.authority.role.menu.list')->sequence($this->sequence . '0403')->tag($this->tag);
+			});
+			$id = "6264c410b0a211e79be7cfff31831c8a";
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->code('sys.authority.role.permit')->name('角色-权限')->parent('sys.authority')
+					->uri('sys.authority.role.permit.list')->sequence($this->sequence . '0405')->tag($this->tag);
+			});
+			$id = "6264c480b0a211e78551db2664049ee1";
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->code('sys.authority.role.entity')->name('角色-数据')->parent('sys.authority')
+					->uri('sys.authority.role.entity.list')->sequence($this->sequence . '0407')->tag($this->tag);
+			});
 
 			//日志
 			// $id = "225ab7a00a0111e7aa6b651fe5aa9d72";

@@ -44,20 +44,6 @@ class SysRefSeeder extends Seeder {
 				$builder->orders(['code', 'created_at' => 'desc']);
 			});
 
-			$id = "d0ff900063b311e7b62433eee05701ba";
-			Models\Query::build(function (Builder $builder) use ($id) {
-				$builder->id($id)->name('gmf.sys.role.ref')->entity('gmf.sys.role')
-					->fields(['id', 'code' => '编码', 'name' => '名称', 'memo' => '备注']);
-				$builder->orders(['code', 'created_at' => 'desc']);
-			});
-
-			$id = "d0ff907063b311e7af991d9a1697ca99";
-			Models\Query::build(function (Builder $builder) use ($id) {
-				$builder->id($id)->name('gmf.sys.permit.ref')->entity('gmf.sys.permit')
-					->fields(['id', 'code' => '编码', 'name' => '名称', 'memo' => '备注']);
-				$builder->orders(['code', 'created_at' => 'desc']);
-			});
-
 			$id = "d0ff90d063b311e7b2bf4ff8d8ec2648";
 			Models\Query::build(function (Builder $builder) use ($id) {
 				$builder->id($id)->name('gmf.sys.menu.ref')->entity('gmf.sys.menu')
@@ -120,6 +106,20 @@ class SysRefSeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.dti.log.ref')->entity('gmf.sys.dti.log')
 					->fields(['id', 'dti.name', 'memo', 'state_enum', 'created_at', 'session']);
 				$builder->filter('a0.ent_id=#{entId}#');
+			});
+
+			$id = "d0ff900063b311e7b62433eee05701ba";
+			Models\Query::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->name('gmf.sys.authority.role.ref')->entity('gmf.sys.authority.role')
+					->fields(['id', 'code' => '编码', 'name' => '名称', 'memo' => '备注']);
+				$builder->orders(['code', 'created_at' => 'desc']);
+			});
+
+			$id = "d0ff907063b311e7af991d9a1697ca99";
+			Models\Query::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->name('gmf.sys.authority.permit.ref')->entity('gmf.sys.authority.permit')
+					->fields(['id', 'code' => '编码', 'name' => '名称', 'memo' => '备注']);
+				$builder->orders(['code', 'created_at' => 'desc']);
 			});
 		});
 	}
