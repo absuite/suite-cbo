@@ -7,7 +7,7 @@
       </md-part-toolbar-group>
     </md-part-toolbar>
     <md-part-body>
-      <md-query @select="select" @dblclick="edit" ref="list" md-query-id="gmf.sys.permit.list"></md-query>
+      <md-query @select="select" @dblclick="edit" ref="list" md-query-id="gmf.sys.authority.permit.list"></md-query>
     </md-part-body>
     <md-loading :loading="loading"></md-loading>
   </md-part>
@@ -22,10 +22,10 @@ export default {
   },
   methods: {
     create() {
-      this.$router.push({ name: 'module', params: { module: 'sys.permit.edit' } });
+      this.$router.push({ name: 'module', params: { module: 'sys.authority.permit.edit' } });
     },
     edit(item) {
-      this.$router.push({ name: 'id', params: { module: 'sys.permit.edit', id: item.id } });
+      this.$router.push({ name: 'id', params: { module: 'sys.authority.permit.edit', id: item.id } });
     },
     remove() {
       if (!this.selectRows || !this.selectRows.length) {

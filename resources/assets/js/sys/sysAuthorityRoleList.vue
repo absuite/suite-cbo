@@ -7,7 +7,7 @@
       </md-part-toolbar-group>
     </md-part-toolbar>
     <md-part-body>
-      <md-query @select="select" @dblclick="edit" ref="list" md-query-id="gmf.sys.role.list"></md-query>
+      <md-query @select="select" @dblclick="edit" ref="list" md-query-id="gmf.sys.authority.role.list"></md-query>
     </md-part-body>
     <md-loading :loading="loading"></md-loading>
   </md-part>

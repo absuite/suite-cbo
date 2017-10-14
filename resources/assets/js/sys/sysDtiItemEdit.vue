@@ -28,7 +28,7 @@
         </md-input-container>
         <md-input-container>
           <label>编码</label>
-          <md-input required maxlength="10" v-model="model.main.code"></md-input>
+          <md-input required v-model="model.main.code"></md-input>
         </md-input-container>
         <md-input-container>
           <label>名称</label>
