@@ -43,7 +43,7 @@ export default {
       this.loading++;
       const ids = this._.map(this.selectRows, 'id').toString();
       this.$http.delete('sys/dti-logs/' + ids).then(response => {
-        this.load();
+        this.loadData();
         this.loading--;
         this.$toast(this.$lang.LANG_DELETESUCCESS);
       }, response => {
@@ -54,7 +54,7 @@ export default {
     doFetch(q) {
       if (this.currentQ != q) {
         this.currentQ = q;
-        this.load();
+        this.loadData();
       }
       this.currentQ = q;
     },
@@ -76,7 +76,7 @@ export default {
     select(items) {
       this.selectRows = items;
     },
-    load() {
+    loadData() {
       this.$refs.list.pagination(1);
     }
   },

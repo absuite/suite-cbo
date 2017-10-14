@@ -48,29 +48,11 @@
           </md-layout>
         </md-layout>
         <md-layout class="flex">
-          <md-table-card class="flex">
-            <md-table @select="onTableSelect" class="flex">
-              <md-table-header>
-                <md-table-row>
-                  <md-table-head>期间名称</md-table-head>
-                  <md-table-head>开始时间</md-table-head>
-                  <md-table-head>结束时间</md-table-head>
-                </md-table-row>
-              </md-table-header>
-              <md-table-body>
-                <md-table-row v-for="(row, rowIndex) in periods" 
-                  :key="row" 
-                  :md-item="row">
-                  <md-table-cell>{{ row.name}}</md-table-cell>
-                  <md-table-cell>{{ row.from_date}}</md-table-cell>
-                  <md-table-cell>{{ row.to_date}}</md-table-cell>
-                </md-table-row>
-              </md-table-body>
-            </md-table>
-            <md-table-tool>
-              <md-layout class="flex"></md-layout>
-            </md-table-tool>
-          </md-table-card>
+          <md-grid @select="onTableSelect" :multiple="false" :datas="periods" :auto-load="true">
+            <md-grid-column label="期间名称" field="name" width="200px"/>
+            <md-grid-column label="开始时间" field="from_date"  width="200px"/>
+            <md-grid-column label="结束时间" field="to_date"  width="200px"/>
+          </md-grid>
         </md-layout>
       </md-content>
       <md-loading :loading="loading"></md-loading>
@@ -127,17 +109,12 @@
           this.selectedRows[index]=items[row];
         });
       },
-      onTablePagination(page){
-         
-      },
       loadPeriods(){
         this.loading++;
         this.$http.get('cbo/period-accounts/',{params:{calendar:this.model.main.id}}).then(response => {
           this.periods=response.data.data;
           this.loading--;
-          this.$toast(this.$lang.LANG_DOSUCCESS);
         }, response => {
-          this.$toast(this.$lang.LANG_DOFAIL);
           this.loading--;
         });
       },

@@ -91,7 +91,7 @@
         },
         cancel() {
             if (this.model.main && this.model.main.id) {
-                this.load();
+                this.loadData();
             } else {
                 this.create();
             }
@@ -122,7 +122,7 @@
       }
     },
     mounted() {
-        this.load();
+        this.loadData();
     },
   };
 </script>
