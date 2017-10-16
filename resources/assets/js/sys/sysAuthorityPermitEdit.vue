@@ -7,14 +7,18 @@
         <md-button @click.native="create">新增</md-button>
       </md-part-toolbar-group>
       <md-part-toolbar-group>
+        <md-button @click.native="copy" :disabled="!canCopy">复制</md-button>
+      </md-part-toolbar-group>
+      <md-part-toolbar-group>
         <md-button @click.native="list">列表</md-button>
       </md-part-toolbar-group>
+      <md-part-toolbar-pager @paging="paging" :options="model.pager"></md-part-toolbar-pager>
     </md-part-toolbar>
     <md-part-body>
       <md-content>
         <md-input-container>
           <label>编码</label>
-          <md-input required maxlength="10" v-model="model.main.code"></md-input>
+          <md-input required v-model="model.main.code"></md-input>
         </md-input-container>
         <md-input-container>
           <label>名称</label>
@@ -32,9 +36,6 @@
 <script>
 import model from '../../gmf-sys/core/mixin/model';
 export default {
-  data() {
-    return {};
-  },
   mixins: [model],
   computed: {
     canSave() {
@@ -43,7 +44,7 @@ export default {
   },
   methods: {
     validate(notToast) {
-      var validator = this.$validate(this.model.main, { 'code': 'required|max:255|min:3', 'name': 'required' });
+      var validator = this.$validate(this.model.main, { 'code': 'required', 'name': 'required' });
       var fail = validator.fails();
       if (fail && !notToast) {
         this.$toast(validator.errors.all());
@@ -56,11 +57,13 @@ export default {
       }
     },
     list() {
-      this.$router.push({ name: 'module', params: { module: 'sys.permit.list' } });
+      this.$router.push({ name: 'module', params: { module: 'sys.authority.permit.list' } });
     },
   },
   created() {
-    this.route = 'sys/permits';
+    this.model.entity = 'gmf.sys.authority.permit';
+    this.model.order = "code";
+    this.route = 'sys/authority/permits';
   },
 };
 </script>

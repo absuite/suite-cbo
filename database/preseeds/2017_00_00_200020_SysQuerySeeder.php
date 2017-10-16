@@ -128,28 +128,28 @@ class SysQuerySeeder extends Seeder {
 			$id = "d6a63fb0b0a211e7924e5b73ed5b89b2";
 			Models\Query::build(function (Builder $builder) use ($id) {
 				$builder->id($id)->name('gmf.sys.authority.role.user.list')->entity('gmf.sys.authority.role.user')
-					->fields(['id', 'role.name', 'user.name', 'memo']);
+					->fields(['id', 'role.name', 'user.name', 'is_revoked']);
 				$builder->orders(['role.name', 'user.name', 'created_at' => 'desc']);
 			});
 
 			$id = "d6a641a0b0a211e7b96661210d393983";
 			Models\Query::build(function (Builder $builder) use ($id) {
 				$builder->id($id)->name('gmf.sys.authority.role.menu.list')->entity('gmf.sys.authority.role.menu')
-					->fields(['id', 'role.name', 'menu.name', 'memo']);
+					->fields(['id', 'role.name', 'menu.name', 'is_revoked']);
 				$builder->orders(['role.name', 'menu.name', 'created_at' => 'desc']);
 			});
 
 			$id = "d6a64240b0a211e7b75ddb667ff64ce3";
 			Models\Query::build(function (Builder $builder) use ($id) {
 				$builder->id($id)->name('gmf.sys.authority.role.entity.list')->entity('gmf.sys.authority.role.entity')
-					->fields(['id', 'role.name', 'entity.comment', 'filter', 'memo']);
+					->fields(['id', 'role.name', 'entity.comment', 'filter', 'operation_enum', 'is_revoked']);
 				$builder->orders(['role.name', 'entity.name', 'created_at' => 'desc']);
 			});
 
 			$id = "d6a642c0b0a211e7aaeac7cf8a40b86c";
 			Models\Query::build(function (Builder $builder) use ($id) {
-				$builder->id($id)->name('gmf.sys.authority.role.permit.list')->entity('gmf.sys.authority.entity.permit')
-					->fields(['id', 'role.name', 'permit.name', 'memo']);
+				$builder->id($id)->name('gmf.sys.authority.role.permit.list')->entity('gmf.sys.authority.role.permit')
+					->fields(['id', 'role.name', 'permit.name', 'opinion_enum', 'is_revoked']);
 				$builder->orders(['role.name', 'permit.name', 'created_at' => 'desc']);
 			});
 		});

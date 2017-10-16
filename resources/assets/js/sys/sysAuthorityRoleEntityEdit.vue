@@ -23,18 +23,23 @@
         </md-layout>
         <md-layout class="flex">
           <md-grid :datas="fetchLineDatas" ref="grid" :row-focused="false" :auto-load="true" @onAdd="onLineAdd" :showAdd="true" :showRemove="true">
-            <md-grid-column label="菜单" field="menu" dataType="entity" ref-id="gmf.sys.menu.ref" :ref-init="init_Menu_ref" width="200px" editable/>
-            <md-grid-column label="uri">
+            <md-grid-column label="实体" field="entity" dataType="entity" ref-id="gmf.sys.entity.ref" :ref-init="init_Entity_ref" width="200px" editable>
               <template scope="row">
-                {{ row.menu&&row.menu.uri ||''}}
+                {{ row.entity&&row.entity.comment ||''}}
               </template>
             </md-grid-column>
-            <md-grid-column label="建议" field="opinion_enum" dataType="enum" ref-id="gmf.sys.authority.opinion.type.enum" editable></md-grid-column>
+            <md-grid-column label="名称">
+              <template scope="row">
+                {{ row.entity&&row.entity.name ||''}}
+              </template>
+            </md-grid-column>
+            <md-grid-column label="条件" field="filter" width="200px" editable></md-grid-column>
+            <md-grid-column label="操作类型" field="operation_enum" dataType="enum" ref-id="gmf.sys.authority.data.operation.type.enum" editable></md-grid-column>
           </md-grid>
         </md-layout>
       </md-content>
     </md-part-body>
-    <md-ref @init="init_Menu_ref" md-ref-id="gmf.sys.menu.ref" ref="lineRef" @confirm="lineRefClose"></md-ref>
+    <md-ref @init="init_Entity_ref" md-ref-id="gmf.sys.entity.ref" ref="lineRef" @confirm="lineRefClose"></md-ref>
     <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>
@@ -98,7 +103,7 @@ export default {
       });
     },
     list() {
-      this.$router.push({ name: 'module', params: { module: 'sys.authority.role.menu.list' } });
+      this.$router.push({ name: 'module', params: { module: 'sys.authority.role.entity.list' } });
     },
     async loadRole(id) {
       const res = await this.$http.get('sys/authority/roles/' + id);
@@ -109,15 +114,15 @@ export default {
     },
     lineRefClose(datas) {
       this._.forEach(datas, (v, k) => {
-        this.$refs.grid && this.$refs.grid.addDatas({ menu: v, role: this.model.role });
+        this.$refs.grid && this.$refs.grid.addDatas({ entity: v, role: this.model.role });
       });
     },
-    init_Menu_ref(options) {
+    init_Entity_ref(options) {
       options.wheres.leaf = null;
     },
   },
   created() {
-    this.route = 'sys/authority/role-menus';
+    this.route = 'sys/authority/role-entities';
   },
   mounted() {
     if (this.$route && this.$route.params && this.$route.params.id) {

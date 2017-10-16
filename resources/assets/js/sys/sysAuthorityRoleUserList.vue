@@ -27,7 +27,7 @@
       </md-part-toolbar-group>
     </md-part-toolbar>
     <md-part-body>
-      <md-query @select="select" @dblclick="edit" @init="initQuery" ref="list" md-query-id="gmf.sys.authority.role.menu.list"></md-query>
+      <md-query @select="select" @dblclick="edit" @init="initQuery" ref="list" md-query-id="gmf.sys.authority.role.user.list"></md-query>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
   </md-part>
@@ -67,7 +67,7 @@ export default {
       }
       this.loading++;
       const ids = this._.map(this.selectRows, 'id').toString();
-      this.$http.delete('sys/role-users/' + ids).then(response => {
+      this.$http.delete('sys/authority/role-users/' + ids).then(response => {
         this.loadData();
         this.loading--;
         this.$toast(this.$lang.LANG_DELETESUCCESS);

@@ -23,18 +23,13 @@
         </md-layout>
         <md-layout class="flex">
           <md-grid :datas="fetchLineDatas" ref="grid" :row-focused="false" :auto-load="true" @onAdd="onLineAdd" :showAdd="true" :showRemove="true">
-            <md-grid-column label="菜单" field="menu" dataType="entity" ref-id="gmf.sys.menu.ref" :ref-init="init_Menu_ref" width="200px" editable/>
-            <md-grid-column label="uri">
-              <template scope="row">
-                {{ row.menu&&row.menu.uri ||''}}
-              </template>
-            </md-grid-column>
+            <md-grid-column label="权限" field="permit" dataType="entity" ref-id="gmf.sys.authority.permit.ref" :ref-init="init_Permit_ref" width="200px" editable/>
             <md-grid-column label="建议" field="opinion_enum" dataType="enum" ref-id="gmf.sys.authority.opinion.type.enum" editable></md-grid-column>
           </md-grid>
         </md-layout>
       </md-content>
     </md-part-body>
-    <md-ref @init="init_Menu_ref" md-ref-id="gmf.sys.menu.ref" ref="lineRef" @confirm="lineRefClose"></md-ref>
+    <md-ref @init="init_Permit_ref" md-ref-id="gmf.sys.authority.permit.ref" ref="lineRef" @confirm="lineRefClose"></md-ref>
     <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>
@@ -98,7 +93,7 @@ export default {
       });
     },
     list() {
-      this.$router.push({ name: 'module', params: { module: 'sys.authority.role.menu.list' } });
+      this.$router.push({ name: 'module', params: { module: 'sys.authority.role.permit.list' } });
     },
     async loadRole(id) {
       const res = await this.$http.get('sys/authority/roles/' + id);
@@ -109,15 +104,15 @@ export default {
     },
     lineRefClose(datas) {
       this._.forEach(datas, (v, k) => {
-        this.$refs.grid && this.$refs.grid.addDatas({ menu: v, role: this.model.role });
+        this.$refs.grid && this.$refs.grid.addDatas({ permit: v, role: this.model.role });
       });
     },
-    init_Menu_ref(options) {
+    init_Permit_ref(options) {
       options.wheres.leaf = null;
     },
   },
   created() {
-    this.route = 'sys/authority/role-menus';
+    this.route = 'sys/authority/role-permits';
   },
   mounted() {
     if (this.$route && this.$route.params && this.$route.params.id) {

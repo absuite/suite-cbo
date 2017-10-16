@@ -27,9 +27,16 @@ import sysAuthorityRoleEdit from './sysAuthorityRoleEdit.vue';
 import sysAuthorityRoleList from './sysAuthorityRoleList.vue';
 
 import sysAuthorityRoleEntityList from './sysAuthorityRoleEntityList.vue';
+import sysAuthorityRoleEntityEdit from './sysAuthorityRoleEntityEdit.vue';
+
 import sysAuthorityRoleMenuList from './sysAuthorityRoleMenuList.vue';
+import sysAuthorityRoleMenuEdit from './sysAuthorityRoleMenuEdit.vue';
+
 import sysAuthorityRolePermitList from './sysAuthorityRolePermitList.vue';
+import sysAuthorityRolePermitEdit from './sysAuthorityRolePermitEdit.vue';
+
 import sysAuthorityRoleUserList from './sysAuthorityRoleUserList.vue';
+import sysAuthorityRoleUserEdit from './sysAuthorityRoleUserEdit.vue';
 
 export default function install(Vue) {
   Vue.component('sysLanguageList', sysLanguageList);
@@ -60,7 +67,14 @@ export default function install(Vue) {
 
 
   Vue.component('sysAuthorityRoleEntityList', sysAuthorityRoleEntityList);
+  Vue.component('sysAuthorityRoleEntityEdit', sysAuthorityRoleEntityEdit);
+
   Vue.component('sysAuthorityRoleMenuList', sysAuthorityRoleMenuList);
+  Vue.component('sysAuthorityRoleMenuEdit', sysAuthorityRoleMenuEdit);
+
   Vue.component('sysAuthorityRolePermitList', sysAuthorityRolePermitList);
+  Vue.component('sysAuthorityRolePermitEdit', sysAuthorityRolePermitEdit);
+
   Vue.component('sysAuthorityRoleUserList', sysAuthorityRoleUserList);
+  Vue.component('sysAuthorityRoleUserEdit', sysAuthorityRoleUserEdit);
 }

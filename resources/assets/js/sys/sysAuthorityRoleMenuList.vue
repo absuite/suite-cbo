@@ -67,7 +67,7 @@ export default {
       }
       this.loading++;
       const ids = this._.map(this.selectRows, 'id').toString();
-      this.$http.delete('sys/role-menus/' + ids).then(response => {
+      this.$http.delete('sys/authority/role-menus/' + ids).then(response => {
         this.loadData();
         this.loading--;
         this.$toast(this.$lang.LANG_DELETESUCCESS);

@@ -39,9 +39,9 @@ class SysRefSeeder extends Seeder {
 
 			$id = "d0ff8f2063b311e79321632fc50f04a4";
 			Models\Query::build(function (Builder $builder) use ($id) {
-				$builder->id($id)->name('gmf.sys.user.ref')->entity('gmf.sys.user')
-					->fields(['id', 'code' => '编码', 'name' => '名称', 'memo' => '备注']);
-				$builder->orders(['code', 'created_at' => 'desc']);
+				$builder->id($id)->name('gmf.sys.user.ref')->entity(config('gmf.user.entity'))
+					->fields(['id', 'name' => '名称']);
+				$builder->orders(['name', 'created_at' => 'desc']);
 			});
 
 			$id = "d0ff90d063b311e7b2bf4ff8d8ec2648";
