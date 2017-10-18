@@ -118,7 +118,7 @@ export default {
       });
     },
     init_Entity_ref(options) {
-      options.wheres.leaf = null;
+      options.wheres.type = 'entity';
     },
   },
   created() {
