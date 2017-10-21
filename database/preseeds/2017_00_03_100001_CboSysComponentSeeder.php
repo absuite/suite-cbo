@@ -95,6 +95,13 @@ class CboSysComponentSeeder extends Seeder {
 			});
 
 			Models\Component::build(function (Builder $builder) {
+				$builder->code('sysAuthorityUserRoleEdit')->name('用户角色');
+			});
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sysAuthorityUserRoleList')->name('用户角色列表');
+			});
+
+			Models\Component::build(function (Builder $builder) {
 				$builder->code('sysEntEdit')->name('企业');
 			});
 			Models\Component::build(function (Builder $builder) {

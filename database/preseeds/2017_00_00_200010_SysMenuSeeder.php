@@ -60,7 +60,7 @@ class SysMenuSeeder extends Seeder {
 			});
 			$id = "6264c2d0b0a211e7a06455dcad2290f4";
 			Menu::build(function (Builder $builder) use ($id) {
-				$builder->id($id)->code('sys.authority.role.user')->name('用户角色')->parent('sys.authority')
+				$builder->id($id)->code('sys.authority.role.user')->name('角色-用户')->parent('sys.authority')
 					->uri('sys.authority.role.user.list')->sequence($this->sequence . '0401')->tag($this->tag);
 			});
 			$id = "6264c3a0b0a211e78231c3dc846e0b14";
@@ -79,6 +79,11 @@ class SysMenuSeeder extends Seeder {
 					->uri('sys.authority.role.entity.list')->sequence($this->sequence . '0407')->tag($this->tag);
 			});
 
+			$id = "933e3d40b4db11e7a3e8a1a881f3a069";
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->code('sys.authority.user.edit')->name('用户-角色')->parent('sys.authority')
+					->uri('sys.authority.user.role.edit')->sequence($this->sequence . '0409')->tag($this->tag);
+			});
 			//日志
 			// $id = "225ab7a00a0111e7aa6b651fe5aa9d72";
 			// Menu::build(function (Builder $builder) use ($id) {

@@ -21,7 +21,7 @@
             </md-input-container>
           </md-layout>
           <md-layout>
-            <md-button @click.native="query">查询</md-button>
+            <md-button @click.native="loadData">查询</md-button>
           </md-layout>
         </md-layout>
       </md-part-toolbar-group>
@@ -54,7 +54,7 @@ export default {
       this.$router.push({ name: 'module', params: { module: 'sys.authority.role.menu.edit' } });
     },
     edit(item) {
-      this.$router.push({ name: 'id', params: { module: 'sys.authority.role.menu.edit', id: item.id } });
+      
     },
     initQuery(options) {
       options.wheres.role=this.model.role;

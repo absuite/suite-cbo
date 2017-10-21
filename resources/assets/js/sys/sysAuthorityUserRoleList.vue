@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     create() {
-      this.$router.push({ name: 'module', params: { module: 'sys.authority.role.user.edit' } });
+      this.$router.push({ name: 'module', params: { module: 'sys.authority.user.role.edit' } });
     },
     edit(item) {
       

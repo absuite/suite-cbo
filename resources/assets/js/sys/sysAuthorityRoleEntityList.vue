@@ -21,7 +21,7 @@
             </md-input-container>
           </md-layout>
           <md-layout>
-            <md-button @click.native="query">查询</md-button>
+            <md-button @click.native="loadData">查询</md-button>
           </md-layout>
         </md-layout>
       </md-part-toolbar-group>

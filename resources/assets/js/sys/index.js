@@ -38,6 +38,9 @@ import sysAuthorityRolePermitEdit from './sysAuthorityRolePermitEdit.vue';
 import sysAuthorityRoleUserList from './sysAuthorityRoleUserList.vue';
 import sysAuthorityRoleUserEdit from './sysAuthorityRoleUserEdit.vue';
 
+import sysAuthorityUserRoleList from './sysAuthorityUserRoleList.vue';
+import sysAuthorityUserRoleEdit from './sysAuthorityUserRoleEdit.vue';
+
 export default function install(Vue) {
   Vue.component('sysLanguageList', sysLanguageList);
   Vue.component('sysLanguageEdit', sysLanguageEdit);
@@ -77,4 +80,8 @@ export default function install(Vue) {
 
   Vue.component('sysAuthorityRoleUserList', sysAuthorityRoleUserList);
   Vue.component('sysAuthorityRoleUserEdit', sysAuthorityRoleUserEdit);
+
+  Vue.component('sysAuthorityUserRoleList', sysAuthorityUserRoleList);
+  Vue.component('sysAuthorityUserRoleEdit', sysAuthorityUserRoleEdit);
+
 }
