@@ -10,11 +10,12 @@ use Validator;
 
 class PeriodAccountController extends Controller {
 	public function index(Request $request) {
+		$pageSize = $request->input('size', 10);
 		$query = Models\PeriodAccount::orderBy('from_date');
 		if ($request->input('calendar')) {
 			$query->where('calendar_id', $request->input('calendar'));
 		}
-		$data = $query->get();
+		$data = $query->paginate($pageSize);
 
 		return $this->toJson($data);
 	}

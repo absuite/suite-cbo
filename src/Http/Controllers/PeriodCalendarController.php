@@ -15,6 +15,13 @@ class PeriodCalendarController extends Controller {
 
 		return $this->toJson($data);
 	}
+	public function showLines(Request $request, string $id) {
+		$pageSize = $request->input('size', 10);
+		$query = Models\PeriodAccount::where('calendar_id', $id);
+		$query->orderBy('from_date');
+		$data = $query->paginate($pageSize);
+		return $this->toJson($data);
+	}
 	public function show(Request $request, string $id) {
 		$query = Models\PeriodCalendar::where('id', $id)->orWhere('code', $id);
 		$data = $query->first();

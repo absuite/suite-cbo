@@ -37,7 +37,7 @@
           <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="25" md-flex-large="20">
             <md-input-container>
               <label>期间类型</label>
-              <md-enum required md-enum-id="suite.cbo.period.type.enum" v-model="model.main.type_enum"/>
+              <md-enum required md-enum-id="suite.cbo.period.type.enum" v-model="model.main.type_enum" />
             </md-input-container>
           </md-layout>
           <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="25" md-flex-large="20">
@@ -48,10 +48,10 @@
           </md-layout>
         </md-layout>
         <md-layout class="flex">
-          <md-grid @select="onTableSelect" :multiple="false" :datas="periods" :auto-load="true">
-            <md-grid-column label="期间名称" field="name" width="200px"/>
-            <md-grid-column label="开始时间" field="from_date"  width="200px"/>
-            <md-grid-column label="结束时间" field="to_date"  width="200px"/>
+          <md-grid :datas="fetchLineDatas" ref="grid" @onRemove="onLineRemove" :row-focused="false" :auto-load="true" :showRemove="true">
+            <md-grid-column label="期间名称" field="name" width="200px" />
+            <md-grid-column label="开始时间" field="from_date" width="200px" />
+            <md-grid-column label="结束时间" field="to_date" width="200px" />
           </md-grid>
         </md-layout>
       </md-content>
@@ -60,78 +60,72 @@
   </md-part>
 </template>
 <script>
-  import model from '../../gmf-sys/core/mixin/model';
-  export default {
-    data() {
+import model from '../../gmf-sys/core/mixin/model';
+import modelGrid from '../../gmf-sys/core/mixin/modelGrid';
+export default {
+  mixins: [model, modelGrid],
+  computed: {
+    canSave() {
+      return this.validate(true);
+    }
+  },
+  methods: {
+    validate(notToast) {
+      var validator = this.$validate(this.model.main, {
+        'code': 'required',
+        'name': 'required',
+        'type_enum': 'required',
+        'from_date': 'required'
+      });
+      var fail = validator.fails();
+      if (fail && !notToast) {
+        this.$toast(validator.errors.all());
+      }
+      return !fail;
+    },
+    beforeSave() {
+      this.model.main.lines = [];
+    },
+    buildPeriods() {
+      if (!this.model.main || !this.model.main.id) {
+        this.$toast('日历保存后，才能生成期间');
+        return;
+      }
+      this.loading++;
+      this.$http.post('cbo/period-calendars/' + this.model.main.id + '/build').then(response => {
+        this.$refs.grid && this.$refs.grid.refresh();
+        this.loading--;
+        this.$toast(this.$lang.LANG_DOSUCCESS);
+      }, response => {
+        this.$toast(this.$lang.LANG_DOFAIL);
+        this.loading--;
+      });
+    },
+    initModel() {
       return {
-        periods:[],
-        selectedRows:[]
-      };
-    },
-    mixins: [model],
-    watch:{
-      'model.main.id':function (v) {
-        v&&this.loadPeriods();
+        main: { 'code': '', 'name': '', 'type_enum': '', 'from_date': '' }
       }
     },
-    computed: {
-      canSave() {
-        return this.validate(true);
+    list() {
+      this.$router.push({ name: 'module', params: { module: 'cbo.period.calendar.list' } });
+    },
+    onLineRemove(options) {
+      if (!options || !options.data || options.data.length <= 0) {
+        return;
       }
+      this.loading++;
+      this.$http.delete('cbo/period-accounts/' + options.data[0].id).then(response => {
+        this.$refs.grid && this.$refs.grid.refresh();
+        this.loading--;
+      }, response => {
+        this.loading--;
+      });
     },
-    methods: {
-      validate(notToast){
-        var validator=this.$validate(this.model.main,{'code':'required','name':'required'});
-        var fail=validator.fails();
-        if(fail&&!notToast){
-          this.$toast(validator.errors.all());
-        }
-        return !fail;
-      },
-      buildPeriods(){
-        if(!this.model.main||!this.model.main.id){
-          this.$toast('日历保存后，才能生成期间');
-          return;
-        }
-        this.loading++;
-        this.$http.post('cbo/period-calendars/'+this.model.main.id+'/build').then(response => {
-          this.loadPeriods();
-          this.loading--;
-          this.$toast(this.$lang.LANG_DOSUCCESS);
-        }, response => {
-          this.$toast(this.$lang.LANG_DOFAIL);
-          this.loading--;
-        });
-      },
-      onTableSelect(items){
-        this.selectedRows=[];
-        Object.keys(items).forEach((row, index) =>{
-          this.selectedRows[index]=items[row];
-        });
-      },
-      loadPeriods(){
-        this.loading++;
-        this.$http.get('cbo/period-accounts/',{params:{calendar:this.model.main.id}}).then(response => {
-          this.periods=response.data.data;
-          this.loading--;
-        }, response => {
-          this.loading--;
-        });
-      },
-      initModel(){
-        this.periods=[];
-        return {
-          main:{'code':'','name':'','memo':'',from_date:''}
-        }
-      },
-      list() {
-        this.$router.push({ name: 'module', params: { module: 'cbo.period.calendar.list' }});
-      },
-    },
-    created() {
-      this.model.entity='suite.cbo.period.calendar';
-      this.model.order="code";
-      this.route='cbo/period-calendars';
-    },
-  };
+  },
+  created() {
+    this.model.entity = 'suite.cbo.period.calendar';
+    this.model.order = "code";
+    this.route = 'cbo/period-calendars';
+  },
+};
 </script>

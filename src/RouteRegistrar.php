@@ -73,6 +73,7 @@ class RouteRegistrar {
 
 			$router->post('period-calendars/{id}/build', ['uses' => 'PeriodCalendarController@build']);
 			$router->post('/period-calendars/batch', ['uses' => 'PeriodCalendarController@batchStore']);
+			$router->get('/period-calendars/{id}/lines', ['uses' => 'PeriodCalendarController@showLines']);
 			$router->resource('period-calendars', 'PeriodCalendarController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
 			$router->post('/period-accounts/batch', ['uses' => 'PeriodAccountController@batchStore']);
