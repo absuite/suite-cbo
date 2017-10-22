@@ -30,7 +30,7 @@ class CboUserPostSeeder extends Seeder {
 
 			Ent::addUser($this->entId, $user->id);
 
-			RoleUser::build(function (Builder $b) use ($uid) {
+			RoleUser::build(function (Builder $b) use ($user) {
 				$b->ent_id($this->entId)->user_id($user->id)->role('suite.role.sys.super');
 			});
 		}
