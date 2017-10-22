@@ -2,10 +2,11 @@
 
 use Gmf\Ac\Models\User;
 use Gmf\Sys\Builder;
+use Gmf\Sys\Models\Authority\RoleUser;
 use Gmf\Sys\Models\Ent;
 use Illuminate\Database\Seeder;
 
-class CboUserSeeder extends Seeder {
+class CboUserPostSeeder extends Seeder {
 	public $entId = '';
 
 	/**
@@ -28,6 +29,10 @@ class CboUserSeeder extends Seeder {
 			$user = User::registerByAccount('sys', $b->toArray());
 
 			Ent::addUser($this->entId, $user->id);
+
+			RoleUser::build(function (Builder $b) use ($uid) {
+				$b->ent_id($this->entId)->user_id($user->id)->role('suite.role.sys.super');
+			});
 		}
 	}
 }
