@@ -97,7 +97,7 @@ export default {
         this.loading--;
         this.$toast(this.$lang.LANG_DOSUCCESS);
       }, response => {
-        this.$toast(this.$lang.LANG_DOFAIL);
+        this.$toast(response);
         this.loading--;
       });
     },

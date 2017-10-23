@@ -93,7 +93,7 @@
         this.$http.get('sys/menus/all').then(response => {
             this.extendMenu = response.data.data;
           }, response => {
-            console.log(response);
+            this.$toast(response);
           });
       }
     },

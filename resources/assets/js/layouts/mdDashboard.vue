@@ -127,7 +127,7 @@ export default {
       this.$http.get('amiba/groups/all', { params: {} }).then(response => {
         this.model.groups = response.data.data;
       }, response => {
-        console.log(response);
+        this.$toast(response);
       });
       this.$http.get('amiba/reports/period-info').then(response => {
         this.model.fm_period = response.data.data.yearFirstPeriod;
@@ -138,22 +138,22 @@ export default {
       this.$http.get('bec/posts', { params: { type: "news", pageSize: 5 } }).then(response => {
         this.model.news = response.data.data;
       }, response => {
-        console.log(response);
+        this.$toast(response);
       });
       this.$http.get('bec/posts', { params: { type: "knowledge", pageSize: 5 } }).then(response => {
         this.model.knowledges = response.data.data;
       }, response => {
-        console.log(response);
+        this.$toast(response);
       });
       this.$http.get('bec/posts', { params: { type: "statute", pageSize: 5 } }).then(response => {
         this.model.statutes = response.data.data;
       }, response => {
-        console.log(response);
+        this.$toast(response);
       });
       this.$http.get('bec/prices', { params: { pageSize: 12 } }).then(response => {
         this.model.prices = response.data.data;
       }, response => {
-        console.log(response);
+        this.$toast(response);
       });
     },
     loadData() {
@@ -176,7 +176,7 @@ export default {
       this.$http.post('amiba/reports/group-rank-ans', queryCase).then(response => {
         this.updateGroupRank(response.data);
       }, response => {
-        console.log(response);
+        this.$toast(response);
       });
     },
     updateGroupRank(data) {
@@ -243,7 +243,7 @@ export default {
       this.$http.post('amiba/reports/group-structure-ans', queryCase).then(response => {
         this.updateGroupStructure(response.data);
       }, response => {
-        console.log(response);
+        this.$toast(response);
       });
     },
     updateGroupStructure(data) {
@@ -314,7 +314,7 @@ export default {
       this.$http.post('amiba/reports/group-trend-ans', queryCase).then(response => {
         this.updateTroupTrend(response.data);
       }, response => {
-        console.log(response);
+        this.$toast(response);
       });
     },
     updateTroupTrend(data) {
