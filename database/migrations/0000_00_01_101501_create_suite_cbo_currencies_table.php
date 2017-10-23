@@ -4,7 +4,7 @@ use Gmf\Sys\Database\Metadata;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateSuiteCboCurrenciesTable extends Migration {
-	private $mdID = "e3acba6010bb11e7bc2cc9ce0de9d1d7";
+	public $mdID = "e3acba6010bb11e7bc2cc9ce0de9d1d7";
 	/**
 	 * Run the migrations.
 	 *

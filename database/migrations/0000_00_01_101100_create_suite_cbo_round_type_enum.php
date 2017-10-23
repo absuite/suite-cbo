@@ -4,7 +4,7 @@ use Gmf\Sys\Database\Metadata;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateSuiteCboRoundTypeEnum extends Migration {
-	private $mdID = "d16abc302b7311e79ff65fec58451bff";
+	public $mdID = "d16abc302b7311e79ff65fec58451bff";
 	/**
 	 * Run the migrations.
 	 *

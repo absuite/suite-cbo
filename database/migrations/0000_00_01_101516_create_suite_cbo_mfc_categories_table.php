@@ -4,7 +4,7 @@ use Gmf\Sys\Database\Metadata;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateSuiteCboMfcCategoriesTable extends Migration {
-	private $mdID = "bda992d010bd11e7aca4490820409c46";
+	public $mdID = "bda992d010bd11e7aca4490820409c46";
 	/**
 	 * Run the migrations.
 	 *

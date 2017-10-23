@@ -4,7 +4,7 @@ use Gmf\Sys\Database\Metadata;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateSuiteCboBizTypeEnum extends Migration {
-	private $mdID = "95dabe8017ef11e7a6f4b3b3519e83cb";
+	public $mdID = "95dabe8017ef11e7a6f4b3b3519e83cb";
 	/**
 	 * Run the migrations.
 	 *

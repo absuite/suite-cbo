@@ -4,7 +4,7 @@ use Gmf\Sys\Database\Metadata;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateSuiteCboWorksTable extends Migration {
-	private $mdID = "b3894cd00a9a11e7a21613e4b2686aa1";
+	public $mdID = "b3894cd00a9a11e7a21613e4b2686aa1";
 	/**
 	 * Run the migrations.
 	 *

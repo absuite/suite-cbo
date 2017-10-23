@@ -4,7 +4,7 @@ use Gmf\Sys\Database\Metadata;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateSuiteCboPeriodCalendarsTable extends Migration {
-	private $mdID = "bda995a010bd11e784004709dc88d08e";
+	public $mdID = "bda995a010bd11e784004709dc88d08e";
 	/**
 	 * Run the migrations.
 	 *
