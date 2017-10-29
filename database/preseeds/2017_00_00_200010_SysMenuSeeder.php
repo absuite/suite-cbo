@@ -60,28 +60,28 @@ class SysMenuSeeder extends Seeder {
 			});
 			$id = "6264c2d0b0a211e7a06455dcad2290f4";
 			Menu::build(function (Builder $builder) use ($id) {
-				$builder->id($id)->code('sys.authority.role.user')->name('角色-用户')->parent('sys.authority')
+				$builder->id($id)->code('sys.authority.role.user')->name('角色用户')->parent('sys.authority')
 					->uri('sys.authority.role.user.list')->sequence($this->sequence . '0401')->tag($this->tag);
 			});
 			$id = "6264c3a0b0a211e78231c3dc846e0b14";
 			Menu::build(function (Builder $builder) use ($id) {
-				$builder->id($id)->code('sys.authority.role.menu')->name('角色-菜单')->parent('sys.authority')
+				$builder->id($id)->code('sys.authority.role.menu')->name('菜单权限')->parent('sys.authority')
 					->uri('sys.authority.role.menu.list')->sequence($this->sequence . '0403')->tag($this->tag);
 			});
 			$id = "6264c410b0a211e79be7cfff31831c8a";
 			Menu::build(function (Builder $builder) use ($id) {
-				$builder->id($id)->code('sys.authority.role.permit')->name('角色-权限')->parent('sys.authority')
+				$builder->id($id)->code('sys.authority.role.permit')->name('操作权限')->parent('sys.authority')
 					->uri('sys.authority.role.permit.list')->sequence($this->sequence . '0405')->tag($this->tag);
 			});
 			$id = "6264c480b0a211e78551db2664049ee1";
 			Menu::build(function (Builder $builder) use ($id) {
-				$builder->id($id)->code('sys.authority.role.entity')->name('角色-数据')->parent('sys.authority')
+				$builder->id($id)->code('sys.authority.role.entity')->name('数据权限')->parent('sys.authority')
 					->uri('sys.authority.role.entity.list')->sequence($this->sequence . '0407')->tag($this->tag);
 			});
 
 			$id = "933e3d40b4db11e7a3e8a1a881f3a069";
 			Menu::build(function (Builder $builder) use ($id) {
-				$builder->id($id)->code('sys.authority.user.edit')->name('用户-角色')->parent('sys.authority')
+				$builder->id($id)->code('sys.authority.user.edit')->name('用户角色')->parent('sys.authority')
 					->uri('sys.authority.user.role.edit')->sequence($this->sequence . '0409')->tag($this->tag);
 			});
 			//日志

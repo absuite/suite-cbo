@@ -67,31 +67,31 @@ class CboSysComponentSeeder extends Seeder {
 			});
 
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityRoleMenuEdit')->name('角色-菜单');
+				$builder->code('sysAuthorityRoleMenuEdit')->name('菜单权限');
 			});
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityRoleMenuList')->name('角色-菜单列表');
-			});
-
-			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityRoleUserEdit')->name('角色-用户');
-			});
-			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityRoleUserList')->name('角色-用户列表');
+				$builder->code('sysAuthorityRoleMenuList')->name('菜单权限列表');
 			});
 
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityRolePermitEdit')->name('角色-权限');
+				$builder->code('sysAuthorityRoleUserEdit')->name('角色用户');
 			});
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityRolePermitList')->name('角色-权限列表');
+				$builder->code('sysAuthorityRoleUserList')->name('角色用户列表');
 			});
 
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityRoleEntityEdit')->name('角色-数据');
+				$builder->code('sysAuthorityRolePermitEdit')->name('操作权限');
 			});
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityRoleEntityList')->name('角色-数据列表');
+				$builder->code('sysAuthorityRolePermitList')->name('操作权限列表');
+			});
+
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sysAuthorityRoleEntityEdit')->name('数据权限');
+			});
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sysAuthorityRoleEntityList')->name('数据权限列表');
 			});
 
 			Models\Component::build(function (Builder $builder) {
