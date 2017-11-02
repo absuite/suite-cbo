@@ -19,8 +19,9 @@ class CboAreaSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\Area::where('ent_id', $this->entId)->delete();
+		if (Models\Area::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 
 		Models\Area::build(function (Builder $b) {$b->ent_id($this->entId)->code("HZ")->name("华中")->country("CHN");});
 		Models\Area::build(function (Builder $b) {$b->ent_id($this->entId)->code("HN")->name("华南")->country("CHN");});

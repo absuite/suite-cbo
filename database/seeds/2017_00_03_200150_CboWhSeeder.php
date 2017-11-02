@@ -19,9 +19,9 @@ class CboWhSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\Wh::where('ent_id', $this->entId)->delete();
-
+		if (Models\Wh::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 		Models\Wh::build(function (Builder $b) {$b->ent_id($this->entId)->code("st8000401")->name("集团公司材料仓")->dept("dp80004");});
 		Models\Wh::build(function (Builder $b) {$b->ent_id($this->entId)->code("st8100301")->name("生产公司材料仓")->dept("dp81003");});
 		Models\Wh::build(function (Builder $b) {$b->ent_id($this->entId)->code("st8100302")->name("生产公司半成品仓")->dept("dp81003");});

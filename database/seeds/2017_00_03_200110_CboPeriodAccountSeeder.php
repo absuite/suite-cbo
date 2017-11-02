@@ -19,9 +19,9 @@ class CboPeriodAccountSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\PeriodAccount::where('ent_id', $this->entId)->delete();
-
+		if (Models\PeriodAccount::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 		Models\PeriodAccount::build(function (Builder $b) {$b->ent_id($this->entId)->code("201701")->name("201701")->from_date("2017.01.01")->to_date("2017.01.31")->year("2017")->month("1")->calendar("month");});
 		Models\PeriodAccount::build(function (Builder $b) {$b->ent_id($this->entId)->code("201702")->name("201702")->from_date("2017.02.01")->to_date("2017.02.28")->year("2017")->month("2")->calendar("month");});
 		Models\PeriodAccount::build(function (Builder $b) {$b->ent_id($this->entId)->code("201703")->name("201703")->from_date("2017.03.01")->to_date("2017.03.31")->year("2017")->month("3")->calendar("month");});

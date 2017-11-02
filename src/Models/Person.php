@@ -30,7 +30,8 @@ class Person extends Model {
 			if ($tmpItem) {
 				$data['dept_id'] = $tmpItem->id;
 			}
-			static::create($data);
+			$find = array_only($data, ['ent_id', 'code']);
+			static::updateOrCreate($find, $data);
 		});
 	}
 }

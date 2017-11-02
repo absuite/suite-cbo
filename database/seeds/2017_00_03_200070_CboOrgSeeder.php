@@ -19,8 +19,9 @@ class CboOrgSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\Org::where('ent_id', $this->entId)->delete();
+		if (Models\Org::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 
 		Models\Org::build(function (Builder $b) {$b->ent_id($this->entId)->code("org800")->name("800集团公司");});
 		Models\Org::build(function (Builder $b) {$b->ent_id($this->entId)->code("org810")->name("810生产公司");});

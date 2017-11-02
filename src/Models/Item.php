@@ -73,7 +73,8 @@ class Item extends Model {
 			if ($tmpItem) {
 				$data['form_enum'] = $tmpItem->name;
 			}
-			static::create($data);
+			$find = array_only($data, ['ent_id', 'code']);
+			static::updateOrCreate($find, $data);
 		});
 	}
 }

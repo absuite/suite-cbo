@@ -19,9 +19,9 @@ class CboItemSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\Item::where('ent_id', $this->entId)->delete();
-
+		if (Models\Item::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 		Models\Item::build(function (Builder $b) {$b->ent_id($this->entId)->code("DZ60")->name("108地质无缝管")->form_name("实体")->price("5.00 ")->unit("公斤")->currency("CNY");});
 		Models\Item::build(function (Builder $b) {$b->ent_id($this->entId)->code("JT150")->name("150专用接头")->form_name("实体")->price("150.00 ")->unit("件")->currency("CNY");});
 		Models\Item::build(function (Builder $b) {$b->ent_id($this->entId)->code("JT120")->name("120专用接头")->form_name("实体")->price("120.00 ")->unit("件")->currency("CNY");});

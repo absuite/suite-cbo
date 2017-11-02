@@ -14,7 +14,6 @@ class SysMenuSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->down();
 
 		$exception = DB::transaction(function () {
 			$id = "c8280c0009f311e797dccd79a400c99f";

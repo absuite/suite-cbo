@@ -19,9 +19,9 @@ class CboDeptSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\Dept::where('ent_id', $this->entId)->delete();
-
+		if (Models\Dept::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 		Models\Dept::build(function (Builder $b) {$b->ent_id($this->entId)->code("dp80001")->name("集团公司财务部")->org("org800")->type_name("管理");});
 		Models\Dept::build(function (Builder $b) {$b->ent_id($this->entId)->code("dp80002")->name("集团公司研发部")->org("org800")->type_name("研发");});
 		Models\Dept::build(function (Builder $b) {$b->ent_id($this->entId)->code("dp80003")->name("集团公司采购部")->org("org800")->type_name("采购");});

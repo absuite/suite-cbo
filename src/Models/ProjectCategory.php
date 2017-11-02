@@ -19,7 +19,8 @@ class ProjectCategory extends Model {
 
 			$data = array_only($builder->toArray(), ['id', 'ent_id', 'code', 'name']);
 
-			static::create($data);
+			$find = array_only($data, ['ent_id', 'code']);
+			static::updateOrCreate($find, $data);
 		});
 	}
 

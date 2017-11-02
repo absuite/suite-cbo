@@ -80,8 +80,8 @@ class Team extends Model {
 			if ($tmpItem) {
 				$data['manager_id'] = $tmpItem->id;
 			}
-
-			static::create($data);
+			$find = array_only($data, ['ent_id', 'code']);
+			static::updateOrCreate($find, $data);
 		});
 	}
 }

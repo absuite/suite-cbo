@@ -19,7 +19,8 @@ class TraderCategory extends Model {
 
 			$data = array_only($builder->toArray(), ['id', 'ent_id', 'code', 'name', 'type_enum']);
 
-			static::create($data);
+			$find = array_only($data, ['ent_id', 'code']);
+			static::updateOrCreate($find, $data);
 		});
 	}
 }

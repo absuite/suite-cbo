@@ -30,7 +30,8 @@ class Unit extends Model {
 				$data['type_enum'] = $tmpItem->name;
 			}
 
-			static::create($data);
+			$find = array_only($data, ['code', 'ent_id']);
+			static::updateOrCreate($find, $data);
 		});
 	}
 }

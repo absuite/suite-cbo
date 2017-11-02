@@ -12,9 +12,9 @@ class CboCountrySeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-
-		Models\Country::where('id', '!=', '')->delete();
-
+		if (Models\Country::where('id', '!=', '')->count()) {
+			return;
+		}
 		Models\Country::build(function (Builder $b) {$b->code("ABW")->name("阿鲁巴")->short_name("阿鲁巴");});
 		Models\Country::build(function (Builder $b) {$b->code("AFG")->name("阿富汗 ")->short_name("阿富汗 ");});
 		Models\Country::build(function (Builder $b) {$b->code("AGO")->name("安哥拉")->short_name("安哥拉");});

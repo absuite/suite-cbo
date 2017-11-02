@@ -85,6 +85,7 @@ class PeriodCalendarController extends Controller {
 	 */
 	public function destroy(Request $request, $id) {
 		$ids = explode(",", $id);
+		Models\PeriodAccount::whereIn('calendar_id', $ids)->delete();
 		Models\PeriodCalendar::destroy($ids);
 		return $this->toJson(true);
 	}

@@ -17,7 +17,10 @@ class Country extends Model {
 		tap(new Builder, function ($builder) use ($callback) {
 			$callback($builder);
 			$data = array_only($builder->toArray(), ['id', 'code', 'name', 'short_name']);
-			static::create($data);
+
+			$find = array_only($data, ['code']);
+			static::updateOrCreate($find, $data);
+
 		});
 	}
 }

@@ -19,8 +19,9 @@ class CboTraderSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\Trader::where('ent_id', $this->entId)->delete();
+		if (Models\Trader::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 		Models\Trader::build(function (Builder $b) {$b->ent_id($this->entId)->code("800")->name("800集团公司")->short_name("")->category("")->area("");});
 		Models\Trader::build(function (Builder $b) {$b->ent_id($this->entId)->code("810")->name("810生产公司")->short_name("")->category("")->area("");});
 		Models\Trader::build(function (Builder $b) {$b->ent_id($this->entId)->code("820")->name("820新品公司")->short_name("")->category("")->area("");});

@@ -19,9 +19,9 @@ class CboDivisionSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\Division::where('ent_id', $this->entId)->delete();
-
+		if (Models\Division::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 		Models\Division::build(function (Builder $b) {$b->ent_id($this->entId)->code("1101")->name("北京市")->short_name("北京")->country("CHN")->province("11")->area("HB");});
 		Models\Division::build(function (Builder $b) {$b->ent_id($this->entId)->code("1201")->name("天津市")->short_name("天津")->country("CHN")->province("12")->area("HB");});
 		Models\Division::build(function (Builder $b) {$b->ent_id($this->entId)->code("1301")->name("河北省")->short_name("河北")->country("CHN")->province("13")->area("HB");});

@@ -19,8 +19,9 @@ class CboProvinceSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\Province::where('ent_id', $this->entId)->delete();
+		if (Models\Province::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 
 		Models\Province::build(function (Builder $b) {$b->ent_id($this->entId)->code("11")->name("北京市")->short_name("北京")->area("HB")->country("CHN");});
 		Models\Province::build(function (Builder $b) {$b->ent_id($this->entId)->code("12")->name("天津市")->short_name("天津")->area("HB")->country("CHN");});

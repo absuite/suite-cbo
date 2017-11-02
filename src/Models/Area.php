@@ -34,7 +34,9 @@ class Area extends Model {
 				$data['country_id'] = $tmpItem->id;
 			}
 
-			static::create($data);
+			$find = array_only($data, ['code', 'ent_id']);
+
+			static::updateOrCreate($find, $data);
 		});
 	}
 }

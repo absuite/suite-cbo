@@ -26,7 +26,9 @@ class PeriodAccount extends Model {
 			if ($tmpItem) {
 				$data['calendar_id'] = $tmpItem->id;
 			}
-			static::create($data);
+
+			$find = array_only($data, ['calendar_id', 'ent_id', 'code']);
+			static::updateOrCreate($find, $data);
 		});
 	}
 

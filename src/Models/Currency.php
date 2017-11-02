@@ -28,7 +28,8 @@ class Currency extends Model {
 			if (empty($data['price_round_precision'])) {
 				$data['price_round_precision'] = 2;
 			}
-			static::create($data);
+			$find = array_only($data, ['code', 'ent_id']);
+			static::updateOrCreate($find, $data);
 		});
 	}
 }

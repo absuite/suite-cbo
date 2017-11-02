@@ -19,8 +19,9 @@ class CboUnitSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\Unit::where('ent_id', $this->entId)->delete();
+		if (Models\Unit::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 		Models\Unit::build(function (Builder $b) {$b->ent_id($this->entId)->code("Day")->name("天")->type_enum("time");});
 		Models\Unit::build(function (Builder $b) {$b->ent_id($this->entId)->code("Hour")->name("小时")->type_enum("time");});
 		Models\Unit::build(function (Builder $b) {$b->ent_id($this->entId)->code("Minute")->name("分")->type_enum("time");});

@@ -19,8 +19,9 @@ class CboCurrencySeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-		Models\Currency::where('ent_id', $this->entId)->delete();
-
+		if (Models\Currency::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 		Models\Currency::build(function (Builder $b) {$b->ent_id($this->entId)->code("CNY")->name("人民币")->symbol("￥");});
 		Models\Currency::build(function (Builder $b) {$b->ent_id($this->entId)->code("EUR")->name("欧元")->symbol("€");});
 		Models\Currency::build(function (Builder $b) {$b->ent_id($this->entId)->code("GBP")->name("英镑")->symbol("£");});

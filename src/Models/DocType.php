@@ -19,7 +19,8 @@ class DocType extends Model {
 
 			$data = array_only($builder->toArray(), ['id', 'ent_id', 'biz_type_enum', 'code', 'name']);
 
-			static::create($data);
+			$find = array_only($data, ['ent_id', 'biz_type_enum', 'code']);
+			static::updateOrCreate($find, $data);
 		});
 	}
 }

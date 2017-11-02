@@ -19,9 +19,9 @@ class CboPeriodCalendarSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
-
-		Models\PeriodCalendar::where('ent_id', $this->entId)->delete();
-
+		if (Models\PeriodCalendar::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 		Models\PeriodCalendar::build(function (Builder $b) {$b->ent_id($this->entId)->code("month")->name("默认月度日历")->type_enum("months")->from_date("2017.01.01");});
 
 	}
