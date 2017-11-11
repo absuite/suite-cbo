@@ -24,12 +24,12 @@
         <md-layout class="flex">
           <md-grid :datas="fetchLineDatas" ref="grid" :row-focused="false" :auto-load="true" @onAdd="onLineAdd" :showAdd="true" :showRemove="true">
             <md-grid-column label="实体" field="entity" dataType="entity" ref-id="gmf.sys.entity.ref" :ref-init="init_Entity_ref" width="200px" editable>
-              <template scope="row">
+              <template slot-scope="row">
                 {{ row.entity&&row.entity.comment ||''}}
               </template>
             </md-grid-column>
             <md-grid-column label="名称">
-              <template scope="row">
+              <template slot-scope="row">
                 {{ row.entity&&row.entity.name ||''}}
               </template>
             </md-grid-column>

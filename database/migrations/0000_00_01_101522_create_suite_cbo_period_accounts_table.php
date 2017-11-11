@@ -20,6 +20,7 @@ class CreateSuiteCboPeriodAccountsTable extends Migration {
 		$md->string('code')->nullable()->comment('编码');
 		$md->string('name')->comment('名称');
 		$md->integer('year')->default(0)->comment('年');
+		$md->integer('quarter')->default(0)->comment('季');
 		$md->integer('month')->default(0)->comment('月');
 		$md->integer('week')->default(0)->comment('周');
 		$md->text('memo')->nullable()->comment('备注');

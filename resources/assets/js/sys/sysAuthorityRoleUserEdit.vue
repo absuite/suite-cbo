@@ -25,7 +25,7 @@
           <md-grid :datas="fetchLineDatas" ref="grid" :row-focused="false" :auto-load="true" @onAdd="onLineAdd" :showAdd="true" :showRemove="true">
             <md-grid-column label="用户" field="user" dataType="entity" ref-id="gmf.sys.user.ref" :ref-init="init_User_ref" width="200px" editable/>
             <md-grid-column label="昵称">
-              <template scope="row">
+              <template slot-scope="row">
                 {{ row.user&&row.user.nick_name ||''}}
               </template>
             </md-grid-column>

@@ -25,7 +25,7 @@
           <md-grid :datas="fetchLineDatas" ref="grid" :row-focused="false" :auto-load="true" @onAdd="onLineAdd" :showAdd="true" :showRemove="true">
             <md-grid-column label="菜单" field="menu" dataType="entity" ref-id="gmf.sys.menu.ref" :ref-init="init_Menu_ref" width="200px" editable/>
             <md-grid-column label="uri">
-              <template scope="row">
+              <template slot-scope="row">
                 {{ row.menu&&row.menu.uri ||''}}
               </template>
             </md-grid-column>
