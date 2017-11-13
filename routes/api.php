@@ -1,6 +1,6 @@
 <?php
 $ns = 'Suite\Cbo\Http\Controllers';
-Route::prefix('api/cbo')->middleware(['api', 'auth:api', 'lns_check:cbo'])->namespace($ns)->group(function () {
+Route::prefix('api/cbo')->middleware(['api', 'auth:api'])->namespace($ns)->group(function () {
 	Route::post('/orgs/batch', 'OrgController@batchStore');
 	Route::resource('orgs', 'OrgController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
