@@ -252,7 +252,7 @@ export default {
           type: 'pie',
           spacing: [0, 0, 0, 0],
           margin: [0, 0, 0, 0],
-          height: '280px'
+          height: '200px'
         },
         title: { text: '', floating: true, align: 'center', verticalAlign: 'middle', },
         colors: ['#F7464A', '#46BFBD', '#FDB45C'],

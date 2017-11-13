@@ -4,11 +4,13 @@ import components from './components';
 import oauth from './oauth';
 import sys from './sys';
 import layouts from './layouts';
+import common from './common';
 const options = {
     components,
     oauth,
     sys,
-    layouts
+    layouts,
+    common
 };
 
 options.install = (Vue) => {
