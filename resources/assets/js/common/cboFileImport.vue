@@ -3,7 +3,7 @@
     <md-menu md-size="1">
       <div class="md-button md-theme-default" md-menu-trigger><slot><md-button>导入</md-button></slot></div>
       <md-menu-content>
-        <md-menu-item @selected="openPicker">导入文件</md-menu-item>
+        <md-menu-item @selected="openPicker">导入数据</md-menu-item>
         <md-menu-item v-if="template" @selected="onDownTemplateFile">下载模板</md-menu-item>
       </md-menu-content>
     </md-menu>
