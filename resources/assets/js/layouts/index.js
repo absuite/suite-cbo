@@ -1,16 +1,8 @@
-import mdApp from './mdApp.vue';
-import mdAppContent from './mdAppContent.vue';
-import mdAppFooter from './mdAppFooter.vue';
-import mdAppMenu from './mdAppMenu.vue';
-import mdAppToolbar from './mdAppToolbar.vue';
-import mdDashboard from './mdDashboard.vue';
-import mdEntchange from './mdEntchange.vue';
+import App from './App.vue';
+import Dashboard from './Dashboard.vue';
+import Entchange from './Entchange.vue';
 export default function install(Vue) {
-  Vue.component('app', mdApp);
-  Vue.component('appContent', mdAppContent);
-  Vue.component('appFooter', mdAppFooter);
-  Vue.component('appMenu', mdAppMenu);
-  Vue.component('appToolbar', mdAppToolbar);
-  Vue.component('dashboard', mdDashboard);
-  Vue.component('entchange', mdEntchange);
+  Vue.component('App', App);
+  Vue.component('Dashboard', Dashboard);
+  Vue.component('Entchange', Entchange);
 }

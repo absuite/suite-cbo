@@ -21,25 +21,25 @@
     </md-part-toolbar>
     <md-part-body>
       <md-content>
-        <md-input-container>
+        <md-field>
           <label>类型</label>
           <md-enum md-enum-id="suite.cbo.biz.type.enum" v-model="model.main.biz_type_enum"></md-enum>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>编码</label>
           <md-input required v-model="model.main.code"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>名称</label>
           <md-input required v-model="model.main.name"></md-input>
-        </md-input-container>
+        </md-field>
       </md-content>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
   </md-part>
 </template>
 <script>
-import model from '../../gmf-sys/core/mixin/model';
+import model from 'gmf/core/mixins/MdModel/MdModel';
 export default {
   data() {
     return {};

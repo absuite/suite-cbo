@@ -22,56 +22,56 @@
     <md-part-body>
       <md-content>
         
-        <md-input-container>
+        <md-field>
           <label>编码</label>
           <md-input required v-model="model.main.code"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>简称</label>
           <md-input v-model="model.main.short_name"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>名称</label>
           <md-input required v-model="model.main.name"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>分类</label>
           <md-input-ref md-ref-id="suite.cbo.trader.category.ref" v-model="model.main.category"/>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>国家</label>
           <md-input-ref md-ref-id="suite.cbo.country.ref" v-model="model.main.country"/>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>省份</label>
           <md-input-ref md-ref-id="suite.cbo.province.ref" v-model="model.main.province"/>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>城市区县</label>
           <md-input-ref md-ref-id="suite.cbo.division.ref" v-model="model.main.division"/>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>区域</label>
           <md-input-ref md-ref-id="suite.cbo.area.ref" v-model="model.main.area"/>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>类型</label>
           <md-enum md-enum-id="suite.cbo.trader.type.enum" v-model="model.main.type_enum"></md-enum>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>备注</label>
           <md-textarea v-model="model.main.memo"></md-textarea>
-        </md-input-container>
+        </md-field>
       </md-content>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
   </md-part>
 </template>
 <script>
-  import model from '../../gmf-sys/core/mixin/model';
+  import model from 'gmf/core/mixins/MdModel/MdModel';
   export default {
     data() {
       return {

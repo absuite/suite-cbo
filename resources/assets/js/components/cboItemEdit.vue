@@ -21,44 +21,44 @@
     </md-part-toolbar>
     <md-part-body>
       <md-content>
-        <md-input-container>
+        <md-field>
           <label>编码</label>
           <md-input required v-model="model.main.code"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>名称</label>
           <md-input required v-model="model.main.name"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>形态</label>
           <md-enum md-enum-id="suite.cbo.item.form.enum" v-model="model.main.form_enum"></md-enum>
-        </md-input-container>
-         <md-input-container>
+        </md-field>
+         <md-field>
           <label>分类</label>
           <md-input-ref md-ref-id="suite.cbo.item.category.ref" v-model="model.main.category"/>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>计量单位</label>
           <md-input-ref required md-ref-id="suite.cbo.unit.ref" v-model="model.main.unit"></md-input-ref>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>默认单价</label>
           <md-input type="number" v-model="model.main.price"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>备注</label>
           <md-textarea v-model="model.main.memo"></md-textarea>
-        </md-input-container>
+        </md-field>
       </md-content>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
   </md-part>
 </template>
 <script>
-  import model from '../../gmf-sys/core/mixin/model';
+  import model from 'gmf/core/mixins/MdModel/MdModel';
   export default {
     data() {
       return {

@@ -14,11 +14,11 @@
       <md-content class="flex layout-column">
         <md-layout md-gutter>
           <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" md-flex-large="20" md-flex-xlarge="20">
-            <md-input-container>
+            <md-field>
               <label>角色</label>
               <md-input-ref required md-ref-id="gmf.sys.authority.role.ref" v-model="model.role">
               </md-input-ref>
-            </md-input-container>
+            </md-field>
           </md-layout>
         </md-layout>
         <md-layout class="flex">

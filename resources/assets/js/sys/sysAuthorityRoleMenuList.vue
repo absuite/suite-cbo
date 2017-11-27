@@ -9,16 +9,16 @@
       <md-part-toolbar-group class="flex">
         <md-layout md-gutter md-align="end">
           <md-layout md-flex-small="33" md-flex-medium="15" md-flex-large="15">
-            <md-input-container class="md-inset">
+            <md-field class="md-inset">
               <label>角色</label>
               <md-input-ref md-ref-id="gmf.sys.authority.role.ref" v-model="model.role"></md-input-ref>
-            </md-input-container>
+            </md-field>
           </md-layout>
           <md-layout md-flex-small="33" md-flex-medium="15" md-flex-large="15">
-            <md-input-container class="md-inset">
+            <md-field class="md-inset">
               <label>菜单</label>
               <md-input-ref md-ref-id="gmf.sys.menu.ref" v-model="model.menu"></md-input-ref>
-            </md-input-container>
+            </md-field>
           </md-layout>
           <md-layout>
             <md-button @click.native="loadData">查询</md-button>

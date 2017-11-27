@@ -21,28 +21,23 @@
     </md-part-toolbar>
     <md-part-body>
       <md-content>
-        <md-input-container>
+        <md-field>
           <label>编码</label>
           <md-input required v-model="model.main.code"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>名称</label>
           <md-input required v-model="model.main.name"></md-input>
-        </md-input-container>
-        <md-input-container>
-          <label>国家/地区</label>
-          <md-input-ref required md-ref-id="suite.cbo.country.ref" v-model="model.main.country"/>
-        </md-input-container>
-        <md-input-container>
-          <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
-        </md-input-container>
+        </md-field>
+        <md-ref-input required md-label="国家/地区" md-ref-id="suite.cbo.country.ref" v-model="model.main.country"/>
+        <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
       </md-content>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
   </md-part>
 </template>
 <script>
-  import model from '../../gmf-sys/core/mixin/model';
+  import model from 'gmf/core/mixins/MdModel/MdModel';
   export default {
     data() {
       return {

@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-  import common from '../../gmf-sys/core/utils/common';
+  import common from 'gmf/core/utils/common';
   export default {
     name: 'md-file-import',
     props: {

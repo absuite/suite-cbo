@@ -18,49 +18,49 @@
     </md-part-toolbar>
     <md-part-body>
       <md-content>
-        <md-input-container>
+        <md-field>
           <label>接口</label>
           <md-input-ref md-ref-id="gmf.sys.dti.local.ref" v-model="model.main.local" />
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>分类</label>
           <md-input-ref md-ref-id="gmf.sys.dti.category.ref" v-model="model.main.category" />
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>编码</label>
           <md-input required v-model="model.main.code"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>名称</label>
           <md-input required v-model="model.main.name"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>类型</label>
           <md-enum md-enum-id="gmf.sys.dti.method.enum" v-model="model.main.method_enum" />
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>接口路径</label>
           <md-input v-model="model.main.path"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>请求头</label>
           <md-textarea v-model="model.main.header"></md-textarea>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>请求体</label>
           <md-textarea v-model="model.main.body"></md-textarea>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>备注</label>
           <md-textarea v-model="model.main.memo"></md-textarea>
-        </md-input-container>
+        </md-field>
       </md-content>
     </md-part-body>
     <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>
 <script>
-import model from '../../gmf-sys/core/mixin/model';
+import model from 'gmf/core/mixins/MdModel/MdModel';
 export default {
   data() {
     return {};

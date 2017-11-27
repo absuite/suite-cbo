@@ -7,9 +7,9 @@
       <img src="/img/logo.png"/>
     </h2>
     <div class="md-flex">
-      <md-input-container class="md-flex md-header-search">
+      <md-field class="md-flex md-header-search">
         <md-input class="md-header-search-input" placeholder="search"></md-input>
-      </md-input-container>
+      </md-field>
     </div>
     <md-button class="md-header-search-bar md-icon-button">
       <md-icon>search</md-icon>

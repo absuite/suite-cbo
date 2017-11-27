@@ -1,39 +1,20 @@
-<template>
-  <div class="md-pags layout-fill flex layout-column">
-    <div class="md-pag-tabs">
-      <div v-for="tab in navTabs" :key="tab.id" @click="toPageTab(tab)" class="md-pag-tab" :class="{'md-active': tab.active}">
-        <span>{{ tab.name }}</span>
-        <md-button class="md-icon-button md-delete" @click.native="removePageTab(tab,$event)">
-          <md-icon>cancel</md-icon>
-        </md-button>
-      </div>
-    </div>
-    <div class="md-pag-container flex layout-column">
-      <div v-for="tab in navTabs" :key="tab.id" class="md-pag flex" :class="{'md-active': tab.active}">
-        <md-wrap :name="tab.code" ref="tabWrap"></md-wrap>
-      </div>
-    </div>
-  </div>
-</template>
-<script>
 import common from 'gmf/core/utils/common';
-
 export default {
-  props: {
-    mdToken: String,
-    mdTitle: String
-  },
-  data() {
-    return {
-      navTabs: [],
-      currentTab: {}
-    };
+  data: () => ({
+    navTabs: [],
+    currentTab: {}
+  }),
+  computed: {
+    clear() {
+      return this.MdField.clear
+    },
   },
   watch: {
     '$route' (to, from) {
       this.routePageTab(to);
     }
   },
+
   methods: {
     toPageTab(tab) {
       this.$router.replace(tab.fullPath);
@@ -134,16 +115,13 @@ export default {
         });
       });
     },
-    refresh() {
+    refreshPage() {
       var ind = this.getCurrentTabInd();
       if (ind >= 0) {
         var tab = this.navTabs[ind];
         tab.id = common.uniqueId();
       }
-    }
-  },
-  created() {
-
+    },
   },
   mounted() {
     this.routePageTab(this.$route);
@@ -153,14 +131,13 @@ export default {
       if (code == 116 && !ev.ctrlKey) {
         if (ev.preventDefault) {
           ev.preventDefault();
-          this.refresh();
+          this.refreshPage();
         } else {
           ev.keyCode = 0;
           ev.returnValue = false;
-          this.refresh();
+          this.refreshPage();
         }
       }
     }
   }
-};
-</script>
+}

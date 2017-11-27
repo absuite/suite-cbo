@@ -1,55 +1,53 @@
-.md-pags {
-  .md-pag-tabs {
-    background: #80cbc4;
-    box-shadow: 0 1px 1px rgb(73, 151, 142);
-    .md-pag-tab {
-      padding: .1rem;
-      padding: .05rem .25rem 0.05rem 0.1rem;
-      display: inline-block;
-      cursor: pointer;
-      position: relative;
-      &:hover {
-        background: #32b7a8;
-        color: #fff;
-      }
-      &.md-active {
-        background: #e0f2f1;
-        color: inherit;
-      }
-      .md-delete {
-        width: 0.24rem;
-        min-width: 0.24rem;
-        height: 0.24rem;
-        min-height: 0.24rem;
-        margin: 0;
-        padding: 0;
-        top: .04rem;
-        right: 0;
-        position: absolute;
-        display: none;
+@import "~gmf/components/MdAnimation/variables";
+@import "~gmf/components/MdLayout/mixins";
 
-        .md-icon {
-          width: 0.18rem;
-          min-width: 0.18rem;
-          height: 0.18rem;
-          min-height: 0.18rem;
-          margin: 0;
-          font-size: 0.18rem;
-        }
+
+.md-pag-tabs {
+  .md-tabs-navigation {
+    >.md-button {
+      opacity: .8;
+      &.md-active {
+        opacity: 1;
+      }
+      >.md-ripple {
+        padding-right: 8px;
       }
       &:hover {
         .md-delete {
-          display: block;
+          transform: translate3d(0px, 0px, 0px);
+          opacity: 1;
+        }
+      }
+      .md-delete {
+        min-width: auto;
+        min-height: auto;
+        padding: 0px;
+        margin: 0px 0px 0px 5px;
+        width: auto;
+        height: auto;
+        transform: translate3d(220%, 0px, 0px);
+        opacity: 0;
+        .md-ripple {
+          padding: 0px;
+          margin: 0px;
+        }
+        .md-icon {
+          min-width: auto;
+          min-height: auto;
+          padding: 0px;
+          margin: 0px;
+          font-size: 18px;
+          height: 18px;
+          width: 18px;
         }
       }
     }
   }
-  .md-pag-container {
-    .md-pag {
-      display: none;
-      &.md-active {
-        display: block;
-      }
-    }
+}
+
+.md-pag-container {
+  display: none;
+  &.md-active {
+    display: block;
   }
 }

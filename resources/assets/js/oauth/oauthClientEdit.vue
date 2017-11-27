@@ -12,18 +12,18 @@
     </md-part-toolbar>
     <md-part-body>
       <md-content class="flex">
-        <md-input-container>
+        <md-field>
           <label>名称</label>
           <md-input required maxlength="10" v-model="model.main.name"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>回调地址</label>
           <md-input required v-model="model.main.redirect"></md-input>
-        </md-input-container>
-        <md-input-container>
+        </md-field>
+        <md-field>
           <label>备注</label>
           <md-textarea maxlength="70" v-model="model.main.memo"></md-textarea>
-        </md-input-container>
+        </md-field>
       </md-content>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
