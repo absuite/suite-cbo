@@ -118,5 +118,8 @@ export default {
 @import "~gmf/components/MdLayout/mixins";
 .suite-app-toolbar{
   width: 100%;
+  .md-pag-tabs{
+    padding-left: 0px;
+  }
 }
 </style>
