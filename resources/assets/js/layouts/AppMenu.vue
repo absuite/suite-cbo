@@ -11,42 +11,39 @@
         <md-icon>dashboard</md-icon>
         <span class="md-list-item-text">首页</span>
       </md-list-item>
-      <md-list-item @click="goNav('dashboard')">
+      <md-list-item @click="tipNav('cbo')" @mouseenter="showCategory('cbo')" @mouseleave="hideCategory">
         <md-icon>verified_user</md-icon>
         <span class="md-list-item-text">数据管理</span>
       </md-list-item>
-      <md-list-item @click="goNav('dashboard')">
+      <md-list-item @click="tipNav('amiba')" @mouseenter="showCategory('amiba')" @mouseleave="hideCategory">
         <md-icon>assessment</md-icon>
         <span class="md-list-item-text">阿米巴经营</span>
       </md-list-item>
-      <md-list-item @click="goNav('dashboard')">
+      <md-list-item @click="tipNav('bec')" @mouseenter="showCategory('bec')" @mouseleave="hideCategory">
         <md-icon>invert_colors</md-icon>
         <span class="md-list-item-text">经营环境</span>
       </md-list-item>
       <md-divider class="md-inset"></md-divider>
-      <md-list-item @click="goNav('dashboard')">
+      <md-list-item @click="tipNav('my')" @mouseenter="showCategory('my')" @mouseleave="hideCategory">
         <md-icon>account_circle</md-icon>
         <span class="md-list-item-text">我的</span>
       </md-list-item>
-      <md-list-item @click="goNav('dashboard')">
+      <md-list-item @click="tipNav('sys')" @mouseenter="showCategory('sys')" @mouseleave="hideCategory">
         <md-icon>settings</md-icon>
         <span class="md-list-item-text">系统运营</span>
       </md-list-item>
     </md-list>
-    <div class="suite-app-menu-extend">
-      <section v-for="item in extendMenu">
-        <div :id="'menu-id-'+item.name"></div>
-        <md-subheader>{{item.name}}</md-subheader>
-        <ul v-if="item.childs&&item.childs.length" class="nav">
-          <li v-for="sItem in item.childs" :class="{'has-child layout':sItem.childs&&sItem.childs.length}">
-            <a @click="goNav(sItem,$event)" :class="{'title':sItem.childs&&sItem.childs.length}">{{sItem.name}}</a>
-            <ul v-if="sItem.childs&&sItem.childs.length" class="nav">
-              <li v-for="ssItem in sItem.childs">
-                <a @click="goNav(ssItem,$event)">{{ssItem.name}}</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+    <div class="suite-app-menu-extend" @mouseenter="showCategory(currentCategory)" @mouseleave="hideCategory" v-show="currentCategory">
+      <section v-for="item in extendMenu" v-show="currentCategory==item.code" :key="item.id">
+        <md-toolbar>
+          <h3 class="md-title">{{item.name}}</h3>
+        </md-toolbar>
+        <md-list v-if="item.childs&&item.childs.length" v-for="sItem in item.childs" :key="sItem.id">
+          <md-subheader>{{sItem.name}}</md-subheader>
+          <md-list-item v-for="ssItem in sItem.childs" :key="ssItem.id" @click="goNav(ssItem,$event)">
+            <div class="md-list-item-text">{{ssItem.name}}</div>
+          </md-list-item>
+        </md-list>
       </section>
     </div>
   </div>
@@ -61,21 +58,33 @@ export default {
     return {
       rootMenu: [],
       extendMenu: [],
+      currentCategory: '',
+      categoryTimeout: false,
     };
   },
   methods: {
     toggleMenu() {
       this.$emit('toggle');
     },
+    showCategory(category) {
+      window.clearTimeout(this.categoryTimeout);
+      this.currentCategory = category;
+    },
+    hideCategory() {
+      window.clearTimeout(this.categoryTimeout);
+      this.categoryTimeout = this._.delay(() => { this.currentCategory = '' }, 100);
+    },
+    tipNav(){
+
+    },
     goNav(nav, event) {
       if (!nav) return;
-      return;
       if (typeof nav === 'string') {
         this.$router.push({ name: 'module', params: { module: nav } });
       } else if (nav && nav.uri) {
         this.$router.push({ name: 'module', params: { module: nav.uri } });
       }
-      this.$refs.mainSidenav.close();
+      this.toggleMenu();
     },
     loadData() {
       this.$http.get('sys/menus/all').then(response => {
@@ -100,7 +109,7 @@ export default {
   left: 100%;
   z-index: 60;
   background: #fff;
-
+  box-shadow: 0 0px 1px 0 rgba(0, 0, 0, .3);
   width: 200%;
   max-height: 100%;
   min-height: 100%;
@@ -111,6 +120,21 @@ export default {
   max-height: 100%;
   >.md-list {
     overflow-y: auto;
+  }
+  .suite-app-menu-extend {
+    .md-list {
+      flex-flow: row wrap;
+      .md-subheader {
+        width: 100%;
+        color: var(--md-theme-default-primary,#0f9d58);
+      }
+      .md-list-item {
+        margin: 0px;
+        .md-list-item-content{
+          min-height: 30px;
+        }
+      }
+    }
   }
 }
 </style>

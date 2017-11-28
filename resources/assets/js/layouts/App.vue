@@ -48,6 +48,10 @@ export default new MdComponent({
 @import "~gmf/components/MdLayout/mixins";
 .md-app {
   max-height: 100%;
+  min-height: 100%;
+  .md-part-body{
+    padding: 0px;
+  }
   .md-app-content {
     padding: 0px;
   }

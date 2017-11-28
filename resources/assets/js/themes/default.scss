@@ -1,0 +1,10 @@
+@import "~gmf/theme/engine";
+
+@include md-register-theme("default", (
+  primary:#0f9d58,
+  accent:md-get-palette-color(deeporange, 500),
+  text-primary-on-primary:#FFFFFF,
+));
+
+@import "./imports.scss";
+

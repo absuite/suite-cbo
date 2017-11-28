@@ -7,13 +7,7 @@
       </md-part-toolbar-group>
       <span class="flex"></span>
       <md-part-toolbar-group>
-        <md-layout md-gutter>
-          <md-layout>
-            <md-field class="md-inset">
-              <md-input :fetch="doFetch" placeholder="search" @keyup.enter.native="load()"></md-input>
-            </md-field>
-          </md-layout>
-        </md-layout>
+        <md-fetch :fetch="doFetch"></md-fetch>
       </md-part-toolbar-group>
       <md-part-toolbar-crumbs>
         <md-part-toolbar-crumb>客商分类</md-part-toolbar-crumb>
