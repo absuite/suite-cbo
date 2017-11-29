@@ -17,10 +17,7 @@
     </md-part-toolbar>
     <md-part-body>
       <md-content>
-        <md-field>
-          <label>分类</label>
-          <md-input-ref md-ref-id="suite.cbo.mfc.category.ref" v-model="model.main.category"/>
-        </md-field>
+        <md-ref-input md-label="分类" md-ref-id="suite.cbo.mfc.category.ref" v-model="model.main.category" />
         <md-field>
           <label>编码</label>
           <md-input required v-model="model.main.code"></md-input>
@@ -35,40 +32,39 @@
   </md-part>
 </template>
 <script>
-  import model from 'gmf/core/mixins/MdModel/MdModel';
-  export default {
-    data() {
-      return {
-      };
+import model from 'gmf/core/mixins/MdModel/MdModel';
+export default {
+  data() {
+    return {};
+  },
+  mixins: [model],
+  computed: {
+    canSave() {
+      return this.validate(true);
+    }
+  },
+  methods: {
+    validate(notToast) {
+      var validator = this.$validate(this.model.main, { 'code': 'required', 'name': 'required' });
+      var fail = validator.fails();
+      if (fail && !notToast) {
+        this.$toast(validator.errors.all());
+      }
+      return !fail;
     },
-    mixins: [model],
-    computed: {
-      canSave() {
-        return this.validate(true);
+    initModel() {
+      return {
+        main: { 'code': '', 'name': '', category: null }
       }
     },
-    methods: {
-      validate(notToast){
-        var validator=this.$validate(this.model.main,{'code':'required','name':'required'});
-        var fail=validator.fails();
-        if(fail&&!notToast){
-          this.$toast(validator.errors.all());
-        }
-        return !fail;
-      },
-      initModel(){
-        return {
-          main:{'code':'','name':'',category:null}
-        }
-      },
-      list() {
-        this.$router.push({ name: 'module', params: { module: 'cbo.mfc.list' }});
-      },
+    list() {
+      this.$router.push({ name: 'module', params: { module: 'cbo.mfc.list' } });
     },
-    created() {
-      this.model.entity='suite.cbo.mfc';
-      this.model.order="code";
-      this.route='cbo/mfcs';
-    },
-  };
+  },
+  created() {
+    this.model.entity = 'suite.cbo.mfc';
+    this.model.order = "code";
+    this.route = 'cbo/mfcs';
+  },
+};
 </script>

@@ -25,10 +25,7 @@
           <label>名称</label>
           <md-input required v-model="model.main.name"></md-input>
         </md-field>
-        <md-field>
-          <label>负责人</label>
-          <md-input-ref md-ref-id="suite.cbo.person.ref" v-model="model.main.manager"></md-input-ref>
-        </md-field>
+        <md-ref-input md-label="负责人" md-ref-id="suite.cbo.person.ref" v-model="model.main.manager"></md-ref-input>
         <md-field>
           <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
         </md-field>
@@ -38,40 +35,39 @@
   </md-part>
 </template>
 <script>
-  import model from 'gmf/core/mixins/MdModel/MdModel';
-  export default {
-    data() {
-      return {
-      };
+import model from 'gmf/core/mixins/MdModel/MdModel';
+export default {
+  data() {
+    return {};
+  },
+  mixins: [model],
+  computed: {
+    canSave() {
+      return this.validate(true);
+    }
+  },
+  methods: {
+    validate(notToast) {
+      var validator = this.$validate(this.model.main, { 'code': 'required', 'name': 'required' });
+      var fail = validator.fails();
+      if (fail && !notToast) {
+        this.$toast(validator.errors.all());
+      }
+      return !fail;
     },
-    mixins: [model],
-    computed: {
-      canSave() {
-        return this.validate(true);
+    initModel() {
+      return {
+        main: { 'code': '', 'name': '', 'memo': '', is_effective: true }
       }
     },
-    methods: {
-      validate(notToast){
-        var validator=this.$validate(this.model.main,{'code':'required','name':'required'});
-        var fail=validator.fails();
-        if(fail&&!notToast){
-          this.$toast(validator.errors.all());
-        }
-        return !fail;
-      },
-      initModel(){
-        return {
-          main:{'code':'','name':'','memo':'',is_effective:true}
-        }
-      },
-      list() {
-        this.$router.push({ name: 'module', params: { module: 'cbo.org.list' }});
-      },
+    list() {
+      this.$router.push({ name: 'module', params: { module: 'cbo.org.list' } });
     },
-    created() {
-      this.model.entity='suite.cbo.org';
-      this.model.order="code";
-      this.route='cbo/orgs';
-    },
-  };
+  },
+  created() {
+    this.model.entity = 'suite.cbo.org';
+    this.model.order = "code";
+    this.route = 'cbo/orgs';
+  },
+};
 </script>

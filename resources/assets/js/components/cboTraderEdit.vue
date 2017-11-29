@@ -17,7 +17,6 @@
     </md-part-toolbar>
     <md-part-body>
       <md-content>
-        
         <md-field>
           <label>编码</label>
           <md-input required v-model="model.main.code"></md-input>
@@ -30,26 +29,11 @@
           <label>名称</label>
           <md-input required v-model="model.main.name"></md-input>
         </md-field>
-        <md-field>
-          <label>分类</label>
-          <md-input-ref md-ref-id="suite.cbo.trader.category.ref" v-model="model.main.category"/>
-        </md-field>
-        <md-field>
-          <label>国家</label>
-          <md-input-ref md-ref-id="suite.cbo.country.ref" v-model="model.main.country"/>
-        </md-field>
-        <md-field>
-          <label>省份</label>
-          <md-input-ref md-ref-id="suite.cbo.province.ref" v-model="model.main.province"/>
-        </md-field>
-        <md-field>
-          <label>城市区县</label>
-          <md-input-ref md-ref-id="suite.cbo.division.ref" v-model="model.main.division"/>
-        </md-field>
-        <md-field>
-          <label>区域</label>
-          <md-input-ref md-ref-id="suite.cbo.area.ref" v-model="model.main.area"/>
-        </md-field>
+        <md-ref-input md-label="分类" md-ref-id="suite.cbo.trader.category.ref" v-model="model.main.category" />
+        <md-ref-input md-label="国家" md-ref-id="suite.cbo.country.ref" v-model="model.main.country" />
+        <md-ref-input md-label="省份" md-ref-id="suite.cbo.province.ref" v-model="model.main.province" />
+        <md-ref-input md-label="城市区县" md-ref-id="suite.cbo.division.ref" v-model="model.main.division" />
+        <md-ref-input md-label="区域" md-ref-id="suite.cbo.area.ref" v-model="model.main.area" />
         <md-field>
           <label>类型</label>
           <md-enum md-enum-id="suite.cbo.trader.type.enum" v-model="model.main.type_enum"></md-enum>
@@ -67,48 +51,47 @@
   </md-part>
 </template>
 <script>
-  import model from 'gmf/core/mixins/MdModel/MdModel';
-  export default {
-    data() {
-      return {
-      };
+import model from 'gmf/core/mixins/MdModel/MdModel';
+export default {
+  data() {
+    return {};
+  },
+  mixins: [model],
+  computed: {
+    canSave() {
+      return this.validate(true);
+    }
+  },
+  methods: {
+    validate(notToast) {
+      var validator = this.$validate(this.model.main, { 'code': 'required', 'name': 'required' });
+      var fail = validator.fails();
+      if (fail && !notToast) {
+        this.$toast(validator.errors.all());
+      }
+      return !fail;
     },
-    mixins: [model],
-    computed: {
-      canSave() {
-        return this.validate(true);
+    initModel() {
+      return {
+        main: {
+          'code': '',
+          'name': '',
+          category: null,
+          is_effective: true,
+          division: null,
+          province: null,
+          country: this.$root.userConfig.country
+        }
       }
     },
-    methods: {
-      validate(notToast){
-        var validator=this.$validate(this.model.main,{'code':'required','name':'required'});
-        var fail=validator.fails();
-        if(fail&&!notToast){
-          this.$toast(validator.errors.all());
-        }
-        return !fail;
-      },
-      initModel(){
-        return {
-          main:{
-            'code':'',
-            'name':'',
-            category:null,
-            is_effective:true,
-            division:null,
-            province:null,
-            country:this.$root.userConfig.country
-          }
-        }
-      },
-      list() {
-        this.$router.push({ name: 'module', params: { module: 'cbo.trader.list' }});
-      },
+    list() {
+      this.$router.push({ name: 'module', params: { module: 'cbo.trader.list' } });
     },
-    created() {
-      this.model.entity='suite.cbo.trader';
-      this.model.order="code";
-      this.route='cbo/traders';
-    },
-  };
+  },
+  created() {
+    this.model.entity = 'suite.cbo.trader';
+    this.model.order = "code";
+    this.route = 'cbo/traders';
+  },
+};
 </script>

@@ -17,7 +17,6 @@
     </md-part-toolbar>
     <md-part-body>
       <md-content>
-
         <md-field>
           <label>编码</label>
           <md-input required v-model="model.main.code"></md-input>
@@ -26,69 +25,60 @@
           <label>名称</label>
           <md-input required v-model="model.main.name"></md-input>
         </md-field>
-        <md-field>
-          <label>组织</label>
-          <md-input-ref required md-ref-id="suite.cbo.org.ref" v-model="model.main.org"></md-input-ref>
-        </md-field>
-        <md-field>
-          <label>部门</label>
-          <md-input-ref required @init="initDeptRef" md-ref-id="suite.cbo.dept.ref" v-model="model.main.dept"></md-input-ref>
-        </md-field>
-        <md-field>
-          <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
-        </md-field>
+        <md-ref-input md-label="组织" required md-ref-id="suite.cbo.org.ref" v-model="model.main.org"></md-ref-input>
+        <md-ref-input md-label="部门" required @init="initDeptRef" md-ref-id="suite.cbo.dept.ref" v-model="model.main.dept"></md-ref-input>
+        <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
       </md-content>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
   </md-part>
 </template>
 <script>
-  import model from 'gmf/core/mixins/MdModel/MdModel';
-  export default {
-    data() {
-      return {
-      };
+import model from 'gmf/core/mixins/MdModel/MdModel';
+export default {
+  data() {
+    return {};
+  },
+  mixins: [model],
+  computed: {
+    canSave() {
+      return this.validate(true);
+    }
+  },
+  methods: {
+    validate(notToast) {
+      var validator = this.$validate(this.model.main, {
+        'code': 'required',
+        'name': 'required',
+        'org': 'required',
+        'dept': 'required',
+      });
+      var fail = validator.fails();
+      if (fail && !notToast) {
+        this.$toast(validator.errors.all());
+      }
+      return !fail;
     },
-    mixins: [model],
-    computed: {
-      canSave() {
-        return this.validate(true);
+    initModel() {
+      return {
+        main: { 'code': '', 'name': '', 'memo': '', 'org': null, 'dept': null, is_effective: true }
       }
     },
-    methods: {
-      validate(notToast){
-        var validator=this.$validate(this.model.main,{
-          'code':'required',
-          'name':'required',
-          'org':'required',
-          'dept':'required',
-        });
-        var fail=validator.fails();
-        if(fail&&!notToast){
-          this.$toast(validator.errors.all());
-        }
-        return !fail;
-      },
-      initModel(){
-        return {
-          main:{'code':'','name':'','memo':'','org':null,'dept':null,is_effective:true}
-        }
-      },
-      list() {
-        this.$router.push({ name: 'module', params: { module: 'cbo.work.list' }});
-      },
-      initDeptRef(options){
-        if(this.model.main.org){
-          options.wheres.org={name:'org_id',value:this.model.main.org.id};
-        }else{
-          options.wheres.org=false;
-        }
-      },
+    list() {
+      this.$router.push({ name: 'module', params: { module: 'cbo.work.list' } });
     },
-    created() {
-      this.model.entity='suite.cbo.work';
-      this.model.order="code";
-      this.route='cbo/works';
+    initDeptRef(options) {
+      if (this.model.main.org) {
+        options.wheres.org = { name: 'org_id', value: this.model.main.org.id };
+      } else {
+        options.wheres.org = false;
+      }
     },
-  };
+  },
+  created() {
+    this.model.entity = 'suite.cbo.work';
+    this.model.order = "code";
+    this.route = 'cbo/works';
+  },
+};
 </script>

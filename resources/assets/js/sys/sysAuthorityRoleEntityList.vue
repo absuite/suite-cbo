@@ -11,13 +11,13 @@
           <md-layout md-flex-small="33" md-flex-medium="15" md-flex-large="15">
             <md-field class="md-inset">
               <label>角色</label>
-              <md-input-ref md-ref-id="gmf.sys.authority.role.ref" v-model="model.role"></md-input-ref>
+              <md-ref-input md-ref-id="gmf.sys.authority.role.ref" v-model="model.role"></md-ref-input>
             </md-field>
           </md-layout>
           <md-layout md-flex-small="33" md-flex-medium="15" md-flex-large="15">
             <md-field class="md-inset">
               <label>实体</label>
-              <md-input-ref md-ref-id="gmf.sys.entity.ref" v-model="model.entity"></md-input-ref>
+              <md-ref-input md-ref-id="gmf.sys.entity.ref" v-model="model.entity"></md-ref-input>
             </md-field>
           </md-layout>
           <md-layout>

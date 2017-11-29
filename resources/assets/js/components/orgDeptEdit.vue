@@ -25,21 +25,13 @@
           <label>名称</label>
           <md-input required v-model="model.main.name"></md-input>
         </md-field>
-        <md-field>
-          <label>组织</label>
-          <md-input-ref required md-ref-id="suite.cbo.org.ref" v-model="model.main.org"></md-input-ref>
-        </md-field>
+        <md-ref-input md-label="组织" required md-ref-id="suite.cbo.org.ref" v-model="model.main.org"></md-ref-input>
         <md-field>
           <label>部门属性</label>
           <md-enum required md-enum-id="suite.cbo.dept.type.enum" v-model="model.main.type_enum"></md-enum>
         </md-field>
-        <md-field>
-          <label>负责人</label>
-          <md-input-ref md-ref-id="suite.cbo.person.ref" v-model="model.main.manager"></md-input-ref>
-        </md-field>
-        <md-field>
-          <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
-        </md-field>
+        <md-ref-input md-label="负责人" md-ref-id="suite.cbo.person.ref" v-model="model.main.manager"></md-ref-input>
+        <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
       </md-content>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>

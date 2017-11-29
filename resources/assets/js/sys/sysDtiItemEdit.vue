@@ -20,11 +20,11 @@
       <md-content>
         <md-field>
           <label>接口</label>
-          <md-input-ref md-ref-id="gmf.sys.dti.local.ref" v-model="model.main.local" />
+          <md-ref-input md-ref-id="gmf.sys.dti.local.ref" v-model="model.main.local" />
         </md-field>
         <md-field>
           <label>分类</label>
-          <md-input-ref md-ref-id="gmf.sys.dti.category.ref" v-model="model.main.category" />
+          <md-ref-input md-ref-id="gmf.sys.dti.category.ref" v-model="model.main.category" />
         </md-field>
         <md-field>
           <label>编码</label>
