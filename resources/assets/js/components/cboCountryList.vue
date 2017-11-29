@@ -9,10 +9,6 @@
       <md-part-toolbar-group>
         <md-fetch :fetch="doFetch"></md-fetch>
       </md-part-toolbar-group>
-      <md-part-toolbar-crumbs>
-        <md-part-toolbar-crumb>国家/地区</md-part-toolbar-crumb>
-        <md-part-toolbar-crumb>列表</md-part-toolbar-crumb>
-      </md-part-toolbar-crumbs>
     </md-part-toolbar>
     <md-part-body>
       <md-query @select="select" @dblclick="edit" @init="initQuery" ref="list" md-query-id="suite.cbo.country.list"></md-query>

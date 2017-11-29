@@ -9,10 +9,6 @@
       <md-part-toolbar-group>
         <md-fetch :fetch="doFetch"></md-fetch>
       </md-part-toolbar-group>
-      <md-part-toolbar-crumbs>
-        <md-part-toolbar-crumb>客商分类</md-part-toolbar-crumb>
-        <md-part-toolbar-crumb>编辑</md-part-toolbar-crumb>
-      </md-part-toolbar-crumbs>
     </md-part-toolbar>
     <md-part-body>
       <md-query @select="select" @dblclick="edit" @init="initQuery" ref="list" md-query-id="suite.cbo.trader.category.list"></md-query>
