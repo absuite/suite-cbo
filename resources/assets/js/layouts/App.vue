@@ -49,11 +49,11 @@ export default new MdComponent({
 .md-app {
   max-height: 100%;
   min-height: 100%;
-  .md-part-body{
-    padding: 0px;
-  }
   .md-app-content {
     padding: 0px;
+    &.md-content {
+      background-color: transparent;
+    }
   }
   .md-logo {
     margin: 0;
@@ -71,6 +71,24 @@ export default new MdComponent({
       @include md-layout-small {
         display: none;
       }
+    }
+  }
+  .md-part {
+    .md-part-toolbar {
+      background-color: transparent;
+      .md-toolbar.md-dense {
+        min-height: 40px;
+        background-color: #fff;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+    }
+    .md-part-body {
+      padding: 10px;
+      margin: 10px auto;
+      width: auto;
+      max-width: 1200px;
+      width: 100%;
     }
   }
 }
