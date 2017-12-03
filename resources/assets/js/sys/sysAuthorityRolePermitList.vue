@@ -9,16 +9,10 @@
       <md-part-toolbar-group class="flex">
         <md-layout md-gutter md-align="end">
           <md-layout md-flex-small="33" md-flex-medium="15" md-flex-large="15">
-            <md-field class="md-inset">
-              <label>角色</label>
-              <md-ref-input md-ref-id="gmf.sys.authority.role.ref" v-model="model.role"></md-ref-input>
-            </md-field>
+            <md-ref-input md-label="角色" md-ref-id="gmf.sys.authority.role.ref" v-model="model.role"></md-ref-input>
           </md-layout>
           <md-layout md-flex-small="33" md-flex-medium="15" md-flex-large="15">
-            <md-field class="md-inset">
-              <label>权限</label>
-              <md-ref-input md-ref-id="gmf.sys.authority.permit.ref" v-model="model.permit"></md-ref-input>
-            </md-field>
+            <md-ref-input md-label="权限" md-ref-id="gmf.sys.authority.permit.ref" v-model="model.permit"></md-ref-input>
           </md-layout>
           <md-layout>
             <md-button @click.native="loadData">查询</md-button>
@@ -26,7 +20,7 @@
         </md-layout>
       </md-part-toolbar-group>
     </md-part-toolbar>
-    <md-part-body>
+    <md-part-body class="no-padding">
       <md-query @select="select" @dblclick="edit" @init="initQuery" ref="list" md-query-id="gmf.sys.authority.role.permit.list"></md-query>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
@@ -38,7 +32,7 @@ export default {
     return {
       selectRows: [],
       loading: 0,
-      model: { role: null, permit:null}
+      model: { role: null, permit: null }
     };
   },
   watch: {
@@ -54,11 +48,11 @@ export default {
       this.$router.push({ name: 'module', params: { module: 'sys.authority.role.permit.edit' } });
     },
     edit(item) {
-      
+
     },
     initQuery(options) {
-      options.wheres.role=this.model.role;
-      options.wheres.permit=this.model.permit;
+      options.wheres.role = this.model.role;
+      options.wheres.permit = this.model.permit;
     },
     remove() {
       if (!this.selectRows || !this.selectRows.length) {

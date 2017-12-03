@@ -10,22 +10,11 @@
         <md-button @click.native="list">列表</md-button>
       </md-part-toolbar-group>
       <span class="flex"></span>
-      <md-part-toolbar-crumbs>
-        <md-part-toolbar-crumb>接口</md-part-toolbar-crumb>
-        <md-part-toolbar-crumb>接口定义</md-part-toolbar-crumb>
-        <md-part-toolbar-crumb>编辑</md-part-toolbar-crumb>
-      </md-part-toolbar-crumbs>
     </md-part-toolbar>
     <md-part-body>
       <md-content>
-        <md-field>
-          <label>接口</label>
-          <md-ref-input md-ref-id="gmf.sys.dti.local.ref" v-model="model.main.local" />
-        </md-field>
-        <md-field>
-          <label>分类</label>
-          <md-ref-input md-ref-id="gmf.sys.dti.category.ref" v-model="model.main.category" />
-        </md-field>
+        <md-ref-input md-label="接口" md-ref-id="gmf.sys.dti.local.ref" v-model="model.main.local" />
+        <md-ref-input md-label="分类" md-ref-id="gmf.sys.dti.category.ref" v-model="model.main.category" />
         <md-field>
           <label>编码</label>
           <md-input required v-model="model.main.code"></md-input>

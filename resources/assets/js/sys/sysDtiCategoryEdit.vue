@@ -10,11 +10,6 @@
         <md-button @click.native="list">列表</md-button>
       </md-part-toolbar-group>
       <span class="flex"></span>
-      <md-part-toolbar-crumbs>
-        <md-part-toolbar-crumb>接口</md-part-toolbar-crumb>
-        <md-part-toolbar-crumb>分类</md-part-toolbar-crumb>
-        <md-part-toolbar-crumb>编辑</md-part-toolbar-crumb>
-      </md-part-toolbar-crumbs>
     </md-part-toolbar>
     <md-part-body>
       <md-content>

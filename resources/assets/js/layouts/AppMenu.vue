@@ -33,17 +33,19 @@
         <span class="md-list-item-text">系统运营</span>
       </md-list-item>
     </md-list>
-    <div class="suite-app-menu-extend" @mouseenter="showCategory(currentCategory)" @mouseleave="hideCategory" v-show="currentCategory">
-      <section v-for="item in extendMenu" v-show="currentCategory==item.code" :key="item.id">
+    <div class="suite-app-menu-extend layout layout-column" @mouseenter="showCategory(currentCategory)" @mouseleave="hideCategory" v-show="currentCategory">
+      <section class="layout layout-column" v-for="item in extendMenu" v-show="currentCategory==item.code" :key="item.id">
         <md-toolbar>
           <h3 class="md-title">{{item.name}}</h3>
         </md-toolbar>
-        <md-list v-if="item.childs&&item.childs.length" v-for="sItem in item.childs" :key="sItem.id">
-          <md-subheader>{{sItem.name}}</md-subheader>
-          <md-list-item v-for="ssItem in sItem.childs" :key="ssItem.id" @click="goNav(ssItem,$event)">
-            <div class="md-list-item-text">{{ssItem.name}}</div>
-          </md-list-item>
-        </md-list>
+        <div class="extend-body layout layout-column flex">
+          <md-list v-if="item.childs&&item.childs.length" v-for="sItem in item.childs" :key="sItem.id">
+            <md-subheader>{{sItem.name}}</md-subheader>
+            <md-list-item v-for="ssItem in sItem.childs" :key="ssItem.id" @click="goNav(ssItem,$event)">
+              <div class="md-list-item-text">{{ssItem.name}}</div>
+            </md-list-item>
+          </md-list>
+        </div>
       </section>
     </div>
   </div>
@@ -54,11 +56,17 @@ export default {
     mdToken: String,
     mdTitle: String
   },
+  watch: {
+    "$root.userData.entId": function(v, o) {
+      this.loadData();
+    }
+  },
   data() {
     return {
       rootMenu: [],
       extendMenu: [],
       currentCategory: '',
+      currentTip: '',
       categoryTimeout: false,
     };
   },
@@ -74,8 +82,8 @@ export default {
       window.clearTimeout(this.categoryTimeout);
       this.categoryTimeout = this._.delay(() => { this.currentCategory = '' }, 100);
     },
-    tipNav(){
-
+    tipNav(nav) {
+      this.currentTip = nav;
     },
     goNav(nav, event) {
       if (!nav) return;
@@ -104,7 +112,7 @@ export default {
 @import "~gmf/components/MdLayout/mixins";
 .suite-app-menu-extend {
   position: fixed;
-  overflow: auto;
+  overflow: hidden;
   top: 0px;
   left: 100%;
   z-index: 60;
@@ -122,15 +130,23 @@ export default {
     overflow-y: auto;
   }
   .suite-app-menu-extend {
+    >section {
+      width: 100%;
+      .extend-body {
+        overflow: auto;
+        width: 100%;
+      }
+    }
     .md-list {
       flex-flow: row wrap;
+      flex: none;
       .md-subheader {
         width: 100%;
-        color: var(--md-theme-default-primary,#0f9d58);
+        color: var(--md-theme-default-primary, #0f9d58);
       }
       .md-list-item {
         margin: 0px;
-        .md-list-item-content{
+        .md-list-item-content {
           min-height: 30px;
         }
       }

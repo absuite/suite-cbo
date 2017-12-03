@@ -6,7 +6,7 @@
         <md-button @click.native="remove" :disabled="!(selectRows&&selectRows.length)">删除</md-button>
       </md-part-toolbar-group>
     </md-part-toolbar>
-    <md-part-body>
+    <md-part-body class="no-padding">
       <md-query @select="select" @dblclick="edit" ref="list" md-query-id="gmf.sys.profile.list"></md-query>
     </md-part-body>
     <md-loading :loading="loading"></md-loading>

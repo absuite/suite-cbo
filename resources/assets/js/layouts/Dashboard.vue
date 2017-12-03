@@ -2,7 +2,7 @@
   <md-layout md-gutter md-column>
     <md-layout md-gutter md-row>
       <md-layout md-flex-small="100" md-flex="66">
-        <md-card>
+        <md-card class="flex">
           <md-card-media>
             <md-chart class="myChart" ref="groupTrend"></md-chart>
           </md-card-media>
@@ -19,57 +19,65 @@
         </md-card>
       </md-layout>
       <md-layout md-flex-small="100" md-flex="33">
-        <md-card>
-          <md-tabs md-fixed :md-dynamic-height="false" style="min-height:4rem" class="md-accent layout-fill">
+        <md-card class="flex">
+          <md-tabs md-fixed class="md-accent layout-fill">
             <md-tab md-label="资讯">
-              <md-list class="custom-list md-triple-line">
-                <md-list-item v-for="item in model.news" :key="item.id">
-                  <div class="md-list-text-container">
-                    <span>{{ item.title }}</span>
-                    <p>{{ item.summary }}</p>
-                  </div>
-                  <md-button class="md-icon-button md-list-action">
-                    <md-icon class="md-primary">star</md-icon>
-                  </md-button>
+              <md-list class="md-double-line">
+                <template v-for="item in model.news">
+                  <md-list-item>
+                    <div class="md-list-item-text">
+                      <span>{{ item.title }}</span>
+                      <p>{{ item.summary }}</p>
+                    </div>
+                    <md-button class="md-icon-button md-list-action">
+                      <md-icon class="md-primary">star</md-icon>
+                    </md-button>
+                  </md-list-item>
                   <md-divider></md-divider>
-                </md-list-item>
+                </template>
               </md-list>
             </md-tab>
             <md-tab md-label="法规">
-              <md-list class="custom-list md-triple-line">
-                <md-list-item v-for="item in model.statutes" :key="item.id">
-                  <div class="md-list-text-container">
-                    <span>{{ item.title }}</span>
-                    <p>{{ item.summary }}</p>
-                  </div>
-                  <md-button class="md-icon-button md-list-action">
-                    <md-icon class="md-primary">star</md-icon>
-                  </md-button>
+              <md-list class="md-double-line">
+                <template v-for="item in model.statutes">
+                  <md-list-item>
+                    <div class="md-list-item-text">
+                      <span>{{ item.title }}</span>
+                      <p>{{ item.summary }}</p>
+                    </div>
+                    <md-button class="md-icon-button md-list-action">
+                      <md-icon class="md-primary">star</md-icon>
+                    </md-button>
+                  </md-list-item>
                   <md-divider></md-divider>
-                </md-list-item>
+                </template>
               </md-list>
             </md-tab>
             <md-tab md-label="知识">
-              <md-list class="custom-list md-triple-line">
-                <md-list-item v-for="item in model.knowledges" :key="item.id">
-                  <div class="md-list-text-container">
-                    <span>{{ item.title }}</span>
-                    <p>{{ item.summary }}</p>
-                  </div>
-                  <md-button class="md-icon-button md-list-action">
-                    <md-icon class="md-primary">star</md-icon>
-                  </md-button>
+              <md-list class="md-double-line">
+                <template v-for="item in model.knowledges">
+                  <md-list-item>
+                    <div class="md-list-item-text">
+                      <span>{{ item.title }}</span>
+                      <p>{{ item.summary }}</p>
+                    </div>
+                    <md-button class="md-icon-button md-list-action">
+                      <md-icon class="md-primary">star</md-icon>
+                    </md-button>
+                  </md-list-item>
                   <md-divider></md-divider>
-                </md-list-item>
+                </template>
               </md-list>
             </md-tab>
             <md-tab md-label="行情">
               <md-list class="md-dense">
-                <md-list-item v-for="item in model.prices" :key="item.id">
-                  <span>{{ item.title }}</span>
-                  <span>{{ item.price }}</span>
+                <template v-for="item in model.prices">
+                  <md-list-item>
+                    <span>{{ item.title }}</span>
+                    <span>{{ item.price }}</span>
+                  </md-list-item>
                   <md-divider></md-divider>
-                </md-list-item>
+                </template>
               </md-list>
             </md-tab>
           </md-tabs>
@@ -80,7 +88,7 @@
 </template>
 <style scoped>
 .md-card {
-  margin: 0.15rem;
+  margin: 15px;
 }
 
 @media (max-width: 600px) {

@@ -6,20 +6,10 @@
       </md-part-toolbar-group>
       <span class="flex"></span>
       <md-part-toolbar-group>
-        <md-layout md-gutter>
-          <md-layout>
-            <md-field class="md-inset">
-              <md-input :fetch="doFetch" placeholder="search" @keyup.enter.native="load()"></md-input>
-            </md-field>
-          </md-layout>
-        </md-layout>
+        <md-fetch :fetch="doFetch"></md-fetch>
       </md-part-toolbar-group>
-      <md-part-toolbar-crumbs>
-        <md-part-toolbar-crumb>企业</md-part-toolbar-crumb>
-        <md-part-toolbar-crumb>列表</md-part-toolbar-crumb>
-      </md-part-toolbar-crumbs>
     </md-part-toolbar>
-    <md-part-body>
+    <md-part-body class="no-padding">
       <md-query @select="select" @dblclick="edit" @init="initQuery" ref="list" md-query-id="gmf.sys.ent.list"></md-query>
     </md-part-body>
     <md-loading :loading="loading"></md-loading>

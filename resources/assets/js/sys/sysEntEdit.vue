@@ -13,10 +13,6 @@
         <md-button @click.native="seedDatas">导入演示数据</md-button>
       </md-part-toolbar-group>
       <span class="flex"></span>
-      <md-part-toolbar-crumbs>
-        <md-part-toolbar-crumb>企业</md-part-toolbar-crumb>
-        <md-part-toolbar-crumb>编辑</md-part-toolbar-crumb>
-      </md-part-toolbar-crumbs>
     </md-part-toolbar>
     <md-part-body>
       <md-content>

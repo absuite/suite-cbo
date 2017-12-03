@@ -6,21 +6,10 @@
       </md-part-toolbar-group>
       <span class="flex"></span>
       <md-part-toolbar-group>
-        <md-layout md-gutter>
-          <md-layout>
-            <md-field class="md-inset">
-              <md-input :fetch="doFetch" placeholder="search" @keyup.enter.native="load()"></md-input>
-            </md-field>
-          </md-layout>
-        </md-layout>
+        <md-fetch :fetch="doFetch"></md-fetch>
       </md-part-toolbar-group>
-      <md-part-toolbar-crumbs>
-        <md-part-toolbar-crumb>接口</md-part-toolbar-crumb>
-        <md-part-toolbar-crumb>日志</md-part-toolbar-crumb>
-        <md-part-toolbar-crumb>列表</md-part-toolbar-crumb>
-      </md-part-toolbar-crumbs>
     </md-part-toolbar>
-    <md-part-body>
+    <md-part-body class="no-padding">
       <md-query @select="select" ref="list" @init="initQuery" md-query-id="gmf.sys.dti.log.list"></md-query>
     </md-part-body>
     <md-loading :loading="loading"></md-loading>
