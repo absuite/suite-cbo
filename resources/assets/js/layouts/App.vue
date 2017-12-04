@@ -51,8 +51,8 @@ export default new MdComponent({
       this.siderVisible = !this.siderVisible;
     },
     onChangeEnt() {
-      this.menuVisible=false;
-      this.siderVisible=false;
+      this.menuVisible = false;
+      this.siderVisible = false;
       this.$http.get('/getconfig').then(response => {
         if (!response.data.data) return;
         this.$set(this.$root, 'userConfig', response.data.data);
@@ -89,7 +89,11 @@ export default new MdComponent({
     &.md-active {
       overflow: visible;
     }
+    @include md-layout-xsmall {
+      width: 170px;
+    }
   }
+
   .md-app-toolbar {
     .search {
       margin-right: 12px;
@@ -106,16 +110,28 @@ export default new MdComponent({
     &.md-full {
       max-width: 100%;
     }
-    .md-part-toolbar.md-toolbar.md-dense {
-      background-color: #fff;
-      margin: 0 auto;
-      min-height: 40px;
-      width: 100%;
+    .md-part-toolbar {
+      &.md-toolbar.md-dense {
+        background-color: #fff;
+        margin: 0 auto;
+        min-height: 40px;
+        width: 100%;
+      }
+      .md-part-toolbar-pager {
+        @include md-layout-small {
+          display: none;
+        }
+      }
     }
     .md-part-body {
       padding: 10px;
       margin: 10px auto;
       width: 100%;
+
+      @include md-layout-xsmall {
+        margin: 0;
+        padding: 4px;
+      }
     }
   }
   .md-form {
