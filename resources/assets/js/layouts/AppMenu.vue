@@ -4,7 +4,10 @@
       <md-button class="md-icon-button" @click.native="toggleMenu()">
         <md-icon>arrow_back</md-icon>
       </md-button>
-      <h2 class="md-title"><img src="/img/logo.png"/></h2>
+      <span class="flex"></span>
+      <md-button class="md-logo">
+        <cbo-logo animated></cbo-logo>
+      </md-button>
     </md-toolbar>
     <md-list>
       <md-list-item @click="goNav('dashboard')">
@@ -131,6 +134,20 @@ export default {
   max-height: 100%;
   >.md-list {
     overflow-y: auto;
+  }
+  .md-logo{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height:48px;
+    padding: 0px;
+    @include md-layout-xsmall {
+      display:none;
+    }
+    svg{
+      height:48px;
+      width: 120px;
+    }
   }
   .suite-app-menu-extend {
     >section {

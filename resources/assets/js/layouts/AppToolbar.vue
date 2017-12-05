@@ -2,9 +2,12 @@
   <div class="suite-app-toolbar">
     <div class="md-toolbar-row layout-align-space-between-center">
       <div class="md-toolbar-section-start">
-        <h2 class="md-logo md-title">
-            <img src="/img/logo.png"/>
-          </h2>
+        <md-button class="md-icon-button" @click.native="toggleMenu()">
+          <md-icon>menu</md-icon>
+        </md-button>
+        <md-button class="md-logo">
+          <cbo-logo animated></cbo-logo>
+        </md-button>
       </div>
       <div class="flex search">
         <md-autocomplete v-model="search_q" :md-options="search_options" md-layout="box">
@@ -21,9 +24,7 @@
     </div>
     <div class="md-toolbar-row">
       <div class="md-toolbar-section-start">
-        <md-button class="md-icon-button" @click.native="toggleMenu()">
-          <md-icon>menu</md-icon>
-        </md-button>
+        
       </div>
       <div class="md-pag-tabs">
         <md-button v-for="tab in navTabs" class="md-pag-item" :class="{'md-active': tab.active}" :key="tab.id" @click="toPageTab(tab)">
@@ -46,23 +47,23 @@ export default {
   },
   mixins: [PageTabMixin],
   watch: {
-    
+
   },
   data() {
     return {
       search_q: '',
       search_options: [],
-      showSidepanel:false
+      showSidepanel: false
     };
   },
   methods: {
     toggleMenu() {
       this.$emit('toggleMenu');
     },
-    toggleSider(){
+    toggleSider() {
       this.$emit('toggleSider');
     },
-    
+
   }
 };
 </script>
@@ -71,6 +72,20 @@ export default {
 @import "~gmf/components/MdLayout/mixins";
 .suite-app-toolbar {
   width: 100%;
+  >.md-toolbar-row:first-child{
+    height: 56px;
+  }
+  .md-logo{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+    padding: 0px;
+    svg{
+      height: 56px;
+      width: 130px;
+    }
+  }
   .md-pag-tabs {
     padding-left: 0px;
     .md-pag-item {
@@ -81,7 +96,7 @@ export default {
       overflow: hidden;
       padding-left: 2px;
       padding-right: 5px;
-      .md-ripple{
+      .md-ripple {
         padding: 0px;
       }
       &.md-active {
@@ -91,8 +106,8 @@ export default {
       .md-delete {
         margin: 0px;
         padding: 0px;
-        width:18px;
-        height:18px;
+        width: 18px;
+        height: 18px;
         min-width: auto;
         min-height: auto;
         transform: translate3d(120%, 0px, 0px);

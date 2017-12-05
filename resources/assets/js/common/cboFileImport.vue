@@ -25,7 +25,7 @@
 <script>
 import common from 'gmf/core/utils/common';
 export default {
-  name: 'md-file-import',
+  name: 'cboFileImport',
   props: {
     value: [String, Object, Array],
     id: String,
