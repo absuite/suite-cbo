@@ -5,9 +5,9 @@
         <md-icon>arrow_back</md-icon>
       </md-button>
       <span class="flex"></span>
-      <md-button class="md-logo">
+      <div class="md-logo">
         <cbo-logo animated></cbo-logo>
-      </md-button>
+      </div>
     </md-toolbar>
     <md-list>
       <md-list-item @click="goNav('dashboard')">
@@ -141,12 +141,16 @@ export default {
     align-items: center;
     height:48px;
     padding: 0px;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    z-index: 11;
     @include md-layout-xsmall {
       display:none;
     }
     svg{
-      height:48px;
-      width: 120px;
+      height: 48px;
+      width: 150px;
     }
   }
   .suite-app-menu-extend {

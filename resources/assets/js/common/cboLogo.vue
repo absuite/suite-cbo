@@ -1,8 +1,6 @@
 <template>
   <md-svg-loader class="cbo-logo" :class="{ blending }" md-src="/assets/logo.svg" @md-loaded="svgLoaded" />
 </template>
-
-
 <script>
 import MdSvgLoader from 'gmf/components/MdSvgLoader/MdSvgLoader'
 
@@ -19,7 +17,7 @@ export default {
     }
   },
   methods: {
-    svgLoaded () {
+    svgLoaded() {
       if (this.animated) {
         const firstSquare = this.$el.querySelector('.first-square')
         const lastSquare = this.$el.querySelector('.last-square')
@@ -36,80 +34,81 @@ export default {
   }
 }
 </script>
-
 <style lang="scss">
-  @import "~gmf/components/MdAnimation/variables";
-  @import "~gmf/theme/engine";
+@import "~gmf/components/MdAnimation/variables";
+@import "~gmf/theme/engine";
 
-  .cbo-logo {
-    $hue1: blue, red, pink, green, indigo, amber;
-    $hue2: lightgreen, yellow, cyan, lightblue, purple, teal;
-    $length: length($hue1);
-    $factor: 100 / $length;
+.cbo-logo {
+  $hue1: red, blue, pink, indigo, amber;
+  $hue2: lightgreen, yellow, cyan, purple, teal;
+  $length: length($hue1);
+  $factor: 100 / $length;
+  $counter: 0;
+
+  @keyframes first-cycle {
+    @each $color,
+    $item in $hue1 {
+      #{$counter}% {
+        fill: md-get-palette-color($color, A200);
+      }
+
+      $counter: $counter+$factor;
+    }
+
+    100% {
+      fill: md-get-palette-color(orange, A200);
+    }
+
     $counter: 0;
+  }
 
-    @keyframes first-cycle {
-      @each $color, $item in $hue1 {
-        #{$counter}% {
-          fill: md-get-palette-color($color, A200);
-        }
-
-        $counter: $counter + $factor;
+  @keyframes last-cycle {
+    @each $color,
+    $item in $hue2 {
+      #{$counter}% {
+        fill: md-get-palette-color($color, A200);
       }
 
-      100% {
-        fill: md-get-palette-color(orange, A200);
-      }
-
-      $counter: 0;
+      $counter: $counter+$factor;
     }
 
-    @keyframes last-cycle {
-      @each $color, $item in $hue2 {
-        #{$counter}% {
-          fill: md-get-palette-color($color, A200);
-        }
-
-        $counter: $counter + $factor;
-      }
-
-      100% {
-        fill: md-get-palette-color(lime, A200);
-      }
+    100% {
+      fill: md-get-palette-color(lime, A200);
     }
+  }
 
-    &:hover {
-      path {
-        animation-play-state: running !important;
-      }
+  &:hover {
+    path {
+      animation-play-state: running !important;
     }
+  }
 
-    $timer: $length * 1s;
+  $timer: $length * 1s;
 
-    &.blending {
-      svg {
-        mix-blend-mode: overlay;
-      }
-
-      .last-square {
-        mix-blend-mode: overlay;
-      }
-
-      .middle-square {
-        display: none;
-      }
-    }
-
-    $transition-square: .6s .5s $md-transition-stand-timing;
-
-    .first-square {
-      animation: $timer first-cycle linear infinite paused;
-      transition: $transition-square;
+  &.blending {
+    svg {
+      mix-blend-mode: overlay;
     }
 
     .last-square {
-      animation: $timer last-cycle linear infinite paused;
-      transition: $transition-square;
+      mix-blend-mode: overlay;
+    }
+
+    .middle-square {
+      display: none;
     }
   }
+
+  $transition-square: .6s .5s $md-transition-stand-timing;
+
+  .first-square {
+    animation: $timer first-cycle linear infinite paused;
+    transition: $transition-square;
+  }
+
+  .last-square {
+    animation: $timer last-cycle linear infinite paused;
+    transition: $transition-square;
+  }
+}
 </style>

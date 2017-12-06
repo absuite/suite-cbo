@@ -5,9 +5,9 @@
         <md-button class="md-icon-button" @click.native="toggleMenu()">
           <md-icon>menu</md-icon>
         </md-button>
-        <md-button class="md-logo">
+        <div class="md-logo">
           <cbo-logo animated></cbo-logo>
-        </md-button>
+        </div>
       </div>
       <div class="flex search">
         <md-autocomplete v-model="search_q" :md-options="search_options" md-layout="box">
@@ -81,9 +81,10 @@ export default {
     align-items: center;
     height: 56px;
     padding: 0px;
+    cursor: pointer;
     svg{
-      height: 56px;
-      width: 130px;
+      height: 60px;
+      width: 140px;
     }
   }
   .md-pag-tabs {
