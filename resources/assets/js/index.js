@@ -5,6 +5,7 @@ import oauth from './oauth';
 import sys from './sys';
 import layouts from './layouts';
 import common from './common';
+
 const options = {
     components,
     oauth,

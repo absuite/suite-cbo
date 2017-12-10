@@ -45,6 +45,10 @@ export default {
   $factor: 100 / $length;
   $counter: 0;
 
+  svg{
+    height: 60px;
+    width: 140px;
+  }
   @keyframes first-cycle {
     @each $color,
     $item in $hue1 {
