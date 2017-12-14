@@ -135,7 +135,7 @@ export default new MdComponent({
     }
   }
   .md-form {
-    .md-layout>.md-field {
+    .layout>.md-field {
       margin-left: 0px;
       margin-right: 10px;
       margin-bottom: 5px;
