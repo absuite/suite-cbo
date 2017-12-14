@@ -11,13 +11,12 @@ use Validator;
 class TraderController extends Controller {
 	public function index(Request $request) {
 		$query = Models\Trader::with('category');
-
 		$data = $query->get();
-
 		return $this->toJson($data);
 	}
+
 	public function show(Request $request, string $id) {
-		$query = Models\Trader::with('category');
+		$query = Models\Trader::with('category','country','province','division','area');
 		$data = $query->where('id', $id)->orWhere('code', $id)->first();
 		return $this->toJson($data);
 	}
@@ -53,7 +52,7 @@ class TraderController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name', 'type_enum', 'is_effective']);
+		$input = $request->only(['code', 'name','short_name', 'type_enum', 'is_effective','memo']);
 		$input = InputHelper::fillEntity($input, $request, ['category', 'country', 'province', 'division', 'area']);
 		$validator = Validator::make($input, [
 			'code' => [

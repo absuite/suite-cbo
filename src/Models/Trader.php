@@ -11,20 +11,32 @@ class Trader extends Model {
 	use Snapshotable, HasGuard;
 	protected $table = 'suite_cbo_traders';
 	public $incrementing = false;
-	protected $fillable = ['id', 'ent_id', 'category_id', 'code', 'name'
-		, 'country_id', 'province_id', 'division_id', 'area_id', 'type_enum', 'is_effective'];
+	protected $fillable = ['id', 'ent_id', 'category_id', 'code', 'name','short_name'
+		, 'country_id', 'province_id', 'division_id', 'area_id', 'type_enum', 'is_effective','memo'];
 	protected $casts = [
 		'is_effective' => 'integer',
 	];
 	public function category() {
 		return $this->belongsTo('Suite\Cbo\Models\TraderCategory');
 	}
+	public function country() {
+		return $this->belongsTo('Suite\Cbo\Models\Country');
+	}
+	public function province() {
+		return $this->belongsTo('Suite\Cbo\Models\Province');
+	}
+	public function division() {
+		return $this->belongsTo('Suite\Cbo\Models\Division');
+	}
+	public function area() {
+		return $this->belongsTo('Suite\Cbo\Models\Area');
+	}
 
 	public static function build(Closure $callback) {
 		tap(new Builder, function ($builder) use ($callback) {
 			$callback($builder);
 
-			$data = array_only($builder->toArray(), ['id', 'ent_id', 'category_id', 'code', 'name', 'country_id', 'province_id', 'division_id', 'area_id', 'is_supplier', 'is_customer', 'is_effective']);
+			$data = array_only($builder->toArray(), ['id', 'ent_id', 'category_id', 'code', 'name', 'short_name','country_id', 'province_id', 'division_id', 'area_id', 'is_supplier', 'is_customer', 'is_effective']);
 
 			$tmpItem = false;
 			if (!empty($builder->category)) {
@@ -34,7 +46,7 @@ class Trader extends Model {
 			}
 			if ($tmpItem) {
 				$data['category_id'] = $tmpItem->id;
-			}
+			} 
 
 			$tmpItem = false;
 			if (!empty($builder->country)) {
@@ -76,7 +88,7 @@ class Trader extends Model {
 				$data['area_id'] = $tmpItem->id;
 			}
 
-			$find = array_only($data, ['ent_id', 'code']);
+			$find = array_only($data, ['area_id','ent_id', 'code','name']);
 			static::updateOrCreate($find, $data);
 		});
 	}
