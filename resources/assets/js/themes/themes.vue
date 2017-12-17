@@ -1,8 +1,7 @@
 <style lang="scss">
 @import "~gmf/components/MdLayout/mixins";
 @import "./default";
-@import "./green";
-@import "./light-teal";
+@import "./dark";
 body {
   height: 100%;
   min-height: 100%;
@@ -11,7 +10,7 @@ body {
 }
 
 html {
-  background-color: #f0f0f0!important;
+  
 }
 
 @include md-layout-small {

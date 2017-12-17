@@ -1,8 +1,0 @@
-@import "~vue-material/theme/engine";
-
-@include md-register-theme("light-teal", (
-  primary: md-get-palette-color(teal, 500),
-  accent: md-get-palette-color(red, A200)
-));
-
-@import "./imports.scss";

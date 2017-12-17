@@ -1,0 +1,10 @@
+@import "~gmf/theme/engine";
+
+@include md-register-theme("dark", (
+  primary: md-get-palette-color(grey, 900),
+  accent: md-get-palette-color(lightgreen, A700),
+  toolbarvariant: md-get-palette-color(grey, A200),
+  background:md-get-palette-color(grey, A200),
+  theme: dark
+));
+@import "./imports.scss";

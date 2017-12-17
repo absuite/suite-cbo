@@ -9,7 +9,7 @@
         <cbo-logo animated></cbo-logo>
       </div>
     </md-toolbar>
-    <md-list>
+    <md-list class="flex">
       <md-list-item @click="goNav('dashboard')">
         <md-icon>dashboard</md-icon>
         <span class="md-list-item-text">首页</span>
@@ -36,6 +36,10 @@
         <span class="md-list-item-text">系统运营</span>
       </md-list-item>
     </md-list>
+    <md-divider></md-divider>
+    <md-toolbar md-elevation="0" class="md-transparent">
+      <a href="//demo.myamiba.com/docs" target="_blank">文档</a>
+    </md-toolbar>
     <div class="suite-app-menu-extend layout layout-column" @mouseenter="showCategory(currentCategory)" @mouseleave="hideCategory" v-show="currentCategory">
       <section class="layout layout-column" v-for="item in extendMenu" v-show="currentCategory==item.code" :key="item.id">
         <md-toolbar>
@@ -132,6 +136,7 @@ export default {
 .suite-app-menu {
   max-width: 100%;
   max-height: 100%;
+  height: 100%;
   >.md-list {
     overflow-y: auto;
   }
