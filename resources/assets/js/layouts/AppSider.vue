@@ -9,7 +9,7 @@
             </md-avatar>
           </md-button>
         </div>
-        <h2 class="md-title flex">{{ $root.userConfig.user.name }}</h2>
+        <h2 class="md-title flex">{{ user.name }}</h2>
         <div class="md-toolbar-section-end">
           <md-button class="md-icon-button" @click.native="toggle()">
             <md-icon>arrow_forward</md-icon>
@@ -20,7 +20,7 @@
     <div class="layout layout-column flex">
       <md-list>
         <md-subheader>企业</md-subheader>
-        <md-list-item v-for="item in $root.userData.ents" :key="item.id" @click="onSelectEnt(item)" :class="{'md-active':item.id==$root.userData.ent.id}">
+        <md-list-item v-for="item in ents" :key="item.id" @click="onSelectEnt(item)" :class="{'md-active':item.id==ent.id}">
           <md-icon>account_balance</md-icon>
           <span class="md-list-item-text">{{ item.name }}</span>
           <md-button class="md-icon-button md-list-action">
@@ -37,6 +37,9 @@
         </md-list-item>
       </md-list>
     </div>
+    <div>
+      <md-button href="logout">退出</md-button>
+    </div>
   </div>
 </template>
 <script>
@@ -46,7 +49,17 @@ export default {
     mdTitle: String
   },
   data() {
-    return {};
+    return {
+      ents: []
+    };
+  },
+  computed: {
+    user() {
+      return this.$root.configs.user;
+    },
+    ent() {
+      return this.$root.configs.ent;
+    },
   },
   methods: {
     toggle() {
@@ -54,7 +67,11 @@ export default {
       return true;
     },
     loadData() {
-
+      this.$http.get('sys/ents/my').then(response => {
+        this.ents = response.data.data;
+      }).catch(err=>{
+        this.$toast(err);
+      });
     },
     onCreateEnt() {
       this.toggle();

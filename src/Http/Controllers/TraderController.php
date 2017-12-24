@@ -1,6 +1,7 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
+use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class TraderController extends Controller {
 	}
 
 	public function show(Request $request, string $id) {
-		$query = Models\Trader::with('category','country','province','division','area');
+		$query = Models\Trader::with('category', 'country', 'province', 'division', 'area');
 		$data = $query->where('id', $id)->orWhere('code', $id)->first();
 		return $this->toJson($data);
 	}
@@ -52,7 +53,7 @@ class TraderController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name','short_name', 'type_enum', 'is_effective','memo']);
+		$input = $request->only(['code', 'name', 'short_name', 'type_enum', 'is_effective', 'memo']);
 		$input = InputHelper::fillEntity($input, $request, ['category', 'country', 'province', 'division', 'area']);
 		$validator = Validator::make($input, [
 			'code' => [
@@ -106,6 +107,33 @@ class TraderController extends Controller {
 			);
 			Models\Trader::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
 		}
+		return $this->toJson(true);
+	}
+	private function importData($data, $throwExp = true) {
+		$entId = GAuth::entId();
+		$validator = Validator::make($data, [
+			'code' => 'required',
+			'name' => 'required',
+		]);
+		if ($throwExp) {
+			$validator->validate();
+		} else if ($validator->fails()) {
+			return false;
+		}
+		$data = InputHelper::fillEntity($data, $data, [
+			'category' => ['type' => Models\TraderCategory::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+		],
+			[
+				'ent_id' => $entId,
+			]
+		);
+		return Models\Trader::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+	}
+	public function import(Request $request) {
+		$datas = app('Suite\Cbo\Bp\FileImport')->create($this, $request);
+		$datas->each(function ($row, $key) {
+			$this->importData($row);
+		});
 		return $this->toJson(true);
 	}
 }

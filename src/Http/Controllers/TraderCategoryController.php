@@ -1,6 +1,7 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
+use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -95,6 +96,26 @@ class TraderCategoryController extends Controller {
 			$data = array_only($v, ['code', 'name', 'type_enum']);
 			Models\TraderCategory::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
 		}
+		return $this->toJson(true);
+	}
+	private function importData($data, $throwExp = true) {
+		$entId = GAuth::entId();
+		$validator = Validator::make($data, [
+			'code' => 'required',
+			'name' => 'required',
+		]);
+		if ($throwExp) {
+			$validator->validate();
+		} else if ($validator->fails()) {
+			return false;
+		}
+		return Models\TraderCategory::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+	}
+	public function import(Request $request) {
+		$datas = app('Suite\Cbo\Bp\FileImport')->create($this, $request);
+		$datas->each(function ($row, $key) {
+			$this->importData($row);
+		});
 		return $this->toJson(true);
 	}
 }

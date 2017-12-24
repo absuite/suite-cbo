@@ -43,7 +43,8 @@ export default {
       //100 * 1024表示100kb
       default: 100 * 1024
     },
-    template: String
+    template: String,
+    mdAction:String
   },
   data() {
     return {
@@ -62,6 +63,17 @@ export default {
   },
   computed: {},
   methods: {
+    async importData(file){
+      try {
+        var response = await this.$http.post(this.mdAction,{files:file});
+        this.$toast('导入成功!');
+        return true;
+      } catch (error) {
+        this.$toast(error);
+        return false;
+      }
+      return true;
+    },
     openPicker() {
       if (!this.disabled) {
         this.resetFile();
@@ -72,13 +84,16 @@ export default {
       window.open(this.template);
     },
     async onFileImport(file) {
+      if(this.mdAction){
+        await this.importData(file);
+      }
       this.$emit('import', file);
     },
     onFileToData(file) {
       if (!file) return;
       const reader = new window.FileReader();
       reader.onload = (e) => {
-        file.base64 = e.target.result;
+        file.data = e.target.result;
         this.files.push(file);
         this.setInputValue();
         this.onFileImport(file);
@@ -102,8 +117,9 @@ export default {
       if (files) {
         for (var i = 0; i < files.length; i++) {
           let file = files[i];
-          let fileInfo = { file: file, name: file.name, size: file.size, type: file.type };
-          fileInfo.ext = file.name.substr(file.name.lastIndexOf(".") + 1);
+          let fileInfo = { file: file, title: file.name, size: file.size, type: file.type };
+
+          fileInfo.ext = fileInfo.title.substr(fileInfo.title.lastIndexOf(".") + 1);
           this.onFileToData(fileInfo);
         }
       }

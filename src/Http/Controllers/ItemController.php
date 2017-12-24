@@ -2,6 +2,7 @@
 
 namespace Suite\Cbo\Http\Controllers;
 
+use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
@@ -45,9 +46,7 @@ class ItemController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$input['ent_id'] = $request->oauth_ent_id;
-
-		$data = Models\Item::create($input);
+		$data = $this->importData($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -70,7 +69,7 @@ class ItemController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		Models\Item::where('id', $id)->update($input);
+		$this->importData($input);
 		return $this->show($request, $id);
 	}
 	/**
@@ -95,21 +94,43 @@ class ItemController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$entId = $request->oauth_ent_id;
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name', 'memo', 'form_enum']);
-			$data = InputHelper::fillEntity($data, $v,
-				[
-					'currency' => ['type' => Models\Currency::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'category' => ['type' => Models\ItemCategory::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'unit' => ['type' => Models\Unit::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'trader' => ['type' => Models\Trader::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-				],
-				['ent_id' => $entId]
-			);
-			Models\Item::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			$this->importData($v);
 		}
+		return $this->toJson(true);
+	}
+	private function importData($data, $throwExp = true) {
+		$entId = GAuth::entId();
+		$data = array_only($data, [
+			'code', 'name', 'memo', 'form_enum',
+			'currency', 'category', 'unit', 'trader',
+		]);
+		$validator = Validator::make($data, [
+			'code' => 'required',
+			'name' => 'required',
+		]);
+		if ($throwExp) {
+			$validator->validate();
+		} else if ($validator->fails()) {
+			return false;
+		}
+		$data = InputHelper::fillEntity($data, $data,
+			[
+				'currency' => ['type' => Models\Currency::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+				'category' => ['type' => Models\ItemCategory::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+				'unit' => ['type' => Models\Unit::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+				'trader' => ['type' => Models\Trader::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
+			],
+			['ent_id' => $entId]
+		);
+		return Models\Item::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+	}
+	public function import(Request $request) {
+		$datas = app('Suite\Cbo\Bp\FileImport')->create($this, $request);
+		$datas->each(function ($row, $key) {
+			$this->importData($row);
+		});
 		return $this->toJson(true);
 	}
 }

@@ -28,9 +28,11 @@ Route::prefix('api/cbo')->middleware(['api', 'auth:api'])->namespace($ns)->group
 	Route::post('/teams/batch', 'DivisionController@batchStore');
 	Route::resource('divisions', 'DivisionController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
+	Route::post('/item-categories/import', 'ItemCategoryController@import');
 	Route::post('/item-categories/batch', 'ItemCategoryController@batchStore');
 	Route::resource('item-categories', 'ItemCategoryController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
+	Route::post('/items/import', 'ItemController@import');
 	Route::post('/items/batch', 'ItemController@batchStore');
 	Route::resource('items', 'ItemController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
@@ -40,6 +42,7 @@ Route::prefix('api/cbo')->middleware(['api', 'auth:api'])->namespace($ns)->group
 	Route::post('/teams/batch', 'MfcCategoryController@batchStore');
 	Route::resource('mfc-categories', 'MfcCategoryController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
+	Route::post('/mfcs/import', 'MfcController@import');
 	Route::post('/mfcs/batch', 'MfcController@batchStore');
 	Route::resource('mfcs', 'MfcController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
@@ -51,27 +54,33 @@ Route::prefix('api/cbo')->middleware(['api', 'auth:api'])->namespace($ns)->group
 	Route::post('/period-accounts/batch', 'PeriodAccountController@batchStore');
 	Route::resource('period-accounts', 'PeriodAccountController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
+	Route::post('/doc-types/import', 'DocTypeController@import');
 	Route::post('/doc-types/batch', 'DocTypeController@batchStore');
 	Route::resource('doc-types', 'DocTypeController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
 	Route::post('/persons/batch', 'PersonController@batchStore');
 	Route::resource('persons', 'PersonController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
+	Route::post('/project-categories/import', 'ProjectCategoryController@import');
 	Route::post('/project-categories/batch', 'ProjectCategoryController@batchStore');
 	Route::resource('project-categories', 'ProjectCategoryController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
+	Route::post('/projects/import', 'ProjectController@import');
 	Route::post('/projects/batch', 'ProjectController@batchStore');
 	Route::resource('projects', 'ProjectController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
+	Route::post('/trader-categories/import', 'TraderCategoryController@import');
 	Route::post('/trader-categories/batch', 'TraderCategoryController@batchStore');
 	Route::resource('trader-categories', 'TraderCategoryController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
+	Route::post('/traders/import', 'TraderController@import');
 	Route::post('/traders/batch', 'TraderController@batchStore');
 	Route::resource('traders', 'TraderController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
 	Route::post('/units/batch', 'UnitController@batchStore');
 	Route::resource('units', 'UnitController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
+	Route::post('/whs/import', 'WhController@import');
 	Route::post('/whs/batch', 'WhController@batchStore');
 	Route::resource('whs', 'WhController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
