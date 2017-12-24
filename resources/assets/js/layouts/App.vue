@@ -33,7 +33,7 @@ export default new MdComponent({
   },
   mixins: [PageTabMixin],
   watch: {
-    "$root.userData.entId": function(v, o) {
+    "$root.configs.ent.id": function(v, o) {
       this.onChangeEnt();
     }
   },
@@ -53,9 +53,9 @@ export default new MdComponent({
     onChangeEnt() {
       this.menuVisible = false;
       this.siderVisible = false;
-      this.$http.get('/getconfig').then(response => {
+      this.$http.get('/site/configs').then(response => {
         if (!response.data.data) return;
-        this.$set(this.$root, 'userConfig', response.data.data);
+        this.$setConfigs(response.data.data);
         this.$router.replace({ name: 'module', params: { module: 'entchange', refresh: true, standalone: true } });
       });
     },

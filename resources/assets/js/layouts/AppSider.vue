@@ -79,7 +79,7 @@ export default {
     },
     onSelectEnt(ent) {
       this.toggle();
-      this.$root.userData.ent = ent;
+      this.$setConfigs({ent:ent});
     },
   },
   created() {
@@ -91,6 +91,7 @@ export default {
 @import "~gmf/components/MdAnimation/variables";
 @import "~gmf/components/MdLayout/mixins";
 .suite-app-sider {
+  min-height: 100%;
   .md-list-item.md-active {
     .md-list-item-content {
       >.md-icon,
