@@ -1,5 +1,5 @@
 <template>
-  <md-svg-loader class="cbo-logo" :class="{ blending }" md-src="/assets/logo.svg" @md-loaded="svgLoaded" />
+  <md-svg-loader class="cbo-logo" :class="{ blending }" md-src="/assets/vendor/suite-cbo/svg/logo.svg" @md-loaded="svgLoaded" />
 </template>
 <script>
 import MdSvgLoader from 'gmf/components/MdSvgLoader/MdSvgLoader'

@@ -17,7 +17,7 @@
       <div class="md-toolbar-section-end">
         <md-button class="md-icon-button md-avatar" @click.native="toggleSider()">
           <md-avatar>
-            <img src="/img/vendor/gmf-sys/avatar/1.jpg">
+            <img src="/assets/vendor/gmf-sys/avatar/1.jpg">
           </md-avatar>
         </md-button>
       </div>

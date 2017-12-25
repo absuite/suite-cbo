@@ -23,7 +23,7 @@ class ServiceProvider extends BaseServiceProvider {
 			], $publishes);
 
 			$this->publishes([
-				__DIR__ . '/../resources/assets/sass' => base_path('resources/assets/sass/vendor/suite-cbo'),
+				__DIR__ . '/../resources/public' => public_path('assets/vendor/suite-cbo'),
 			], $publishes);
 
 			$this->publishes([

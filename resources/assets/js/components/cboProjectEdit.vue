@@ -14,7 +14,7 @@
       </md-part-toolbar-group>
       <md-part-toolbar-pager @paging="paging" :options="model.pager"></md-part-toolbar-pager>
       <md-part-toolbar-group>
-        <cbo-file-import @import="importData" template="/files/suite.cbo.project.xlsx"></cbo-file-import>
+        <cbo-file-import @import="importData" template="/assets/vendor/suite-cbo/files/suite.cbo.project.xlsx"></cbo-file-import>
       </md-part-toolbar-group>
       <span class="flex"></span>
     </md-part-toolbar>

@@ -6,7 +6,7 @@
         <md-button @click.native="remove" :disabled="!(selectRows&&selectRows.length)">删除</md-button>
       </md-part-toolbar-group>
       <md-part-toolbar-group>
-        <cbo-file-import md-action="cbo/items/import" template="/files/suite.cbo.item.xlsx"></cbo-file-import>
+        <cbo-file-import md-action="cbo/items/import" template="/assets/vendor/suite-cbo/files/suite.cbo.item.xlsx"></cbo-file-import>
       </md-part-toolbar-group>
       <span class="flex"></span>
       <md-part-toolbar-group>
