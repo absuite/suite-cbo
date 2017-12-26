@@ -38,7 +38,7 @@ class DocTypeController extends Controller {
 			return $this->toError($validator->errors());
 		}
 
-		$input['ent_id'] = $request->oauth_ent_id;
+		$input['ent_id'] = GAuth::entId();
 		$data = Models\DocType::updateOrCreate(['ent_id' => $input['ent_id'], 'biz_type_enum' => $input['biz_type_enum'], 'code' => $input['code']], $input);
 
 		return $this->show($request, $data->id);
@@ -59,7 +59,7 @@ class DocTypeController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$input['ent_id'] = $request->oauth_ent_id;
+		$input['ent_id'] = GAuth::entId();
 		$data = Models\DocType::updateOrCreate(['ent_id' => $input['ent_id'], 'biz_type_enum' => $input['biz_type_enum'], 'code' => $input['code']], $input);
 
 		return $this->show($request, $data->id);
@@ -86,7 +86,7 @@ class DocTypeController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$entId = $request->oauth_ent_id;
+		$entId = GAuth::entId();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['code', 'name', 'biz_type_enum']);

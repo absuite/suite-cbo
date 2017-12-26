@@ -38,8 +38,9 @@
       </md-list>
     </div>
     <div>
-      <md-button href="logout">退出</md-button>
+      <md-button href="/logout">退出</md-button>
     </div>
+    <md-loading :loading="loading"></md-loading>
   </div>
 </template>
 <script>
@@ -50,7 +51,8 @@ export default {
   },
   data() {
     return {
-      ents: []
+      ents: [],
+      loading:0
     };
   },
   computed: {
@@ -78,8 +80,17 @@ export default {
       this.$router.replace({ name: 'module', params: { module: 'sys.ent.edit' } });
     },
     onSelectEnt(ent) {
-      this.toggle();
-      this.$setConfigs({ent:ent});
+      this.loading++;
+      this.$http.post('sys/auth/entry-ent/'+ent.id).then(response => {
+        if(response.data.data){
+          this.toggle();
+          this.$setConfigs({ent:ent});
+        }
+        this.loading--;
+      }).catch(err=>{
+        this.$toast(err);
+        this.loading--;
+      });
     },
   },
   created() {

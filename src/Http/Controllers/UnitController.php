@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
-
+use GAuth;
 class UnitController extends Controller {
 	public function index(Request $request) {
 		$query = Models\Unit::where('id', '!=', '');
@@ -32,7 +32,7 @@ class UnitController extends Controller {
 			'code' => [
 				'required',
 				Rule::unique((new Models\Unit)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
+					$query->where('ent_id', GAuth::entId());
 				}),
 			],
 		]);
@@ -40,7 +40,7 @@ class UnitController extends Controller {
 			return $this->toError($validator->errors());
 		}
 
-		$input['ent_id'] = $request->oauth_ent_id;
+		$input['ent_id'] = GAuth::entId();
 
 		$data = Models\Unit::create($input);
 		return $this->show($request, $data->id);
@@ -57,7 +57,7 @@ class UnitController extends Controller {
 			'code' => [
 				'required',
 				Rule::unique((new Models\Unit)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
+					$query->where('ent_id', GAuth::entId());
 				}),
 			],
 		]);
@@ -88,7 +88,7 @@ class UnitController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$entId = $request->oauth_ent_id;
+		$entId = GAuth::entId();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['type_enum', 'code', 'name', 'round_precision', 'round_value', 'round_type_enum']);

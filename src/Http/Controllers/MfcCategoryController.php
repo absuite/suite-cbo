@@ -33,14 +33,14 @@ class MfcCategoryController extends Controller {
 			'code' => [
 				'required',
 				Rule::unique((new Models\MfcCategory)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
+					$query->where('ent_id', GAuth::entId());
 				}),
 			],
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$input['ent_id'] = $request->oauth_ent_id;
+		$input['ent_id'] = GAuth::entId();
 
 		$data = Models\MfcCategory::create($input);
 		return $this->show($request, $data->id);
@@ -57,7 +57,7 @@ class MfcCategoryController extends Controller {
 			'code' => [
 				'required',
 				Rule::unique((new Models\MfcCategory)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
+					$query->where('ent_id', GAuth::entId());
 				}),
 			],
 		]);
@@ -89,7 +89,7 @@ class MfcCategoryController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$entId = $request->oauth_ent_id;
+		$entId = GAuth::entId();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['code', 'name']);

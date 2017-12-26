@@ -39,7 +39,7 @@ class ItemController extends Controller {
 			'code' => [
 				'required',
 				Rule::unique((new Models\Item)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
+					$query->where('ent_id', GAuth::entId());
 				}),
 			],
 		]);
@@ -62,7 +62,7 @@ class ItemController extends Controller {
 			'code' => [
 				'required',
 				Rule::unique((new Models\Item)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
+					$query->where('ent_id', GAuth::entId());
 				}),
 			],
 		]);

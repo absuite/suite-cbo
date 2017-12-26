@@ -33,11 +33,11 @@ class ItemCategoryController extends Controller {
 			'code' => [
 				'required',
 				Rule::unique((new Models\ItemCategory)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
+					$query->where('ent_id', GAuth::entId());
 				}),
 			],
 		]);
-		$input['ent_id'] = $request->oauth_ent_id;
+		$input['ent_id'] = GAuth::entId();
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
@@ -57,7 +57,7 @@ class ItemCategoryController extends Controller {
 			'code' => [
 				'required',
 				Rule::unique((new Models\ItemCategory)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
+					$query->where('ent_id', GAuth::entId());
 				}),
 			],
 		]);

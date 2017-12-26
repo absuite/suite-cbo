@@ -1,6 +1,7 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
+use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
@@ -34,14 +35,14 @@ class PersonController extends Controller {
 			'code' => [
 				'required',
 				Rule::unique((new Models\Person)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
+					$query->where('ent_id', GAuth::entId());
 				}),
 			],
 		]);
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$input['ent_id'] = $request->oauth_ent_id;
+		$input['ent_id'] = GAuth::entId();
 
 		$data = Models\Person::create($input);
 		return $this->show($request, $data->id);
@@ -59,7 +60,7 @@ class PersonController extends Controller {
 			'code' => [
 				'required',
 				Rule::unique((new Models\Person)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', $request->oauth_ent_id);
+					$query->where('ent_id', GAuth::entId());
 				}),
 			],
 		]);
@@ -90,7 +91,7 @@ class PersonController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$entId = $request->oauth_ent_id;
+		$entId = GAuth::entId();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
 			$data = array_only($v, ['code', 'name']);
