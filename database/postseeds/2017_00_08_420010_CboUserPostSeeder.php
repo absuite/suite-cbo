@@ -1,9 +1,9 @@
 <?php
 
-use Gmf\Ac\Models\User;
 use Gmf\Sys\Builder;
 use Gmf\Sys\Models\Authority\RoleUser;
 use Gmf\Sys\Models\Ent;
+use Gmf\Sys\Models\User;
 use Illuminate\Database\Seeder;
 
 class CboUserPostSeeder extends Seeder {

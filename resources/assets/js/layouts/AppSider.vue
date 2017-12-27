@@ -1,5 +1,5 @@
 <template>
-  <div class="suite-app-sider layout layout-column">
+  <div class="suite-app-sider layout layout-column" v-if="user">
     <md-toolbar class="md-primary">
       <div class="md-toolbar-row">
         <div class="md-toolbar-section-start">
@@ -38,7 +38,7 @@
       </md-list>
     </div>
     <div>
-      <md-button href="/logout">退出</md-button>
+      <md-button :to="{name:'auth.logout'}">退出</md-button>
     </div>
     <md-loading :loading="loading"></md-loading>
   </div>

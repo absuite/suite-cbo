@@ -6,6 +6,10 @@ import sys from './sys';
 import layouts from './layouts';
 import common from './common';
 
+import config from 'gmf/config';
+import routesAuth from 'gmf/routes/auth';
+import routesCbo from './routes/cbo';
+
 const options = {
     components,
     oauth,
@@ -19,6 +23,10 @@ options.install = (Vue) => {
         console.warn('Vue Material is already installed.');
         return;
     }
+
+    config.route(routesAuth);
+    config.route(routesCbo);
+
     for (let component in options) {
         const componentInstaller = options[component];
 

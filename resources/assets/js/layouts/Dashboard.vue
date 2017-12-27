@@ -1,24 +1,24 @@
 <template>
   <md-layout md-gutter md-column>
     <md-layout md-gutter md-row>
-      <md-layout md-flex-small="100" md-flex="66">
+      <md-layout md-flex-sm="100" md-flex-xs="100" md-flex="66">
         <md-card class="flex">
           <md-card-media>
             <md-chart class="myChart" ref="groupTrend"></md-chart>
           </md-card-media>
           <md-card-media>
-            <md-layout>
-              <md-layout md-flex="33" md-flex-xsmall="100">
+            <md-layout md-gutter md-row>
+              <md-layout md-flex-xs="100" md-flex-sm="50" md-flex="33">
                 <md-chart ref="groupStructure"></md-chart>
               </md-layout>
-              <md-layout md-flex="66" md-flex-xsmall="100">
+              <md-layout md-flex-xs="100" md-flex-sm="50" md-flex="66">
                 <md-chart ref="groupRank"></md-chart>
               </md-layout>
             </md-layout>
           </md-card-media>
         </md-card>
       </md-layout>
-      <md-layout md-flex-small="100" md-flex="33">
+      <md-layout md-flex-sm="100" md-flex-xs="100" md-flex="33">
         <md-card class="flex">
           <md-tabs md-fixed class="md-accent layout-fill">
             <md-tab md-label="资讯">
