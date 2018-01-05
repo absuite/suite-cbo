@@ -25,7 +25,10 @@ class CboUserPostSeeder extends Seeder {
 		$b = new Builder;
 		for ($i = 1; $i <= 10; $i++) {
 			$b = new Builder;
-			$b->account('amb' . $i . '@amb.com')->name('amb' . $i . '@amb.com')->password('amb' . $i . '@amb.com');
+			$b->account('amb' . $i . '@amb.com')
+				->name('amb' . $i . '@amb.com')
+				->password('amb' . $i . '@amb.com')
+				->client_id(config('gmf.client.id'));
 			$user = User::registerByAccount('sys', $b->toArray());
 
 			Ent::addUser($this->entId, $user->id);

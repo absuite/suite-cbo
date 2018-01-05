@@ -8,6 +8,7 @@ import common from './common';
 
 import config from 'gmf/config';
 import routesAuth from 'gmf/routes/auth';
+import routesMd from 'gmf/routes/md';
 import routesCbo from './routes/cbo';
 
 const options = {
@@ -25,6 +26,7 @@ options.install = (Vue) => {
     }
 
     config.route(routesAuth);
+    config.route(routesMd);
     config.route(routesCbo);
 
     for (let component in options) {
