@@ -88,9 +88,11 @@ const defaultRoutes = [{
   path: '/:app',
   component: wrapApp,
   name: 'app',
+  meta: { requiresAuth: true },
   children: [{
     path: ':module',
     name: 'module',
+    meta: { requiresAuth: true },
     component: wrapModule,
     children: [
       { path: ':id', name: 'id', component: wrapExtend },
