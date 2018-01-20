@@ -168,9 +168,13 @@ export default {
       this.loadGroupRank();
       if (this.model.groups && this.model.groups.length > 0) {
         this.loadTroupTrend();
+      } else {
+        this.updateTroupTrend();
       }
       if (this.model.to_period && this.model.groups && this.model.groups.length > 0) {
         this.loadGroupStructure(this.model.to_period.id, this.model.groups[0].id);
+      } else {
+        this.updateGroupStructure();
       }
     },
     loadGroupRank() {
@@ -189,12 +193,14 @@ export default {
     },
     updateGroupRank(data) {
       var datas = [];
-      this._.each(data.data, (value, key) => {
-        key < 10 && datas.push({
-          name: value.name,
-          y: value.this_profit
+      if (data && data.data) {
+        this._.each(data.data, (value, key) => {
+          key < 10 && datas.push({
+            name: value.name,
+            y: value.this_profit
+          });
         });
-      });
+      }
 
       var opts = {
         chart: {
@@ -235,7 +241,7 @@ export default {
           data: datas
         }]
       };
-      this.$refs.groupRank.mergeOption(opts);
+      this.$refs.groupRank && this.$refs.groupRank.mergeOption(opts);
     },
     loadGroupStructure(group_id, period_id) {
       var queryCase = { wheres: [] };
@@ -303,7 +309,7 @@ export default {
           ]
         }]
       };
-      this.$refs.groupStructure.mergeOption(opts);
+      this.$refs.groupStructure && this.$refs.groupStructure.mergeOption(opts);
     },
     loadTroupTrend(group_id) {
       var queryCase = { wheres: [] };
@@ -326,35 +332,34 @@ export default {
       });
     },
     updateTroupTrend(data) {
-      if (!data || !data.group || !data.data) return;
       var categories = [];
       var datas1 = [];
       var datas2 = [];
       var datas3 = [];
-
-      this._.each(data.data, (value, key) => {
-        categories.push(value.name);
-        datas1.push({
-          name: value.name,
-          y: value.this_profit
+      if (data && data.data) {
+        this._.each(data.data, (value, key) => {
+          categories.push(value.name);
+          datas1.push({
+            name: value.name,
+            y: value.this_profit
+          });
+          datas2.push({
+            name: value.name,
+            y: value.this_income
+          });
+          datas3.push({
+            name: value.name,
+            y: value.this_cost
+          });
         });
-        datas2.push({
-          name: value.name,
-          y: value.this_income
-        });
-        datas3.push({
-          name: value.name,
-          y: value.this_cost
-        });
-      });
-
+      }
       var opts = {
         chart: {
           type: 'areaspline',
           backgroundColor: "#00acc1",
         },
         title: {
-          text: data.group.name + '趋势',
+          text: '趋势',
           align: 'left',
           style: { "color": "rgba(255,255,255,0.8)" }
         },
@@ -413,16 +418,21 @@ export default {
           // }
         ]
       }
-      this.$refs.groupTrend.mergeOption(opts);
+      if (data && data.group) {
+        opts.title.text = data.group.name + '趋势';
+      }
+      this.$refs.groupTrend && this.$refs.groupTrend.mergeOption(opts);
     },
   },
   created() {
 
   },
   mounted() {
-    this.loadGroups();
-    this.loadBecInfo();
-    this.loadData();
+    this.$nextTick(() => {
+      this.loadGroups();
+      this.loadBecInfo();
+      this.loadData();
+    });
   },
 };
 </script>
