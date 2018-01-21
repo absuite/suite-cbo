@@ -37,10 +37,10 @@ class Division extends Model {
 					return Country::where('code', $v)->value('id');
 				},
 				'area' => function ($v, $data) use ($entId) {
-					return Area::where('ent', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
+					return Area::where('ent_id', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
 				},
 				'province' => function ($v, $data) use ($entId) {
-					return Province::where('ent', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
+					return Province::where('ent_id', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
 				},
 			]);
 			Validator::make($data, [

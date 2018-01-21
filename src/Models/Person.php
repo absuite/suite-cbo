@@ -24,7 +24,7 @@ class Person extends Model {
 			$data = array_only($row, ['code', 'name']);
 			$data = InputHelper::fillEntity($data, $row, [
 				'dept' => function ($v, $data) use ($entId) {
-					return Dept::where('ent', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
+					return Dept::where('ent_id', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
 				},
 			]);
 

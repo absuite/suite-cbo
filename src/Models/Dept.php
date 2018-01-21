@@ -37,10 +37,10 @@ class Dept extends Model {
 			$data = array_only($row, ['code', 'name']);
 			$data = InputHelper::fillEntity($data, $row, [
 				'org' => function ($v, $data) use ($entId) {
-					return Org::where('ent', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
+					return Org::where('ent_id', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
 				},
 				'manager' => function ($v, $data) use ($entId) {
-					return Person::where('ent', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
+					return Person::where('ent_id', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
 				},
 			]);
 			$data = InputHelper::fillEnum($data, $row, [

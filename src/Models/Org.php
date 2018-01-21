@@ -32,7 +32,7 @@ class Org extends Model {
 			$data = array_only($row, ['code', 'name', 'short_name', 'avatar']);
 			$data = InputHelper::fillEntity($data, $row, [
 				'manager' => function ($v, $data) use ($entId) {
-					return Person::where('ent', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
+					return Person::where('ent_id', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
 				},
 			]);
 
