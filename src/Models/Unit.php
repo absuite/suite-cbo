@@ -1,11 +1,14 @@
 <?php
 namespace Suite\Cbo\Models;
 use Closure;
+use GAuth;
 use Gmf\Sys\Builder;
+use Gmf\Sys\Libs\InputHelper;
 use Gmf\Sys\Models\Entity;
 use Gmf\Sys\Traits\HasGuard;
 use Gmf\Sys\Traits\Snapshotable;
 use Illuminate\Database\Eloquent\Model;
+use Validator;
 
 class Unit extends Model {
 	use Snapshotable, HasGuard;
@@ -13,6 +16,23 @@ class Unit extends Model {
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'type_enum', 'code', 'name'
 		, 'round_precision', 'round_value', 'round_type_enum'];
+
+	public static function fromImport($datas) {
+		return $datas->map(function ($row) {
+			$entId = GAuth::entId();
+
+			$data = array_only($row, ['code', 'name']);
+
+			$data = InputHelper::fillEnum($data, $row, [
+				'type' => 'suite.cbo.unit.type.enum',
+			]);
+			Validator::make($data, [
+				'code' => 'required',
+				'name' => 'required',
+			])->validate();
+			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+		});
+	}
 
 	public static function build(Closure $callback) {
 		tap(new Builder, function ($builder) use ($callback) {

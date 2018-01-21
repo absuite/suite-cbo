@@ -4,7 +4,6 @@ namespace Suite\Cbo\Http\Controllers;
 use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
 
@@ -94,33 +93,5 @@ class DocTypeController extends Controller {
 		}
 		return $this->toJson(true);
 	}
-	private function importData($data, $throwExp = true) {
-		$entId = GAuth::entId();
-		$validator = Validator::make($data, [
-			'code' => 'required',
-			'name' => 'required',
-			'biz_type_enum' => [
-				'required',
-				Rule::in(['ship', 'rcv',
-					'miscRcv', 'miscShip',
-					'transfer', 'moRcv', 'moIssue',
-					'process', 'receivables', 'payment',
-					'ar', 'ap', 'plan',
-					'expense', 'voucher']),
-			],
-		]);
-		if ($throwExp) {
-			$validator->validate();
-		} else if ($validator->fails()) {
-			return false;
-		}
-		return Models\DocType::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
-	}
-	public function import(Request $request) {
-		$datas = app('Suite\Cbo\Bp\FileImport')->create($this, $request);
-		$datas->each(function ($row, $key) {
-			$this->importData($row);
-		});
-		return $this->toJson(true);
-	}
+
 }

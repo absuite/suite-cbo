@@ -5,6 +5,9 @@
         <md-button @click.native="create">新增</md-button>
         <md-button @click.native="remove" :disabled="!(selectRows&&selectRows.length)">删除</md-button>
       </md-part-toolbar-group>
+      <md-part-toolbar-group>
+        <md-file-import md-entity="Suite\Cbo\Models\Project"  template="/assets/vendor/suite-cbo/files/suite.cbo.project.xlsx"></md-file-import>
+      </md-part-toolbar-group>
       <span class="flex"></span>
       <md-part-toolbar-group>
         <md-fetch :fetch="doFetch"></md-fetch>

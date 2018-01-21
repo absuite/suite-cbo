@@ -109,31 +109,4 @@ class TraderController extends Controller {
 		}
 		return $this->toJson(true);
 	}
-	private function importData($data, $throwExp = true) {
-		$entId = GAuth::entId();
-		$validator = Validator::make($data, [
-			'code' => 'required',
-			'name' => 'required',
-		]);
-		if ($throwExp) {
-			$validator->validate();
-		} else if ($validator->fails()) {
-			return false;
-		}
-		$data = InputHelper::fillEntity($data, $data, [
-			'category' => ['type' => Models\TraderCategory::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-		],
-			[
-				'ent_id' => $entId,
-			]
-		);
-		return Models\Trader::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
-	}
-	public function import(Request $request) {
-		$datas = app('Suite\Cbo\Bp\FileImport')->create($this, $request);
-		$datas->each(function ($row, $key) {
-			$this->importData($row);
-		});
-		return $this->toJson(true);
-	}
 }

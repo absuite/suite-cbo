@@ -100,37 +100,4 @@ class ItemController extends Controller {
 		}
 		return $this->toJson(true);
 	}
-	private function importData($data, $throwExp = true) {
-		$entId = GAuth::entId();
-		$data = array_only($data, [
-			'code', 'name', 'memo', 'form_enum',
-			'currency', 'category', 'unit', 'trader',
-		]);
-		$validator = Validator::make($data, [
-			'code' => 'required',
-			'name' => 'required',
-		]);
-		if ($throwExp) {
-			$validator->validate();
-		} else if ($validator->fails()) {
-			return false;
-		}
-		$data = InputHelper::fillEntity($data, $data,
-			[
-				'currency' => ['type' => Models\Currency::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-				'category' => ['type' => Models\ItemCategory::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-				'unit' => ['type' => Models\Unit::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-				'trader' => ['type' => Models\Trader::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-			],
-			['ent_id' => $entId]
-		);
-		return Models\Item::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
-	}
-	public function import(Request $request) {
-		$datas = app('Suite\Cbo\Bp\FileImport')->create($this, $request);
-		$datas->each(function ($row, $key) {
-			$this->importData($row);
-		});
-		return $this->toJson(true);
-	}
 }

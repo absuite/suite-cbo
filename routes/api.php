@@ -84,7 +84,4 @@ Route::prefix('api/cbo')->middleware(['api', 'auth:api'])->namespace($ns)->group
 	Route::post('/whs/batch', 'WhController@batchStore');
 	Route::resource('whs', 'WhController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 
-	Route::post('/dti/import-categories', 'DtiController@importCategories');
-	Route::post('/dti/import-params', 'DtiController@importParams');
-	Route::post('/dti/import-items', 'DtiController@importItems');
 });

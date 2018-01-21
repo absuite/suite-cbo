@@ -1,13 +1,14 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
+use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
-use GAuth;
+
 class MfcController extends Controller {
 	public function index(Request $request) {
 		$query = Models\Mfc::with('category');
@@ -105,35 +106,5 @@ class MfcController extends Controller {
 		}
 		return $this->toJson(true);
 	}
-	private function importData($data, $throwExp = true) {
-		$entId = GAuth::entId();
-		$data = array_only($v, [
-			'code', 'name', 'memo',
-			'category',
-		]);
-		$validator = Validator::make($data, [
-			'code' => 'required',
-			'name' => 'required',
-		]);
-		if ($throwExp) {
-			$validator->validate();
-		} else if ($validator->fails()) {
-			return false;
-		}
-		$data = InputHelper::fillEntity($data, $data, [
-			'category' => ['type' => Models\MfcCategory::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-		],
-			[
-				'ent_id' => $entId,
-			]
-		);
-		return Models\Mfc::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
-	}
-	public function import(Request $request) {
-		$datas = app('Suite\Cbo\Bp\FileImport')->create($this, $request);
-		$datas->each(function ($row, $key) {
-			$this->importData($row);
-		});
-		return $this->toJson(true);
-	}
+
 }

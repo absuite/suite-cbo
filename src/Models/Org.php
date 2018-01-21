@@ -2,10 +2,13 @@
 
 namespace Suite\Cbo\Models;
 use Closure;
+use GAuth;
 use Gmf\Sys\Builder;
+use Gmf\Sys\Libs\InputHelper;
 use Gmf\Sys\Traits\HasGuard;
 use Gmf\Sys\Traits\Snapshotable;
 use Illuminate\Database\Eloquent\Model;
+use Validator;
 
 class Org extends Model {
 	use Snapshotable, HasGuard;
@@ -20,6 +23,25 @@ class Org extends Model {
 	}
 	public function manager() {
 		return $this->belongsTo('Suite\Cbo\Models\Person');
+	}
+
+	public static function fromImport($datas) {
+		return $datas->map(function ($row) {
+			$entId = GAuth::entId();
+
+			$data = array_only($row, ['code', 'name', 'short_name', 'avatar']);
+			$data = InputHelper::fillEntity($data, $row, [
+				'manager' => function ($v, $data) use ($entId) {
+					return Person::where('ent', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
+				},
+			]);
+
+			Validator::make($data, [
+				'code' => 'required',
+				'name' => 'required',
+			])->validate();
+			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+		});
 	}
 
 	public static function build(Closure $callback) {
