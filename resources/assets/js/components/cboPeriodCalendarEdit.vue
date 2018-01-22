@@ -37,10 +37,7 @@
             </md-field>
           </md-layout>
           <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="25" md-flex-large="20">
-            <md-field>
-              <label>起始日期</label>
-              <md-date required v-model="model.main.from_date"></md-date>
-            </md-field>
+            <md-datepicker required md-label="起始日期" v-model="model.main.from_date"></md-datepicker>
           </md-layout>
         </md-layout>
         <md-layout class="flex">
