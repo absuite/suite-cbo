@@ -2,13 +2,12 @@
 
 namespace Suite\Cbo\Http\Controllers;
 
+use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
-use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
-use GAuth;
+
 class TeamController extends Controller {
 	public function index(Request $request) {
 		$query = Models\Team::with('org', 'dept', 'work', 'manager');
@@ -30,23 +29,7 @@ class TeamController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$input = InputHelper::fillEntity($input, $request, ['org', 'dept', 'work']);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\Team)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-
-		$input['ent_id'] = GAuth::entId();
-
-		$data = Models\Team::create($input);
-
+		$data = Models\Team::fromImportItem($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -56,20 +39,8 @@ class TeamController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name', 'is_effective']);
-		$input = InputHelper::fillEntity($input, $request, ['org', 'dept', 'work']);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\Team)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		Models\Team::where('id', $id)->update($input);
+		$input = $request->all();
+		Models\Team::fromImportItem($input, $id);
 		return $this->show($request, $id);
 	}
 	/**
@@ -86,28 +57,15 @@ class TeamController extends Controller {
 	}
 	public function batchStore(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
+		Validator::make($input, [
 			'datas' => 'required|array|min:1',
 			'datas.*.code' => 'required',
 			'datas.*.name' => 'required',
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
+		])->validate();
 		$entId = GAuth::entId();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name']);
-			$data = InputHelper::fillEntity($data, $v,
-				[
-					'org' => ['type' => Models\Org::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'dept' => ['type' => Models\Dept::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'work' => ['type' => Models\Work::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'manager' => ['type' => Models\Person::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-				],
-				['ent_id' => $entId]
-			);
-			Models\Team::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			Models\Team::fromImportItem($v);
 		}
 		return $this->toJson(true);
 	}

@@ -37,39 +37,65 @@ class Trader extends Model {
 
 	public static function fromImport($datas) {
 		return $datas->map(function ($row, $key) {
-			if (!empty($row['ent_id'])) {
-				$entId = $row['ent_id'];
-			} else {
-				$entId = GAuth::entId();
-			}
-			$data = array_only($row, [
-				'code', 'name', 'memo', 'short_name', 'is_customer', 'is_supplier',
-			]);
-			Validator::make($data, [
-				'code' => 'required',
-				'name' => 'required',
-			])->validate();
-			$data = InputHelper::fillEntity($data, $row, [
-				'country' => function ($v, $data) use ($entId) {
-					return Country::where('code', $v)->value('id');
-				},
-				'category' => function ($v, $data) use ($entId) {
-					return TraderCategory::where('code', $v)->where('ent_id', $entId)->value('id');
-				},
-				'province' => function ($v, $data) use ($entId) {
-					return Province::where('code', $v)->where('ent_id', $entId)->value('id');
-				},
-				'division' => function ($v, $data) use ($entId) {
-					return Division::where('code', $v)->where('ent_id', $entId)->value('id');
-				},
-				'area' => function ($v, $data) use ($entId) {
-					return Area::where('code', $v)->where('ent_id', $entId)->value('id');
-				},
-			]);
-			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			return static::fromImportItem($row);
 		});
 	}
-
+	public static function fromImportItem($row, $id = false) {
+		if (!empty($row['ent_id'])) {
+			$entId = $row['ent_id'];
+		} else {
+			$entId = GAuth::entId();
+		}
+		$data = array_only($row, [
+			'code', 'name', 'memo', 'short_name', 'is_customer', 'is_supplier',
+		]);
+		Validator::make($data, [
+			'code' => 'required',
+			'name' => 'required',
+		])->validate();
+		$data = InputHelper::fillEntity($data, $row, [
+			'country' => function ($v, $data) use ($entId) {
+				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
+				if (empty($v)) {
+					return false;
+				}
+				return Country::where('code', $v)->value('id');
+			},
+			'category' => function ($v, $data) use ($entId) {
+				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
+				if (empty($v)) {
+					return false;
+				}
+				return TraderCategory::where('code', $v)->where('ent_id', $entId)->value('id');
+			},
+			'province' => function ($v, $data) use ($entId) {
+				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
+				if (empty($v)) {
+					return false;
+				}
+				return Province::where('code', $v)->where('ent_id', $entId)->value('id');
+			},
+			'division' => function ($v, $data) use ($entId) {
+				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
+				if (empty($v)) {
+					return false;
+				}
+				return Division::where('code', $v)->where('ent_id', $entId)->value('id');
+			},
+			'area' => function ($v, $data) use ($entId) {
+				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
+				if (empty($v)) {
+					return false;
+				}
+				return Area::where('code', $v)->where('ent_id', $entId)->value('id');
+			},
+		]);
+		if ($id) {
+			return static::updateOrCreate(['ent_id' => $entId, 'id' => $id], $data);
+		} else {
+			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+		}
+	}
 	public static function build(Closure $callback) {
 		tap(new Builder, function ($builder) use ($callback) {
 			$callback($builder);

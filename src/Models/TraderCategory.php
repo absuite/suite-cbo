@@ -18,17 +18,24 @@ class TraderCategory extends Model {
 
 	public static function fromImport($datas) {
 		return $datas->map(function ($row, $key) {
-			$entId = GAuth::entId();
-			$data = array_only($row, ['code', 'name', 'type_enum']);
-			$data = InputHelper::fillEnum($data, $row, [
-				'type' => 'suite.cbo.trader.type.enum',
-			]);
-			$validator = Validator::make($data, [
-				'code' => 'required',
-				'name' => 'required',
-			])->validate();
-			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			return static::fromImportItem($row);
 		});
+	}
+	public static function fromImportItem($row, $id = false) {
+		$entId = GAuth::entId();
+		$data = array_only($row, ['code', 'name', 'type_enum']);
+		$data = InputHelper::fillEnum($data, $row, [
+			'type' => 'suite.cbo.trader.type.enum',
+		]);
+		$validator = Validator::make($data, [
+			'code' => 'required',
+			'name' => 'required',
+		])->validate();
+		if ($id) {
+			return static::updateOrCreate(['ent_id' => $entId, 'id' => $id], $data);
+		} else {
+			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+		}
 	}
 
 	public static function build(Closure $callback) {

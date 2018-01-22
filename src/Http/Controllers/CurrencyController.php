@@ -2,12 +2,12 @@
 
 namespace Suite\Cbo\Http\Controllers;
 
+use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
-use GAuth;
+
 class CurrencyController extends Controller {
 	public function index(Request $request) {
 		$query = Models\Currency::where('id', '!=', '');
@@ -29,20 +29,7 @@ class CurrencyController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\Currency)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-			'symbol' => ['required'],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		$input['ent_id'] = GAuth::entId();
-		$data = Models\Currency::create($input);
+		$data = Models\Currency::fromImportItem($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -52,20 +39,8 @@ class CurrencyController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name', 'symbol']);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\Currency)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-			'symbol' => ['required'],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		Models\Currency::where('id', $id)->update($input);
+		$input = $request->all();
+		Models\Currency::fromImportItem($input, $id);
 		return $this->show($request, $id);
 	}
 	/**
@@ -81,21 +56,15 @@ class CurrencyController extends Controller {
 	}
 	public function batchStore(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
+		Validator::make($input, [
 			'datas' => 'required|array|min:1',
 			'datas.*.code' => 'required',
 			'datas.*.name' => 'required',
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
+		])->validate();
 		$entId = GAuth::entId();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name', 'symbol'
-				, 'money_round_precision', 'money_round_value', 'money_round_type_enum'
-				, 'price_round_precision', 'price_round_value', 'price_round_type_enum']);
-			Models\Currency::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			Models\Currency::fromImportItem($v);
 		}
 		return $this->toJson(true);
 	}

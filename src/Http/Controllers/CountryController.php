@@ -28,15 +28,7 @@ class CountryController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		$data = Models\Country::create($input);
+		$data = Models\Country::fromImportItem($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -46,16 +38,8 @@ class CountryController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name', 'short_name', 'is_effective']);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		Models\Country::where('id', $id)->update($input);
+		$input = $request->all();
+		Models\Country::fromImportItem($input, $id);
 		return $this->show($request, $id);
 	}
 	/**
@@ -72,18 +56,14 @@ class CountryController extends Controller {
 
 	public function batchStore(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
+		Validator::make($input, [
 			'datas' => 'required|array|min:1',
 			'datas.*.code' => 'required',
 			'datas.*.name' => 'required',
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
+		])->validate();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name', 'short_name']);
-			Models\Country::updateOrCreate(['code' => $data['code']], $data);
+			Models\Country::fromImportItem($v);
 		}
 		return $this->toJson(true);
 	}

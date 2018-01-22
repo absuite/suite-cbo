@@ -16,14 +16,22 @@ class ItemCategory extends Model {
 	protected $fillable = ['id', 'ent_id', 'code', 'name'];
 
 	public static function fromImport($datas) {
-		return $datas->map(function ($data) {
-			$entId = GAuth::entId();
-			Validator::make($data, [
-				'code' => 'required',
-				'name' => 'required',
-			])->validate();
-			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+		return $datas->map(function ($row) {
+			return static::fromImportItem($row);
 		});
+	}
+	public static function fromImportItem($row, $id = false) {
+		$entId = GAuth::entId();
+		$data = array_only($row, ['code', 'name']);
+		Validator::make($data, [
+			'code' => 'required',
+			'name' => 'required',
+		])->validate();
+		if ($id) {
+			return static::updateOrCreate(['ent_id' => $entId, 'id' => $id], $data);
+		} else {
+			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+		}
 	}
 	public static function build(Closure $callback) {
 		tap(new Builder, function ($builder) use ($callback) {

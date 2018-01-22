@@ -1,10 +1,8 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
-use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
 
@@ -29,20 +27,7 @@ class ItemCategoryController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\ItemCategory)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		$input['ent_id'] = GAuth::entId();
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-
-		$data = Models\ItemCategory::create($input);
+		$data = Models\ItemCategory::fromImportItem($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -52,20 +37,8 @@ class ItemCategoryController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name']);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\ItemCategory)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-
-		Models\ItemCategory::where('id', $id)->update($input);
+		$input = $request->all();
+		Models\ItemCategory::fromImportItem($input, $id);
 		return $this->show($request, $id);
 	}
 	/**
@@ -81,19 +54,14 @@ class ItemCategoryController extends Controller {
 	}
 	public function batchStore(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
+		Validator::make($input, [
 			'datas' => 'required|array|min:1',
 			'datas.*.code' => 'required',
 			'datas.*.name' => 'required',
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		$entId = GAuth::entId();
+		])->validate();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name']);
-			Models\ItemCategory::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			Models\ItemCategory::fromImportItem($v);
 		}
 		return $this->toJson(true);
 	}

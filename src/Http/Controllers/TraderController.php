@@ -3,9 +3,7 @@ namespace Suite\Cbo\Http\Controllers;
 
 use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
-use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
 
@@ -29,21 +27,7 @@ class TraderController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$input = InputHelper::fillEntity($input, $request, ['category', 'country', 'province', 'division', 'area']);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\Trader)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-
-		$input['ent_id'] = GAuth::entId();
-		$data = Models\Trader::create($input);
+		$data = Models\Trader::fromImportItem($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -53,20 +37,8 @@ class TraderController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name', 'short_name', 'type_enum', 'is_effective', 'memo']);
-		$input = InputHelper::fillEntity($input, $request, ['category', 'country', 'province', 'division', 'area']);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\Trader)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		Models\Trader::where('id', $id)->update($input);
+		$input = $request->all();
+		Models\Trader::fromImportItem($input, $id);
 		return $this->show($request, $id);
 	}
 	/**
@@ -83,29 +55,15 @@ class TraderController extends Controller {
 
 	public function batchStore(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
+		Validator::make($input, [
 			'datas' => 'required|array|min:1',
 			'datas.*.code' => 'required',
 			'datas.*.name' => 'required',
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
+		])->validate();
 		$entId = GAuth::entId();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name', 'type_enum']);
-			$data = InputHelper::fillEntity($data, $v,
-				[
-					'category' => ['type' => Models\TraderCategory::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'area' => ['type' => Models\Area::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'country' => ['type' => Models\Country::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'province' => ['type' => Models\Province::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'division' => ['type' => Models\Division::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-				],
-				['ent_id' => $entId]
-			);
-			Models\Trader::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			Models\Trader::fromImportItem($v);
 		}
 		return $this->toJson(true);
 	}

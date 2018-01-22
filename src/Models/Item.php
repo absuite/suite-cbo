@@ -21,7 +21,7 @@ class Item extends Model {
 	public function unit() {
 		return $this->belongsTo('Suite\Cbo\Models\Unit');
 	}
-	public static function fromImportItem($row) {
+	public static function fromImportItem($row, $id = false) {
 		if (!empty($row['ent_id'])) {
 			$entId = $row['ent_id'];
 		} else {
@@ -36,15 +36,31 @@ class Item extends Model {
 		])->validate();
 		$data = InputHelper::fillEntity($data, $row, [
 			'currency' => function ($v, $data) use ($entId) {
+				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
+				if (empty($v)) {
+					return false;
+				}
 				return Currency::where('code', $v)->where('ent_id', $entId)->value('id');
 			},
 			'category' => function ($v, $data) use ($entId) {
+				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
+				if (empty($v)) {
+					return false;
+				}
 				return ItemCategory::where('code', $v)->where('ent_id', $entId)->value('id');
 			},
 			'unit' => function ($v, $data) use ($entId) {
+				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
+				if (empty($v)) {
+					return false;
+				}
 				return Unit::where('code', $v)->where('ent_id', $entId)->value('id');
 			},
 			'trader' => function ($v, $data) use ($entId) {
+				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
+				if (empty($v)) {
+					return false;
+				}
 				return Trader::where('code', $v)->where('ent_id', $entId)->value('id');
 			},
 		]);
@@ -54,7 +70,11 @@ class Item extends Model {
 		if (empty($data['price'])) {
 			$data['price'] = 0;
 		}
-		return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+		if ($id) {
+			return static::updateOrCreate(['ent_id' => $entId, 'id' => $id], $data);
+		} else {
+			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+		}
 	}
 	public static function fromImport($datas) {
 		return $datas->map(function ($row, $key) {

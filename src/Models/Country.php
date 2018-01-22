@@ -15,15 +15,20 @@ class Country extends Model {
 	protected $fillable = ['id', 'code', 'name', 'short_name'];
 	public static function fromImport($datas) {
 		return $datas->map(function ($row) {
-
-			$data = array_only($row, ['code', 'name', 'short_name']);
-
-			Validator::make($data, [
-				'code' => 'required',
-				'name' => 'required',
-			])->validate();
-			return static::updateOrCreate(['code' => $data['code']], $data);
+			return static::fromImportItem($row);
 		});
+	}
+	public static function fromImportItem($row, $id = false) {
+		$data = array_only($row, ['code', 'name', 'short_name', 'is_effective']);
+		Validator::make($data, [
+			'code' => 'required',
+			'name' => 'required',
+		])->validate();
+		if ($id) {
+			return static::updateOrCreate(['id' => $id], $data);
+		} else {
+			return static::updateOrCreate(['code' => $data['code']], $data);
+		}
 	}
 	public static function build(Closure $callback) {
 		tap(new Builder, function ($builder) use ($callback) {

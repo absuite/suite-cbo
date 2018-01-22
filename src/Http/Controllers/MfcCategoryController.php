@@ -4,7 +4,6 @@ namespace Suite\Cbo\Http\Controllers;
 use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
 
@@ -29,20 +28,7 @@ class MfcCategoryController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\MfcCategory)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		$input['ent_id'] = GAuth::entId();
-
-		$data = Models\MfcCategory::create($input);
+		$data = Models\MfcCategory::fromImportItem($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -52,20 +38,8 @@ class MfcCategoryController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name']);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\MfcCategory)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-
-		Models\MfcCategory::where('id', $id)->update($input);
+		$input = $request->all();
+		Models\MfcCategory::fromImportItem($input, $id);
 		return $this->show($request, $id);
 	}
 	/**
@@ -81,19 +55,15 @@ class MfcCategoryController extends Controller {
 	}
 	public function batchStore(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
+		Validator::make($input, [
 			'datas' => 'required|array|min:1',
 			'datas.*.code' => 'required',
 			'datas.*.name' => 'required',
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
+		])->validate();
 		$entId = GAuth::entId();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name']);
-			Models\MfcCategory::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			Models\MfcCategory::fromImportItem($v);
 		}
 		return $this->toJson(true);
 	}

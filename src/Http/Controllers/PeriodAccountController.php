@@ -1,13 +1,14 @@
 <?php
 namespace Suite\Cbo\Http\Controllers;
 
+use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
-use GAuth;
+
 class PeriodAccountController extends Controller {
 	public function index(Request $request) {
 		$pageSize = $request->input('size', 10);
@@ -91,14 +92,11 @@ class PeriodAccountController extends Controller {
 
 	public function batchStore(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
+		Validator::make($input, [
 			'datas' => 'required|array|min:1',
 			'datas.*.code' => 'required',
 			'datas.*.calendar' => 'required',
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
+		])->validate();
 		$entId = GAuth::entId();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {

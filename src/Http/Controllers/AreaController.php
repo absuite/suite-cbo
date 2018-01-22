@@ -3,12 +3,10 @@
 namespace Suite\Cbo\Http\Controllers;
 
 use Gmf\Sys\Http\Controllers\Controller;
-use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
-use GAuth;
+
 class AreaController extends Controller {
 	public function index(Request $request) {
 		$query = Models\Area::with('country');
@@ -28,26 +26,7 @@ class AreaController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$input = InputHelper::fillEntity($input, $request,
-			[
-				'country' => ['type' => Models\Country::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-			],
-			['ent_id' => GAuth::entId()]
-		);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\Area)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		$input['ent_id'] = GAuth::entId();
-
-		$data = Models\Area::create($input);
+		$data = Models\Area::fromImportItem($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -57,25 +36,8 @@ class AreaController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name', 'short_name', 'country', 'is_effective']);
-		$input = InputHelper::fillEntity($input, $request,
-			[
-				'country' => ['type' => Models\Country::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-			],
-			['ent_id' => GAuth::entId()]
-		);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\Area)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		Models\Area::where('id', $id)->update($input);
+		$input = $request->all();
+		$data = Models\Area::fromImportItem($input, $id);
 		return $this->show($request, $id);
 	}
 	/**
@@ -92,26 +54,14 @@ class AreaController extends Controller {
 
 	public function batchStore(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
+		Validator::make($input, [
 			'datas' => 'required|array|min:1',
 			'datas.*.code' => 'required',
 			'datas.*.name' => 'required',
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		$entId = GAuth::entId();
-
+		])->validate();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name', 'short_name']);
-			$data = InputHelper::fillEntity($data, $v,
-				[
-					'country' => ['type' => Models\Country::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-				],
-				['ent_id' => $entId]
-			);
-			Models\Area::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			Models\Area::fromImportItem($v);
 		}
 		return $this->toJson(true);
 	}

@@ -2,13 +2,12 @@
 
 namespace Suite\Cbo\Http\Controllers;
 
+use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
-use Gmf\Sys\Libs\InputHelper;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Suite\Cbo\Models;
 use Validator;
-use GAuth;
+
 class ProvinceController extends Controller {
 	public function index(Request $request) {
 		$query = Models\Province::with('country');
@@ -30,20 +29,7 @@ class ProvinceController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$input = InputHelper::fillEntity($input, $request, ['country']);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\Province)->getTable())->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		$input['ent_id'] = GAuth::entId();
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		$data = Models\Province::create($input);
+		$data = Models\Province::fromImportItem($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -53,20 +39,8 @@ class ProvinceController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name', 'short_name', 'is_effective']);
-		$input = InputHelper::fillEntity($input, $request, ['country']);
-		$validator = Validator::make($input, [
-			'code' => [
-				'required',
-				Rule::unique((new Models\Province)->getTable())->ignore($id)->where(function ($query) use ($request) {
-					$query->where('ent_id', GAuth::entId());
-				}),
-			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		Models\Province::where('id', $id)->update($input);
+		$input = $request->all();
+		Models\Province::fromImportItem($input, $id);
 		return $this->show($request, $id);
 	}
 	/**
@@ -83,26 +57,15 @@ class ProvinceController extends Controller {
 
 	public function batchStore(Request $request) {
 		$input = $request->all();
-		$validator = Validator::make($input, [
+		Validator::make($input, [
 			'datas' => 'required|array|min:1',
 			'datas.*.code' => 'required',
 			'datas.*.name' => 'required',
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
+		])->validate();
 		$entId = GAuth::entId();
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$data = array_only($v, ['code', 'name', 'short_name']);
-			$data = InputHelper::fillEntity($data, $v,
-				[
-					'area' => ['type' => Models\Area::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-					'country' => ['type' => Models\Country::class, 'matchs' => ['code', 'ent_id' => '${ent_id}']],
-				],
-				['ent_id' => $entId]
-			);
-			Models\Province::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+			Models\Province::fromImportItem($v);
 		}
 		return $this->toJson(true);
 	}
