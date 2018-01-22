@@ -35,18 +35,15 @@ class ItemController extends Controller {
 	public function store(Request $request) {
 		$input = $request->all();
 		$input = InputHelper::fillEntity($input, $request, ['category', 'currency', 'trader', 'unit']);
-		$validator = Validator::make($input, [
+		Validator::make($input, [
 			'code' => [
 				'required',
 				Rule::unique((new Models\Item)->getTable())->where(function ($query) use ($request) {
 					$query->where('ent_id', GAuth::entId());
 				}),
 			],
-		]);
-		if ($validator->fails()) {
-			return $this->toError($validator->errors());
-		}
-		$data = $this->importData($input);
+		])->validate();
+		$data = Models\Item::fromImportItem($input);
 		return $this->show($request, $data->id);
 	}
 	/**
@@ -69,7 +66,7 @@ class ItemController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
-		$this->importData($input);
+		Models\Item::fromImportItem($input);
 		return $this->show($request, $id);
 	}
 	/**
@@ -96,7 +93,7 @@ class ItemController extends Controller {
 		}
 		$datas = $request->input('datas');
 		foreach ($datas as $k => $v) {
-			$this->importData($v);
+			Models\Item::fromImportItem($v);
 		}
 		return $this->toJson(true);
 	}
