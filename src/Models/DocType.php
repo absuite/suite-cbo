@@ -8,7 +8,6 @@ use Gmf\Sys\Libs\InputHelper;
 use Gmf\Sys\Traits\HasGuard;
 use Gmf\Sys\Traits\Snapshotable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rule;
 use Validator;
 
 class DocType extends Model {
@@ -31,15 +30,7 @@ class DocType extends Model {
 		$validator = Validator::make($data, [
 			'code' => 'required',
 			'name' => 'required',
-			'biz_type_enum' => [
-				'required',
-				Rule::in(['ship', 'rcv',
-					'miscRcv', 'miscShip',
-					'transfer', 'moRcv', 'moIssue',
-					'process', 'receivables', 'payment',
-					'ar', 'ap', 'plan',
-					'expense', 'voucher']),
-			],
+			'biz_type_enum' => 'required',
 		])->validate();
 		if ($id) {
 			return static::updateOrCreate(['ent_id' => $entId, 'id' => $id], $data);
