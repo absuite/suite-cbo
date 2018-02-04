@@ -61,7 +61,7 @@
       },
       initModel(){
         return {
-          main:{'code':'','name':'','country':this.$root.userConfig.country,'is_effective':true}
+          main:{'code':'','name':'','country':this.$root.configs.country,'is_effective':true}
         }
       },
       list() {

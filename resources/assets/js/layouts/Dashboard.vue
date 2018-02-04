@@ -105,7 +105,7 @@ export default {
   data() {
     return {
       model: {
-        purpose: this.$root.userConfig.purpose,
+        purpose: this.$root.configs.purpose,
         fm_period: null,
         to_period: null,
         groups: [],

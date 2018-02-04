@@ -67,7 +67,7 @@ export default {
           'code': '',
           'name': '',
           'short_name': '',
-          country: this.$root.userConfig.country
+          country: this.$root.configs.country
         }
       }
     },

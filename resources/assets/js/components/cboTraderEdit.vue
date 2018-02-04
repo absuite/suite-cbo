@@ -83,7 +83,7 @@ export default {
           is_effective: true,
           division: null,
           province: null,
-          country: this.$root.userConfig.country
+          country: this.$root.configs.country
         }
       }
     },

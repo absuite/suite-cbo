@@ -71,7 +71,7 @@ export default {
           'name': '',
           'memo': '',
           'is_effective': true,
-          country: this.$root.userConfig.country,
+          country: this.$root.configs.country,
           area: null,
           province: null
         }
