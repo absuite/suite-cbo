@@ -5,28 +5,8 @@
         <md-button class="md-icon-button" @click.native="toggleMenu()">
           <md-icon>menu</md-icon>
         </md-button>
-        <div class="md-logo">
-          <cbo-logo animated></cbo-logo>
-        </div>
       </div>
-      <div class="flex search">
-        <md-autocomplete v-model="search_q" :md-options="search_options" md-layout="box">
-          <label>智能搜索...</label>
-        </md-autocomplete>
-      </div>
-      <div class="md-toolbar-section-end">
-        <md-button class="md-icon-button md-avatar" @click.native="toggleSider()">
-          <md-avatar>
-            <img src="/assets/vendor/gmf-sys/avatar/1.jpg">
-          </md-avatar>
-        </md-button>
-      </div>
-    </div>
-    <div class="md-toolbar-row">
-      <div class="md-toolbar-section-start">
-        
-      </div>
-      <div class="md-pag-tabs">
+      <div class="md-pag-tabs flex">
         <md-button v-for="tab in navTabs" class="md-pag-item" :class="{'md-active': tab.active}" :key="tab.id" @click="toPageTab(tab)">
           <span>{{ tab.name }}</span>
           <md-button v-if="navTabs.length>1" class="md-icon-button md-delete" @click.native="removePageTab(tab,$event)">
@@ -34,7 +14,12 @@
           </md-button>
         </md-button>
       </div>
-      <div class="md-toolbar-section-end md-flexible">
+      <div class="md-toolbar-section-end">
+        <md-button class="md-icon-button md-avatar" @click.native="toggleSider()">
+          <md-avatar>
+            <img src="/assets/vendor/gmf-sys/avatar/1.jpg">
+          </md-avatar>
+        </md-button>
       </div>
     </div>
   </div>
@@ -72,17 +57,14 @@ export default {
 @import "~gmf/components/MdLayout/mixins";
 .suite-app-toolbar {
   width: 100%;
-  >.md-toolbar-row:first-child{
-    height: 56px;
-  }
-  .md-logo{
+  .md-logo {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     height: 56px;
     padding: 0px;
     cursor: pointer;
-    svg{
+    svg {
       height: 60px;
       width: 140px;
     }

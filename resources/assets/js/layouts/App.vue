@@ -1,5 +1,5 @@
 <template>
-  <md-app md-waterfall md-mode="fixed-last">
+  <md-app md-waterfall md-mode="fixed">
     <md-app-toolbar class="md-dense md-primary">
       <app-toolbar @toggleMenu="toggleMenu" @toggleSider="toggleSider"></app-toolbar>
     </md-app-toolbar>
