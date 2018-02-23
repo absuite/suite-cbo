@@ -13,10 +13,9 @@ class CboMyComponentSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->down();
 		$exception = DB::transaction(function () {
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('myProfileInfo')->name('个人资料');
+				$builder->code('myProfileInfo')->type_enum('ui')->name('个人资料');
 			});
 		});
 	}

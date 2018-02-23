@@ -180,10 +180,10 @@ export default {
     loadGroupRank() {
       var queryCase = { wheres: [] };
       if (this.model.purpose) {
-        queryCase.wheres.push({ name: 'purpose_id', value: this.model.purpose.id });
+        queryCase.wheres.push({ 'purpose_id': this.model.purpose.id });
       }
       if (this.model.fm_period) {
-        queryCase.wheres.push({ name: 'period_id', value: this.model.fm_period.id });
+        queryCase.wheres.push({ 'period_id': this.model.fm_period.id });
       }
       this.$http.post('amiba/reports/group-rank-ans', queryCase).then(response => {
         this.updateGroupRank(response.data);
@@ -246,13 +246,13 @@ export default {
     loadGroupStructure(group_id, period_id) {
       var queryCase = { wheres: [] };
       if (this.model.purpose) {
-        queryCase.wheres.push({ name: 'purpose_id', value: this.model.purpose.id });
+        queryCase.wheres.push({ 'purpose_id': this.model.purpose.id });
       }
       if (period_id) {
-        queryCase.wheres.push({ name: 'period_id', value: period_id });
+        queryCase.wheres.push({ 'period_id': period_id });
       }
       if (group_id) {
-        queryCase.wheres.push({ name: 'group_id', value: group_id });
+        queryCase.wheres.push({ 'group_id': group_id });
       }
       this.$http.post('amiba/reports/group-structure-ans', queryCase).then(response => {
         this.updateGroupStructure(response.data);
@@ -314,16 +314,16 @@ export default {
     loadTroupTrend(group_id) {
       var queryCase = { wheres: [] };
       if (this.model.purpose) {
-        queryCase.wheres.push({ name: 'purpose_id', value: this.model.purpose.id });
+        queryCase.wheres.push({ 'purpose_id': this.model.purpose.id });
       }
       if (this.model.fm_period) {
-        queryCase.wheres.push({ name: 'fm_period', operator: 'greater_than_equal', value: this.model.fm_period.code });
+        queryCase.wheres.push({ 'gte': { 'fm_period': this.model.fm_period.code } });
       }
       if (this.model.to_period) {
-        queryCase.wheres.push({ name: 'to_period', operator: 'less_than_equal', value: this.model.to_period.code });
+        queryCase.wheres.push({ 'lte': { 'to_period': this.model.to_period.code } });
       }
       if (group_id) {
-        queryCase.wheres.push({ name: 'group_id', value: group_id });
+        queryCase.wheres.push({ 'group_id': group_id });
       }
       this.$http.post('amiba/reports/group-trend-ans', queryCase).then(response => {
         this.updateTroupTrend(response.data);

@@ -13,8 +13,6 @@ class SysRefSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->down();
-
 		$exception = DB::transaction(function () {
 			$id = "d0ff895063b311e7bce1b7401e9f5acb";
 			Models\Query::build(function (Builder $builder) use ($id) {

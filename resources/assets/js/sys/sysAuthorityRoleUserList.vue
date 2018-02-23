@@ -21,7 +21,7 @@
       </md-part-toolbar-group>
     </md-part-toolbar>
     <md-part-body class="no-padding">
-      <md-query @select="select" @dblclick="edit" @init="initQuery" ref="list" md-query-id="gmf.sys.authority.role.user.list"></md-query>
+      <md-query @select="select" @dblclick="edit" :md-init="initQuery" ref="list" md-query-id="gmf.sys.authority.role.user.list"></md-query>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
   </md-part>

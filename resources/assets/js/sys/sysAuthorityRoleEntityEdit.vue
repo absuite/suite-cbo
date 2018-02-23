@@ -36,7 +36,7 @@
         </md-layout>
       </md-content>
     </md-part-body>
-    <md-ref @init="init_Entity_ref" md-ref-id="gmf.sys.entity.ref" ref="lineRef" @confirm="lineRefClose"></md-ref>
+    <md-ref :md-init="init_Entity_ref" md-ref-id="gmf.sys.entity.ref" ref="lineRef" @confirm="lineRefClose"></md-ref>
     <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>

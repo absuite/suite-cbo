@@ -26,7 +26,7 @@
           <md-input required v-model="model.main.name"></md-input>
         </md-field>
         <md-ref-input md-label="组织" required md-ref-id="suite.cbo.org.ref" v-model="model.main.org"></md-ref-input>
-        <md-ref-input md-label="部门" required @init="initDeptRef" md-ref-id="suite.cbo.dept.ref" v-model="model.main.dept"></md-ref-input>
+        <md-ref-input md-label="部门" required :md-init="initDeptRef" md-ref-id="suite.cbo.dept.ref" v-model="model.main.dept"></md-ref-input>
         <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
       </md-content>
       <md-loading :loading="loading"></md-loading>
@@ -69,9 +69,9 @@ export default {
     },
     initDeptRef(options) {
       if (this.model.main.org) {
-        options.wheres.org = { name: 'org_id', value: this.model.main.org.id };
+        options.wheres.$org = { 'org_id': this.model.main.org.id };
       } else {
-        options.wheres.org = false;
+        options.wheres.$org = false;
       }
     },
   },

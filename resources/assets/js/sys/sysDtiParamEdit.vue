@@ -14,7 +14,7 @@
     <md-part-body>
       <md-content>
         <md-ref-input md-label="分类" md-ref-id="gmf.sys.dti.category.ref" v-model="model.main.category" />
-        <md-ref-input md-label="接口" md-ref-id="gmf.sys.dti.ref" @init="initDtiRef" v-model="model.main.dti" />
+        <md-ref-input md-label="接口" md-ref-id="gmf.sys.dti.ref" :md-init="initDtiRef" v-model="model.main.dti" />
         <md-field>
           <label>编码</label>
           <md-input required maxlength="10" v-model="model.main.code"></md-input>
@@ -70,9 +70,9 @@ export default {
     },
     initDtiRef(options) {
       if (this.model.main.category) {
-        options.wheres.category = { name: 'category_id', value: this.model.main.category.id };
+        options.wheres.$category = { 'category_id': this.model.main.category.id };
       } else {
-        options.wheres.category = false;
+        options.wheres.$category = false;
       }
     }
   },

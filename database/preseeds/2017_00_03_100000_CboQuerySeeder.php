@@ -13,8 +13,6 @@ class CboQuerySeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->down();
-
 		$exception = DB::transaction(function () {
 			$id = "a84fbb20107f11e7941defd9424c1f54";
 			Models\Query::build(function (Builder $builder) use ($id) {

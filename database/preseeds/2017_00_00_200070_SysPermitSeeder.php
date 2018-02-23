@@ -13,7 +13,6 @@ class SysPermitSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->down();
 
 		$exception = DB::transaction(function () {
 			Permit::build(function (Builder $builder) {

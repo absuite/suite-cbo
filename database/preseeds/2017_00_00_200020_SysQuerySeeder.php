@@ -13,7 +13,6 @@ class SysQuerySeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->down();
 
 		$exception = DB::transaction(function () {
 			$id = "9314a2100a6211e79036095742576697";

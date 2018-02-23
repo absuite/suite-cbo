@@ -10,7 +10,7 @@
       </md-part-toolbar-group>
     </md-part-toolbar>
     <md-part-body class="no-padding">
-      <md-query @select="select" ref="list" @init="initQuery" md-query-id="gmf.sys.dti.log.list"></md-query>
+      <md-query @select="select" ref="list" :md-init="initQuery" md-query-id="gmf.sys.dti.log.list"></md-query>
     </md-part-body>
     <md-loading :loading="loading"></md-loading>
   </md-part>
@@ -48,17 +48,17 @@ export default {
       this.currentQ = q;
     },
     initQuery(options) {
-      options.wheres.filter = false;
+      options.wheres.$filter = false;
       if (this.currentQ) {
         var isDate = this.currentQ.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
-        options.wheres.filter = {
+        options.wheres.$filter = {
           "or": [
-            { name: 'dti.name', operator: 'like', value: this.currentQ },
-            { name: 'dti.category.name', operator: 'like', value: this.currentQ }
+			{ like: {'dti.name': this.currentQ }},
+			{ like: {'dti.category.name': this.currentQ }}
           ]
         };
         if (isDate) {
-          options.wheres.filter.or.push({ name: 'date', operator: '>=', value: this.currentQ });
+          options.wheres.$filter.or.push({'gte':{'date':this.currentQ}});
         }
       }
     },

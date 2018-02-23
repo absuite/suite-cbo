@@ -82,9 +82,9 @@ export default {
     },
     initDtiRef(options) {
       if (this.model.main.category) {
-        options.wheres.category = { name: 'category_id', value: this.model.main.category.id };
+        options.wheres.$category = { 'category_id': this.model.main.category.id };
       } else {
-        options.wheres.category = false;
+        options.wheres.$category = false;
       }
     }
   },

@@ -14,8 +14,6 @@ class CboMenuSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->down();
-
 		$id = "1e53c280421611e79933851f36ce39f8";
 		Menu::build(function (Builder $builder) use ($id) {
 			$builder->id($id)->root_id($id)->code('cbo')->name('数据管理')

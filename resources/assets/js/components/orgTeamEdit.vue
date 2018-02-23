@@ -26,8 +26,8 @@
           <md-input required v-model="model.main.name"></md-input>
         </md-field>
         <md-ref-input md-label="组织" required md-ref-id="suite.cbo.org.ref" v-model="model.main.org"></md-ref-input>
-        <md-ref-input md-label="部门" required @init="initDeptRef" md-ref-id="suite.cbo.dept.ref" v-model="model.main.dept"></md-ref-input>
-        <md-ref-input md-label="工作中心" @init="initWorgRef" md-ref-id="suite.cbo.work.ref" v-model="model.main.work"></md-ref-input>
+        <md-ref-input md-label="部门" required :md-init="initDeptRef" md-ref-id="suite.cbo.dept.ref" v-model="model.main.dept"></md-ref-input>
+        <md-ref-input md-label="工作中心" :md-init="initWorgRef" md-ref-id="suite.cbo.work.ref" v-model="model.main.work"></md-ref-input>
         <md-ref-input md-label="负责人" md-ref-id="suite.cbo.person.ref" v-model="model.main.manager"></md-ref-input>
         <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
       </md-content>
@@ -71,16 +71,16 @@ export default {
     },
     initDeptRef(options) {
       if (this.model.main.org) {
-        options.wheres.org = { name: 'org_id', value: this.model.main.org.id };
+        options.wheres.$org = { 'org_id': this.model.main.org.id };
       } else {
-        options.wheres.org = false;
+        options.wheres.$org = false;
       }
     },
     initWorgRef(options) {
       if (this.model.main.dept) {
-        options.wheres.dept = { name: 'dept_id', value: this.model.main.dept.id };
+        options.wheres.$dept = { 'dept_id': this.model.main.dept.id };
       } else {
-        options.wheres.dept = false;
+        options.wheres.$dept = false;
       }
     },
   },

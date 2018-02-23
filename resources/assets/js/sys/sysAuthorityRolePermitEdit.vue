@@ -26,7 +26,7 @@
         </md-layout>
       </md-content>
     </md-part-body>
-    <md-ref @init="init_Permit_ref" md-ref-id="gmf.sys.authority.permit.ref" ref="lineRef" @confirm="lineRefClose"></md-ref>
+    <md-ref :md-init="init_Permit_ref" md-ref-id="gmf.sys.authority.permit.ref" ref="lineRef" @confirm="lineRefClose"></md-ref>
     <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>

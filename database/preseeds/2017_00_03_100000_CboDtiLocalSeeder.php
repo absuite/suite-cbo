@@ -10,7 +10,6 @@ class CboDtiLocalSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		//Models\DtiLocal::where('code', 'like', 'api/cbo/%')->delete();
 
 		Models\DtiLocal::build(function (Builder $b) {
 			$b->method_enum('post')->code("api/cbo/orgs/batch")->name("组织")->path('api/cbo/orgs/batch');

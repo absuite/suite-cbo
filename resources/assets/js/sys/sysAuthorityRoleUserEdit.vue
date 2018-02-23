@@ -30,7 +30,7 @@
         </md-layout>
       </md-content>
     </md-part-body>
-    <md-ref @init="init_User_ref" md-ref-id="gmf.sys.user.ref" ref="lineRef" @confirm="lineRefClose"></md-ref>
+    <md-ref :md-init="init_User_ref" md-ref-id="gmf.sys.user.ref" ref="lineRef" @confirm="lineRefClose"></md-ref>
     <md-loading :loading="loading"></md-loading>
   </md-part>
 </template>

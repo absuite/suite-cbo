@@ -14,7 +14,6 @@ class CboMyMenuSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->down();
 
 		$exception = DB::transaction(function () {
 			$id = "0c8c3a800a0611e7aa73e1286611a8c9";

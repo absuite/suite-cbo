@@ -13,43 +13,42 @@ class CboSysComponentSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$this->down();
 		$exception = DB::transaction(function () {
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.language.list')->name('语言列表')->path('sysLanguageList');
+				$builder->code('sys.language.list')->name('语言列表')->type_enum('ui')->path('sysLanguageList');
 			});
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.language.edit')->name('语言')->path('sysLanguageEdit');
+				$builder->code('sys.language.edit')->name('语言')->type_enum('ui')->path('sysLanguageEdit');
 			});
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.profile.list')->name('参数列表')->path('sysProfileList');
+				$builder->code('sys.profile.list')->name('参数列表')->type_enum('ui')->path('sysProfileList');
 			});
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.profile.edit')->name('参数')->path('sysProfileEdit');
-			});
-
-			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.dti.category.edit')->name('接口类型')->path('sysDtiCategoryEdit');
-			});
-			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.dti.category.list')->name('接口类型列表')->path('sysDtiCategoryList');
-			});
-			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.dti.param.edit')->name('接口参数')->path('sysDtiParamEdit');
-			});
-			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.dti.param.list')->name('接口参数列表')->path('sysDtiParamList');
+				$builder->code('sys.profile.edit')->name('参数')->type_enum('ui')->path('sysProfileEdit');
 			});
 
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.dti.log.list')->name('接口日志')->path('sysDtiLogList');
+				$builder->code('sys.dti.category.edit')->name('接口类型')->type_enum('ui')->path('sysDtiCategoryEdit');
+			});
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sys.dti.category.list')->name('接口类型列表')->type_enum('ui')->path('sysDtiCategoryList');
+			});
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sys.dti.param.edit')->name('接口参数')->type_enum('ui')->path('sysDtiParamEdit');
+			});
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sys.dti.param.list')->name('接口参数列表')->type_enum('ui')->path('sysDtiParamList');
 			});
 
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.dti.item.edit')->name('接口')->path('sysDtiItemEdit');
+				$builder->code('sys.dti.log.list')->name('接口日志')->type_enum('ui')->path('sysDtiLogList');
+			});
+
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('sys.dti.item.edit')->name('接口')->type_enum('ui')->path('sysDtiItemEdit');
 			});
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sys.dti.item.list')->name('接口列表')->path('sysDtiItemList');
+				$builder->code('sys.dti.item.list')->name('接口列表')->type_enum('ui')->path('sysDtiItemList');
 			});
 
 			Models\Component::build(function (Builder $builder) {
@@ -109,7 +108,7 @@ class CboSysComponentSeeder extends Seeder {
 			});
 
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('dashboard')->name('首页')->path('dashboard');
+				$builder->code('dashboard')->name('首页')->type_enum('ui')->path('dashboard');
 			});
 		});
 	}
