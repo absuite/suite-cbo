@@ -1,5 +1,6 @@
 import './themes';
-
+import values from 'lodash/values'
+import * as MdComponents from 'gmf/components';
 import components from './components';
 import oauth from './oauth';
 import sys from './sys';
@@ -23,18 +24,17 @@ options.install = (Vue) => {
     console.warn('Vue Material is already installed.');
     return;
   }
+  options.installed = true;
+  values(MdComponents).forEach((MdComponent) => {
+    Vue.use(MdComponent)
+  });
+
+  values(options).forEach((component) => {
+    Vue.use(component)
+  });
 
   config.route(routesAuth);
   config.route(routesMd);
   config.route(routesCbo);
-
-  for (let component in options) {
-    const componentInstaller = options[component];
-
-    if (componentInstaller && component !== 'install') {
-      Vue.use(componentInstaller);
-    }
-  }
-  options.installed = true;
 };
 export default options;

@@ -99,7 +99,7 @@
 </style>
 <script>
 import common from 'gmf/core/utils/common';
-
+import _each from 'lodash/each'
 export default {
   props: {},
   data() {
@@ -194,7 +194,7 @@ export default {
     updateGroupRank(data) {
       var datas = [];
       if (data && data.data) {
-        this._.each(data.data, (value, key) => {
+        _each(data.data, (value, key) => {
           key < 10 && datas.push({
             name: value.name,
             y: value.this_profit
@@ -337,7 +337,7 @@ export default {
       var datas2 = [];
       var datas3 = [];
       if (data && data.data) {
-        this._.each(data.data, (value, key) => {
+        _each(data.data, (value, key) => {
           categories.push(value.name);
           datas1.push({
             name: value.name,

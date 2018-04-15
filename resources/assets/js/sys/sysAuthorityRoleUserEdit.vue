@@ -35,6 +35,8 @@
   </md-part>
 </template>
 <script>
+import _extend from 'lodash/extend'
+import _forEach from 'lodash/forEach'
 export default {
   data() {
     return {
@@ -70,7 +72,7 @@ export default {
       if (!this.model.role) {
         return [];
       }
-      const params = this._.extend({}, pager, { role_id: this.model.role.id });
+      const params = _extend({}, pager, { role_id: this.model.role.id });
       return await this.$http.get(this.route + '/', { params: params });
     },
     loadLineData() {
@@ -104,7 +106,7 @@ export default {
       this.$refs['lineRef'].open();
     },
     lineRefClose(datas) {
-      this._.forEach(datas, (v, k) => {
+      _forEach(datas, (v, k) => {
         this.$refs.grid && this.$refs.grid.addDatas({ user: v, role: this.model.role });
       });
     },

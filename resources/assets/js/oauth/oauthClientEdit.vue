@@ -30,6 +30,7 @@
   </md-part>
 </template>
 <script>
+import _forOwn from 'lodash/forOwn'
   export default {
     data() {
       return {
@@ -84,7 +85,7 @@
       create() {
             var m = this.initModel();
             if (m) {
-                this._.forOwn(m, (value, key) => {
+                _forOwn(m, (value, key) => {
                     this.$set(this.model, key, value);
                 });
             }

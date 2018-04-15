@@ -1,4 +1,5 @@
 import common from 'gmf/core/utils/common';
+import startsWith from 'lodash/startsWith'
 const wrapApp = {
   template: '<md-wrap :name="wrap"></md-wrap>',
   computed: {
@@ -30,7 +31,7 @@ const wrapModule = {
     wrap: function() {
       const app = common.snakeCase(this.$route.params.app);
       const module = common.snakeCase(this.$route.params.module);
-      if (!this._.startsWith(module, app) && module.indexOf('-') < 0) {
+      if (!startsWith(module, app) && module.indexOf('-') < 0) {
         return app + '-' + module;
       }
       return module;
@@ -60,7 +61,7 @@ const wrapExtend = {
     wrap: function() {
       const app = common.snakeCase(this.$route.params.app);
       const module = common.snakeCase(this.$route.params.module);
-      if (!this._.startsWith(module, app) && module.indexOf('-') < 0) {
+      if (!startsWith(module, app) && module.indexOf('-') < 0) {
         return app + '-' + module;
       }
       return module;

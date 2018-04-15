@@ -58,6 +58,7 @@
   </div>
 </template>
 <script>
+import _delay from 'lodash/delay'
 export default {
   props: {
     mdToken: String,
@@ -87,7 +88,7 @@ export default {
     },
     hideCategory() {
       window.clearTimeout(this.categoryTimeout);
-      this.categoryTimeout = this._.delay(() => { this.currentCategory = '' }, 100);
+      this.categoryTimeout = _delay(() => { this.currentCategory = '' }, 100);
     },
     tipNav(nav) {
       this.currentTip = nav;

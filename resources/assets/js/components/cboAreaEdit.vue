@@ -14,19 +14,18 @@
       </md-part-toolbar-group>
       <md-part-toolbar-pager @paging="paging" :options="model.pager"></md-part-toolbar-pager>
       <span class="flex"></span>
-      
     </md-part-toolbar>
     <md-part-body>
       <md-content>
-        <md-field>
+        <md-field :class="{'md-invalid':$v.model.main.code.$error}">
           <label>编码</label>
-          <md-input required v-model="model.main.code"></md-input>
+          <md-input required v-model="model.main.code" @input="$v.model.main.code.$touch()"></md-input>
         </md-field>
-        <md-field>
+        <md-field :class="{'md-invalid':$v.model.main.name.$error}">
           <label>名称</label>
-          <md-input required v-model="model.main.name"></md-input>
+          <md-input required v-model="model.main.name" @input="$v.model.main.name.$touch()"></md-input>
         </md-field>
-        <md-ref-input required md-label="国家/地区" md-ref-id="suite.cbo.country.ref" v-model="model.main.country"/>
+        <md-ref-input required md-label="国家/地区" md-ref-id="suite.cbo.country.ref" v-model="model.main.country" />
         <md-checkbox required v-model="model.main.is_effective">生效的</md-checkbox>
       </md-content>
       <md-loading :loading="loading"></md-loading>
@@ -34,44 +33,56 @@
   </md-part>
 </template>
 <script>
-  import model from 'gmf/core/mixins/MdModel/MdModel';
-  export default {
-    data() {
-      return {
-      };
+import model from 'cbo/mixins/MdModel/MdModel';
+const { required } = require('vuelidate/lib/validators')
+export default {
+  data() {
+    return {};
+  },
+  mixins: [model],
+  computed: {
+    canSave() {
+      return this.validate(true);
+    }
+  },
+  validations: {
+    model: {
+      main: {
+        code: {
+          required
+        },
+        name: {
+          required
+        }
+      }
+    }
+  },
+  methods: {
+    validate(notToast) {
+      var validator = this.$validate(this.model.main, {
+        'code': 'required',
+        'name': 'required',
+        'country': 'required',
+      });
+      var fail = validator.fails();
+      if (fail && !notToast) {
+        this.$toast(validator.errors.all());
+      }
+      return !fail;
     },
-    mixins: [model],
-    computed: {
-      canSave() {
-        return this.validate(true);
+    initModel() {
+      return {
+        main: { 'code': '', 'name': '', 'country': this.$root.configs.country, 'is_effective': true }
       }
     },
-    methods: {
-      validate(notToast){
-        var validator=this.$validate(this.model.main,{
-          'code':'required',
-          'name':'required',
-          'country':'required',
-        });
-        var fail=validator.fails();
-        if(fail&&!notToast){
-          this.$toast(validator.errors.all());
-        }
-        return !fail;
-      },
-      initModel(){
-        return {
-          main:{'code':'','name':'','country':this.$root.configs.country,'is_effective':true}
-        }
-      },
-      list() {
-        this.$router.push({ name: 'module', params: { module: 'cbo.area.list' }});
-      },
+    list() {
+      this.$router.push({ name: 'module', params: { module: 'cbo.area.list' } });
     },
-    created() {
-      this.model.entity='suite.cbo.area';
-      this.model.order="code";
-      this.route='cbo/areas';
-    },
-  };
+  },
+  created() {
+    this.model.entity = 'suite.cbo.area';
+    this.model.order = "code";
+    this.route = 'cbo/areas';
+  },
+};
 </script>
