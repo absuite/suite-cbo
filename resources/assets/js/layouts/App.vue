@@ -104,16 +104,18 @@ export default new MdComponent({
     }
   }
   .md-part {
-    margin: 0 auto;
-    max-width: 1200px;
+    padding: 0 1.8rem;
     width: 100%;
+    background-color: #F5F7FA;
     &.md-full {
-      max-width: 100%;
+      padding: 0px;
+    }
+    @include md-layout-small {
+      padding: 0px;
     }
     .md-part-toolbar {
       &.md-toolbar.md-dense {
         background-color: #fff;
-        margin: 0 auto;
         min-height: 40px;
         width: 100%;
       }
@@ -125,9 +127,8 @@ export default new MdComponent({
     }
     .md-part-body {
       padding: 10px;
-      margin: 10px auto;
+      margin-top: 10px;
       width: 100%;
-
       @include md-layout-xsmall {
         margin: 0;
         padding: 4px;

@@ -5,6 +5,10 @@
         <md-button class="md-icon-button" @click.native="toggleMenu()">
           <md-icon>menu</md-icon>
         </md-button>
+        <md-button class="md-icon-button" @click="toggleScreenfull()">
+          <md-icon v-if="!screenfull">fullscreen</md-icon>
+          <md-icon v-else>fullscreen_exit</md-icon>
+        </md-button>
       </div>
       <div class="md-pag-tabs flex">
         <md-button v-for="tab in navTabs" class="md-pag-item" :class="{'md-active': tab.active}" :key="tab.id" @click="toPageTab(tab)">
@@ -26,6 +30,7 @@
 </template>
 <script>
 import PageTabMixin from './PageTabMixin';
+import screenfull from 'screenfull'
 export default {
   props: {
 
@@ -38,7 +43,8 @@ export default {
     return {
       search_q: '',
       search_options: [],
-      showSidepanel: false
+      showSidepanel: false,
+      screenfull: false
     };
   },
   methods: {
@@ -48,7 +54,24 @@ export default {
     toggleSider() {
       this.$emit('toggleSider');
     },
-
+    toggleScreenfull() {
+      if (screenfull.enabled) {
+        screenfull.toggle();
+      }
+    },
+    screenfullChange() {
+      this.screenfull = screenfull.isFullscreen;
+    }
+  },
+  mounted() {
+    if (screenfull.enabled) {
+      screenfull.on('change', this.screenfullChange);
+    }
+  },
+  destroyed() {
+    if (screenfull.enabled) {
+      screenfull.off('change', this.screenfullChange);
+    }
   }
 };
 </script>

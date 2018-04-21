@@ -1,7 +1,6 @@
-import validator from '../../validator';
-import { validationMixin } from 'vuelidate'
+import MdValidate from '../MdValidate/MdValidate';
 export default {
-  mixins: [validationMixin],
+  mixins: [MdValidate],
   data() {
     return {
       model: {
@@ -32,9 +31,6 @@ export default {
     }
   },
   methods: {
-    $validate(input, rules, customMessages) {
-      return new validator(input, rules, customMessages);
-    },
     validate() {
       return true;
     },
