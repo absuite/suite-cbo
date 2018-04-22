@@ -1,102 +1,150 @@
 <template>
-  <md-layout md-gutter md-column>
-    <md-layout md-gutter md-row>
-      <md-layout md-flex-sm="100" md-flex-xs="100" md-flex="66">
-        <md-card class="flex">
-          <md-card-media>
-            <md-chart class="myChart" ref="groupTrend"></md-chart>
-          </md-card-media>
-          <md-card-media>
-            <md-layout md-gutter md-row>
-              <md-layout md-flex-xs="100" md-flex-sm="50" md-flex="33">
-                <md-chart ref="groupStructure"></md-chart>
-              </md-layout>
-              <md-layout md-flex-xs="100" md-flex-sm="50" md-flex="66">
-                <md-chart ref="groupRank"></md-chart>
-              </md-layout>
-            </md-layout>
-          </md-card-media>
-        </md-card>
+  <div class="suite-dashboard">
+    <md-layout md-column class="no-scroll">
+      <md-layout md-gutter md-row>
+        <md-layout md-flex="50" md-flex-gt-sm="20">
+          <div class="layout media bg-1">
+            <div class="media-header layout-column layout-align-center-center">
+              <md-icon>account_balance</md-icon>
+            </div>
+            <div class="media-body layout-column layout-align-center-start">
+              <p>组织</p>
+              <h5>{{ media.orgs }}</h5>
+            </div>
+          </div>
+        </md-layout>
+        <md-layout md-flex="50" md-flex-gt-sm="20">
+          <div class="layout media bg-2">
+            <div class="media-header layout-column layout-align-center-center">
+              <md-icon>donut_large</md-icon>
+            </div>
+            <div class="media-body layout-column layout-align-center-start">
+              <p>阿米巴</p>
+              <h5>{{ media.groups }}</h5>
+            </div>
+          </div>
+        </md-layout>
+        <md-layout md-flex="50" md-flex-gt-sm="20">
+          <div class="layout media bg-3">
+            <div class="media-header layout-column layout-align-center-center">
+              <md-icon>account_circle</md-icon>
+            </div>
+            <div class="media-body layout-column layout-align-center-start">
+              <p>用户</p>
+              <h5>{{ media.users }}</h5>
+            </div>
+          </div>
+        </md-layout>
+        <md-layout md-flex="50" md-flex-gt-sm="20">
+          <div class="layout media bg-4">
+            <div class="media-header layout-column layout-align-center-center">
+              <md-icon>access_time</md-icon>
+            </div>
+            <div class="media-body layout-column layout-align-center-start">
+              <p>接口执行</p>
+              <h5>{{ media.dti_time }}</h5>
+            </div>
+          </div>
+        </md-layout>
+        <md-layout md-flex="50" md-flex-gt-sm="20">
+          <div class="layout media bg-5">
+            <div class="media-header layout-column layout-align-center-center">
+              <md-icon>timeline</md-icon>
+            </div>
+            <div class="media-body layout-column layout-align-center-start">
+              <p>核算时间</p>
+              <h5>{{ media.account_time }}</h5>
+            </div>
+          </div>
+        </md-layout>
       </md-layout>
-      <md-layout md-flex-sm="100" md-flex-xs="100" md-flex="33">
-        <md-card class="flex">
-          <md-tabs md-fixed class="md-accent layout-fill">
-            <md-tab md-label="资讯">
-              <md-list class="md-double-line">
-                <template v-for="item in model.news">
-                  <md-list-item>
-                    <div class="md-list-item-text">
+      <md-layout md-gutter md-row>
+        <md-layout md-flex="100" md-flex-gt-sm="66">
+          <md-card class="flex">
+            <md-card-media>
+              <md-chart class="myChart" ref="groupTrend"></md-chart>
+            </md-card-media>
+            <md-card-media>
+              <md-layout md-gutter md-row>
+                <md-layout md-flex-xs="100" md-flex-sm="50" md-flex="33">
+                  <md-chart ref="groupStructure"></md-chart>
+                </md-layout>
+                <md-layout md-flex-xs="100" md-flex-sm="50" md-flex="66">
+                  <md-chart ref="groupRank"></md-chart>
+                </md-layout>
+              </md-layout>
+            </md-card-media>
+          </md-card>
+        </md-layout>
+        <md-layout md-flex="100" md-flex-gt-sm="33">
+          <md-card class="flex">
+            <md-tabs md-fixed class="md-accent layout-fill">
+              <md-tab md-label="资讯">
+                <md-list class="md-double-line">
+                  <template v-for="item in model.news">
+                    <md-list-item>
+                      <div class="md-list-item-text">
+                        <span>{{ item.title }}</span>
+                        <p>{{ item.summary }}</p>
+                      </div>
+                      <md-button class="md-icon-button md-list-action">
+                        <md-icon class="md-primary">star</md-icon>
+                      </md-button>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                  </template>
+                </md-list>
+              </md-tab>
+              <md-tab md-label="法规">
+                <md-list class="md-double-line">
+                  <template v-for="item in model.statutes">
+                    <md-list-item>
+                      <div class="md-list-item-text">
+                        <span>{{ item.title }}</span>
+                        <p>{{ item.summary }}</p>
+                      </div>
+                      <md-button class="md-icon-button md-list-action">
+                        <md-icon class="md-primary">star</md-icon>
+                      </md-button>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                  </template>
+                </md-list>
+              </md-tab>
+              <md-tab md-label="知识">
+                <md-list class="md-double-line">
+                  <template v-for="item in model.knowledges">
+                    <md-list-item>
+                      <div class="md-list-item-text">
+                        <span>{{ item.title }}</span>
+                        <p>{{ item.summary }}</p>
+                      </div>
+                      <md-button class="md-icon-button md-list-action">
+                        <md-icon class="md-primary">star</md-icon>
+                      </md-button>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                  </template>
+                </md-list>
+              </md-tab>
+              <md-tab md-label="行情">
+                <md-list class="md-dense">
+                  <template v-for="item in model.prices">
+                    <md-list-item>
                       <span>{{ item.title }}</span>
-                      <p>{{ item.summary }}</p>
-                    </div>
-                    <md-button class="md-icon-button md-list-action">
-                      <md-icon class="md-primary">star</md-icon>
-                    </md-button>
-                  </md-list-item>
-                  <md-divider></md-divider>
-                </template>
-              </md-list>
-            </md-tab>
-            <md-tab md-label="法规">
-              <md-list class="md-double-line">
-                <template v-for="item in model.statutes">
-                  <md-list-item>
-                    <div class="md-list-item-text">
-                      <span>{{ item.title }}</span>
-                      <p>{{ item.summary }}</p>
-                    </div>
-                    <md-button class="md-icon-button md-list-action">
-                      <md-icon class="md-primary">star</md-icon>
-                    </md-button>
-                  </md-list-item>
-                  <md-divider></md-divider>
-                </template>
-              </md-list>
-            </md-tab>
-            <md-tab md-label="知识">
-              <md-list class="md-double-line">
-                <template v-for="item in model.knowledges">
-                  <md-list-item>
-                    <div class="md-list-item-text">
-                      <span>{{ item.title }}</span>
-                      <p>{{ item.summary }}</p>
-                    </div>
-                    <md-button class="md-icon-button md-list-action">
-                      <md-icon class="md-primary">star</md-icon>
-                    </md-button>
-                  </md-list-item>
-                  <md-divider></md-divider>
-                </template>
-              </md-list>
-            </md-tab>
-            <md-tab md-label="行情">
-              <md-list class="md-dense">
-                <template v-for="item in model.prices">
-                  <md-list-item>
-                    <span>{{ item.title }}</span>
-                    <span>{{ item.price }}</span>
-                  </md-list-item>
-                  <md-divider></md-divider>
-                </template>
-              </md-list>
-            </md-tab>
-          </md-tabs>
-        </md-card>
+                      <span>{{ item.price }}</span>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                  </template>
+                </md-list>
+              </md-tab>
+            </md-tabs>
+          </md-card>
+        </md-layout>
       </md-layout>
     </md-layout>
-  </md-layout>
+  </div>
 </template>
-<style scoped>
-.md-card {
-  margin: 15px;
-}
-
-@media (max-width: 600px) {
-  .md-card {
-    margin: 0;
-  }
-}
-</style>
 <script>
 import common from 'gmf/core/utils/common';
 import _each from 'lodash/each'
@@ -113,6 +161,13 @@ export default {
         news: [],
         knowledges: [],
         statutes: []
+      },
+      media: {
+        orgs: 34,
+        users: 15,
+        groups: 3,
+        account_time: '2018-04-02',
+        dti_time: '2018-04-01'
       }
     };
   },
@@ -131,6 +186,13 @@ export default {
     },
   },
   methods: {
+    loadMedias() {
+      this.$http.get('cbo/dashboards/media', { params: {} }).then(response => {
+        this.media = response.data.data;
+      }, response => {
+        this.$toast(response);
+      });
+    },
     loadGroups() {
       this.$http.get('amiba/groups/all', { params: {} }).then(response => {
         this.model.groups = response.data.data;
@@ -176,6 +238,7 @@ export default {
       } else {
         this.updateGroupStructure();
       }
+      this.loadMedias();
     },
     loadGroupRank() {
       var queryCase = { wheres: [] };
@@ -436,3 +499,86 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.suite-dashboard {
+  padding: 1.875rem;
+}
+
+.md-card {
+  margin-bottom: 1.875rem;
+  width: 100%;
+}
+
+.md-card-media {
+  overflow: hidden;
+}
+
+.media {
+  min-height: 70px;
+  margin-bottom: 1.875rem;
+  color: white;
+  width: 100%;
+  .media-header,
+  .media-body {
+    padding: 0px 16px;
+  }
+  .media-header {
+    .md-icon {
+      font-size: 50px;
+      color: white;
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .media-body {
+    flex: 1;
+    font-size: 15px;
+    h4,
+    h5,
+    p {
+      margin: 0px;
+    }
+  }
+  &.bg-1 {
+    .media-header {
+      background-color: #00A5A8;
+    }
+    .media-body {
+      background-image: linear-gradient(to right, #00A5A8 0, #4DCBCD 100%);
+    }
+  }
+  &.bg-2 {
+    .media-header {
+      background-color: #FF6275;
+    }
+    .media-body {
+      background-image: linear-gradient(to right, #FF6275 0, #FF9EAC 100%);
+    }
+  }
+  &.bg-3 {
+    .media-header {
+      background-color: #FF976A;
+    }
+    .media-body {
+      background-image: linear-gradient(to right, #FF976A 0, #FFC2A4 100%);
+    }
+  }
+  &.bg-4 {
+    .media-header {
+      background-color: #10C888;
+    }
+    .media-body {
+      background-image: linear-gradient(to right, #10C888 0, #5CE0B8 100%);
+      ;
+    }
+  }
+  &.bg-5 {
+    .media-header {
+      background-color: #2196F3;
+    }
+    .media-body {
+      background-image: linear-gradient(to right, #2196F3 0, rgba(33, 150, 243, .8) 100%);
+    }
+  }
+}
+</style>

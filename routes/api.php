@@ -1,6 +1,9 @@
 <?php
 $ns = 'Suite\Cbo\Http\Controllers';
 Route::prefix('api/cbo')->middleware(['api', 'auth:api'])->namespace($ns)->group(function () {
+
+	Route::get('/dashboards/media', 'DashboardController@getMedia');
+
 	Route::post('/orgs/batch', 'OrgController@batchStore');
 	Route::resource('orgs', 'OrgController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
 

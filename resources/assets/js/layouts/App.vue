@@ -1,10 +1,10 @@
 <template>
   <md-app md-waterfall md-mode="fixed">
     <md-app-toolbar class="md-dense md-primary">
-      <app-toolbar @toggleMenu="toggleMenu" @toggleSider="toggleSider"></app-toolbar>
+      <app-toolbar @toggleSider="toggleSider"></app-toolbar>
     </md-app-toolbar>
-    <md-app-drawer class="menu-drawer" :md-active.sync="menuVisible">
-      <app-menu @toggle="toggleMenu"></app-menu>
+    <md-app-drawer class="menu-drawer" md-theme="dark" @md-closed="hideMenu" md-persistent="mini" md-permanent="full" :md-active.sync="isMenuVisible">
+      <app-menu></app-menu>
     </md-app-drawer>
     <md-app-content>
       <div v-for="tab in navTabs" :key="tab.id" class="md-pag-container flex" :class="{'md-active': tab.active}">
@@ -21,6 +21,8 @@ import MdComponent from 'gmf/core/MdComponent';
 import PageTabMixin from './PageTabMixin';
 import AppMenu from './AppMenu';
 import AppSider from './AppSider';
+import { mapState, mapMutations } from 'vuex';
+import * as types from 'gmf/store/mutation-types'
 export default new MdComponent({
   name: 'App',
   components: {
@@ -32,26 +34,34 @@ export default new MdComponent({
     mdTitle: String
   },
   mixins: [PageTabMixin],
+  computed: {
+    ...mapState({
+      menuVisible: 'menuVisible'
+    })
+  },
   watch: {
     "$root.configs.ent.id": function(v, o) {
       this.onChangeEnt();
+    },
+    menuVisible(menuVisible) {
+      this.isMenuVisible = menuVisible;
     }
   },
+
   data() {
     return {
-      menuVisible: false,
+      isMenuVisible: false,
       siderVisible: false
     };
   },
   methods: {
-    toggleMenu() {
-      this.menuVisible = !this.menuVisible;
-    },
+    ...mapMutations({
+      hideMenu: types.HIDE_MENU
+    }),
     toggleSider() {
       this.siderVisible = !this.siderVisible;
     },
     onChangeEnt() {
-      this.menuVisible = false;
       this.siderVisible = false;
       this.$http.get('/site/configs').then(response => {
         if (!response.data.data) return;
@@ -137,8 +147,6 @@ export default new MdComponent({
   }
   .md-form {
     .layout>.md-field {
-      margin-left: 0px;
-      margin-right: 10px;
       margin-bottom: 5px;
     }
   }

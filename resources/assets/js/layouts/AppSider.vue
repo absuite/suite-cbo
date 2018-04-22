@@ -1,6 +1,6 @@
 <template>
   <div class="suite-app-sider layout layout-column" v-if="user">
-    <md-toolbar class="md-primary">
+    <md-toolbar class="md-primary md-dense">
       <div class="md-toolbar-row">
         <div class="md-toolbar-section-start">
           <md-button class="md-icon-button md-avatar">

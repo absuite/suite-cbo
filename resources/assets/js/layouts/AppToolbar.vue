@@ -2,7 +2,7 @@
   <div class="suite-app-toolbar">
     <div class="md-toolbar-row layout-align-space-between-center">
       <div class="md-toolbar-section-start">
-        <md-button class="md-icon-button" @click.native="toggleMenu()">
+        <md-button v-if="!menuVisible" class="md-icon-button" @click.native="toggleMenu()">
           <md-icon>menu</md-icon>
         </md-button>
         <md-button class="md-icon-button" @click="toggleScreenfull()">
@@ -30,15 +30,15 @@
 </template>
 <script>
 import PageTabMixin from './PageTabMixin';
-import screenfull from 'screenfull'
+import screenfull from 'screenfull';
+import { mapState, mapActions, mapMutations } from 'vuex'
+import * as types from 'gmf/store/mutation-types'
+
 export default {
   props: {
 
   },
   mixins: [PageTabMixin],
-  watch: {
-
-  },
   data() {
     return {
       search_q: '',
@@ -47,9 +47,18 @@ export default {
       screenfull: false
     };
   },
+  computed: {
+    ...mapState({
+      menuVisible: 'menuVisible'
+    })
+  },
   methods: {
+    ...mapMutations({
+      showMenu: types.SHOW_MENU,
+      hideMenu: types.HIDE_MENU
+    }),
     toggleMenu() {
-      this.$emit('toggleMenu');
+      this.showMenu();
     },
     toggleSider() {
       this.$emit('toggleSider');
@@ -98,17 +107,14 @@ export default {
       margin: 0px;
       opacity: .8;
       min-width: 60px;
-      min-height: 40px;
+      min-height: 28px;
+      height: auto;
       overflow: hidden;
       padding-left: 2px;
       padding-right: 5px;
       .md-ripple {
         padding: 0px;
       }
-      &.md-active {
-        opacity: 1;
-      }
-
       .md-delete {
         margin: 0px;
         padding: 0px;
@@ -121,6 +127,13 @@ export default {
 
         .md-icon {
           font-size: 18px;
+        }
+      }
+      &.md-active {
+        opacity: 1;
+        .md-delete {
+          transform: translate3d(0px, 0px, 0px);
+          opacity: 1;
         }
       }
       &:hover {
