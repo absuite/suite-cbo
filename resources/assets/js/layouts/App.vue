@@ -1,5 +1,5 @@
 <template>
-  <md-app md-waterfall md-mode="fixed">
+  <md-app md-waterfall md-mode="fixed" v-if="user">
     <md-app-toolbar class="md-dense md-primary">
       <app-toolbar @toggleSider="toggleSider"></app-toolbar>
     </md-app-toolbar>
@@ -37,7 +37,10 @@ export default new MdComponent({
   computed: {
     ...mapState({
       menuVisible: 'menuVisible'
-    })
+    }),
+    user(){
+      return this.$root.configs&&this.$root.configs.user;
+    }
   },
   watch: {
     "$root.configs.ent.id": function(v, o) {
@@ -47,12 +50,25 @@ export default new MdComponent({
       this.isMenuVisible = menuVisible;
     }
   },
-
   data() {
     return {
       isMenuVisible: false,
       siderVisible: false
     };
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (!vm.$root.configs || !vm.$root.configs.user) {
+        next({ name: 'auth.login' });
+      }
+    });
+  },
+  beforeRouteUpdate(to, from, next) {
+    if (!this.$root.configs || !this.$root.configs.user) {
+      next({ name: 'auth.login' });
+    } else {
+      next();
+    }
   },
   methods: {
     ...mapMutations({
