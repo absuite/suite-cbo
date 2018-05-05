@@ -1,5 +1,11 @@
 <?php
 $ns = 'Suite\Cbo\Http\Controllers';
+Route::prefix('api/cbo')->middleware(['api'])->namespace($ns)->group(function () {
+	//dti
+	Route::post('/dti/{spName}', 'DtiController@run');
+	Route::get('/dti/{spName}', 'DtiController@run');
+});
+
 Route::prefix('api/cbo')->middleware(['api', 'auth:api'])->namespace($ns)->group(function () {
 
 	Route::get('/dashboards/media', 'DashboardController@getMedia');
