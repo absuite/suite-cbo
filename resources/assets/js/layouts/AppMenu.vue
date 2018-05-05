@@ -38,7 +38,7 @@
     </md-list>
     <md-divider></md-divider>
     <md-toolbar md-elevation="0" class="md-transparent">
-      <!-- <a href="//demo.myamiba.com/docs/home" target="_blank">文档</a> -->
+      <a href="//demo.myamiba.com/docs/home" target="_blank">文档</a>
     </md-toolbar>
     <div class="suite-app-menu-extend layout layout-column" @mouseenter="showCategory(currentCategory)" @mouseleave="hideCategory" v-show="currentCategory">
       <md-content class="layout flex" md-theme="default">
@@ -69,7 +69,7 @@ export default {
     mdTitle: String
   },
   watch: {
-    "$root.userData.entId": function(v, o) {
+    "$root.configs.ent.id": function(v, o) {
       this.loadData();
     }
   },
