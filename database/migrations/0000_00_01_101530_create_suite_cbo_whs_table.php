@@ -12,7 +12,7 @@ class CreateSuiteCboWhsTable extends Migration {
 	 */
 	public function up() {
 		$md = Metadata::create($this->mdID);
-		$md->mdEntity('suite.cbo.wh')->comment('人员')->tableName('suite_cbo_whs');
+		$md->mdEntity('suite.cbo.wh')->comment('c')->tableName('suite_cbo_whs');
 
 		$md->string('id', 100)->primary();
 		$md->entity('ent', 'gmf.sys.ent')->nullable()->comment('企业');
