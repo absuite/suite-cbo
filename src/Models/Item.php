@@ -86,7 +86,7 @@ class Item extends Model {
 		tap(new Builder, function ($builder) use ($callback) {
 			$callback($builder);
 			$data = array_only($builder->toArray(), ['id', 'ent_id', 'category_id', 'code', 'name', 'memo', 'form_enum', 'currency_id', 'price', 'unit_id', 'trader_id']);
-			static::fromImport(collect($data));
+			static::fromImportItem($data);
 		});
 	}
 }
