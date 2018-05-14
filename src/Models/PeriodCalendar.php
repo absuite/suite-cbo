@@ -15,6 +15,11 @@ class PeriodCalendar extends Model {
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'code', 'name', 'type_enum', 'from_date', 'to_date'];
 
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+
 	public static function build(Closure $callback) {
 		tap(new Builder, function ($builder) use ($callback) {
 			$callback($builder);

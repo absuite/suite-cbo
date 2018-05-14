@@ -18,6 +18,16 @@ class Work extends Model {
 	protected $casts = [
 		'is_effective' => 'integer',
 	];
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+	public function setOrgIdAttribute($value) {
+		$this->attributes['org_id'] = empty($value) ? null : $value;
+	}
+	public function setDeptIdAttribute($value) {
+		$this->attributes['dept_id'] = empty($value) ? null : $value;
+	}
 
 	public function ent() {
 		return $this->belongsTo('Gmf\Sys\Models\Ent');

@@ -19,6 +19,23 @@ class Team extends Model {
 		'is_effective' => 'integer',
 	];
 
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+	public function setOrgIdAttribute($value) {
+		$this->attributes['org_id'] = empty($value) ? null : $value;
+	}
+	public function setDeptIdAttribute($value) {
+		$this->attributes['dept_id'] = empty($value) ? null : $value;
+	}
+	public function setWorkIdAttribute($value) {
+		$this->attributes['work_id'] = empty($value) ? null : $value;
+	}
+	public function setManagerIdAttribute($value) {
+		$this->attributes['manager_id'] = empty($value) ? null : $value;
+	}
+
 	public function ent() {
 		return $this->belongsTo('Gmf\Sys\Models\Ent');
 	}

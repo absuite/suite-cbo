@@ -14,6 +14,21 @@ class Wh extends Model {
 	protected $table = 'suite_cbo_whs';
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'code', 'name', 'memo', 'is_effective', 'org_id', 'dept_id', 'manager_id'];
+
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+	public function setOrgIdAttribute($value) {
+		$this->attributes['org_id'] = empty($value) ? null : $value;
+	}
+	public function setDeptIdAttribute($value) {
+		$this->attributes['dept_id'] = empty($value) ? null : $value;
+	}
+	public function setManagerIdAttribute($value) {
+		$this->attributes['manager_id'] = empty($value) ? null : $value;
+	}
+
 	public function org() {
 		return $this->belongsTo('Suite\Cbo\Models\Org');
 	}

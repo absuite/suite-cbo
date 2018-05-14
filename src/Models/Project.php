@@ -15,6 +15,15 @@ class Project extends Model {
 	protected $table = 'suite_cbo_projects';
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'category_id', 'code', 'name'];
+
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+	public function setCategoryIdAttribute($value) {
+		$this->attributes['category_id'] = empty($value) ? null : $value;
+	}
+
 	public function category() {
 		return $this->belongsTo('Suite\Cbo\Models\ProjectCategory');
 	}

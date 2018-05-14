@@ -18,6 +18,14 @@ class Area extends Model {
 	protected $casts = [
 		'is_effective' => 'integer',
 	];
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+	public function setCountryIdAttribute($value) {
+		$this->attributes['country_id'] = empty($value) ? null : $value;
+	}
+
 	public function country() {
 		return $this->belongsTo('Suite\Cbo\Models\Country');
 	}

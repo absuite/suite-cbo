@@ -13,6 +13,11 @@ class PeriodAccount extends Model {
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'calendar_id', 'year', 'month', 'week', 'code', 'name', 'from_date', 'to_date'];
 
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+
 	public static function build(Closure $callback) {
 		tap(new Builder, function ($builder) use ($callback) {
 			$callback($builder);

@@ -15,6 +15,10 @@ class TraderCategory extends Model {
 	protected $table = 'suite_cbo_trader_categories';
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'code', 'name', 'type_enum'];
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
 
 	public static function fromImport($datas) {
 		return $datas->map(function ($row, $key) {

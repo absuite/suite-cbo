@@ -14,6 +14,15 @@ class Person extends Model {
 	protected $table = 'suite_cbo_persons';
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'dept_id', 'code', 'name'];
+
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+	public function setDeptIdAttribute($value) {
+		$this->attributes['dept_id'] = empty($value) ? null : $value;
+	}
+
 	public function dept() {
 		return $this->belongsTo('Suite\Cbo\Models\Dept');
 	}

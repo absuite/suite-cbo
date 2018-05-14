@@ -17,6 +17,11 @@ class Unit extends Model {
 	protected $fillable = ['id', 'ent_id', 'type_enum', 'code', 'name'
 		, 'round_precision', 'round_value', 'round_type_enum'];
 
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+
 	public static function fromImport($datas) {
 		return $datas->map(function ($row) {
 			return static::fromImportItem($row);

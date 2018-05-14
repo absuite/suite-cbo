@@ -19,6 +19,22 @@ class Trader extends Model {
 	protected $casts = [
 		'is_effective' => 'integer',
 	];
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+	public function setCountryIdAttribute($value) {
+		$this->attributes['country_id'] = empty($value) ? null : $value;
+	}
+	public function setProvinceIdAttribute($value) {
+		$this->attributes['province_id'] = empty($value) ? null : $value;
+	}
+	public function setDivisionIdAttribute($value) {
+		$this->attributes['division_id'] = empty($value) ? null : $value;
+	}
+	public function setAreaIdAttribute($value) {
+		$this->attributes['area_id'] = empty($value) ? null : $value;
+	}
 	public function category() {
 		return $this->belongsTo('Suite\Cbo\Models\TraderCategory');
 	}

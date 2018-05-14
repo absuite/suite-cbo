@@ -14,7 +14,26 @@ class Item extends Model {
 	use Snapshotable, HasGuard;
 	protected $table = 'suite_cbo_items';
 	public $incrementing = false;
-	protected $fillable = ['id', 'ent_id', 'category_id', 'code', 'name', 'memo', 'form_enum', 'currency_id', 'price', 'unit_id', 'trader_id'];
+	protected $fillable = ['id', 'ent_id', 'category_id', 'code', 'name', 'memo', 'form_enum',
+		'currency_id', 'price', 'unit_id', 'trader_id'];
+
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+	public function setCategoryIdAttribute($value) {
+		$this->attributes['category_id'] = empty($value) ? null : $value;
+	}
+	public function setCurrencyIdAttribute($value) {
+		$this->attributes['currency_id'] = empty($value) ? null : $value;
+	}
+	public function setUnitIdAttribute($value) {
+		$this->attributes['unit_id'] = empty($value) ? null : $value;
+	}
+	public function setTraderIdAttribute($value) {
+		$this->attributes['trader_id'] = empty($value) ? null : $value;
+	}
+
 	public function category() {
 		return $this->belongsTo('Suite\Cbo\Models\ItemCategory');
 	}

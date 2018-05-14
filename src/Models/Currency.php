@@ -17,6 +17,11 @@ class Currency extends Model {
 		, 'money_round_precision', 'money_round_value', 'money_round_type_enum'
 		, 'price_round_precision', 'price_round_value', 'price_round_type_enum'];
 
+	//属性
+	public function setEntIdAttribute($value) {
+		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+
 	public static function fromImport($datas) {
 		return $datas->map(function ($row) {
 			return static::fromImportItem($row);
