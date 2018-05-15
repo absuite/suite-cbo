@@ -1,6 +1,7 @@
 <?php
 
 namespace Suite\Cbo\Models;
+use Carbon\Carbon;
 use Closure;
 use Gmf\Sys\Builder;
 use Gmf\Sys\Traits\HasGuard;
@@ -18,10 +19,10 @@ class PeriodAccount extends Model {
 		$this->attributes['ent_id'] = empty($value) ? null : $value;
 	}
 	public function setFromDateAttribute($value) {
-		$this->attributes['from_date'] = empty($value) ? null : new Carbon($value)->format('Y-m-d');
+		$this->attributes['from_date'] = empty($value) ? null : (new Carbon($value))->format('Y-m-d');
 	}
 	public function setToDateAttribute($value) {
-		$this->attributes['to_date'] = empty($value) ? null : new Carbon($value)->format('Y-m-d');
+		$this->attributes['to_date'] = empty($value) ? null : (new Carbon($value))->format('Y-m-d');
 	}
 
 	public static function build(Closure $callback) {
