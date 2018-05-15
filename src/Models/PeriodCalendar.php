@@ -1,6 +1,7 @@
 <?php
 
 namespace Suite\Cbo\Models;
+use Carbon\Carbon;
 use Closure;
 use Exception;
 use Gmf\Sys\Builder;
@@ -18,6 +19,12 @@ class PeriodCalendar extends Model {
 	//属性
 	public function setEntIdAttribute($value) {
 		$this->attributes['ent_id'] = empty($value) ? null : $value;
+	}
+	public function setFromDateAttribute($value) {
+		$this->attributes['from_date'] = empty($value) ? null : new Carbon($value)->format('Y-m-d');
+	}
+	public function setToDateAttribute($value) {
+		$this->attributes['to_date'] = empty($value) ? null : new Carbon($value)->format('Y-m-d');
 	}
 
 	public static function build(Closure $callback) {

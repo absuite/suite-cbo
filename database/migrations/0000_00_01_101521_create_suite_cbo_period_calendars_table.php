@@ -21,8 +21,8 @@ class CreateSuiteCboPeriodCalendarsTable extends Migration {
 		$md->string('code')->nullable()->comment('编码');
 		$md->string('name')->comment('名称');
 		$md->text('memo')->nullable()->comment('备注');
-		$md->dateTime('from_date')->nullable()->comment('开始日期');
-		$md->dateTime('to_date')->nullable()->comment('结束日期');
+		$md->timestamp('from_date')->nullable()->comment('开始日期');
+		$md->timestamp('to_date')->nullable()->comment('结束日期');
 		$md->timestamps();
 
 		$md->build();

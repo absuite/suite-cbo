@@ -24,8 +24,8 @@ class CreateSuiteCboPeriodAccountsTable extends Migration {
 		$md->integer('month')->default(0)->comment('月');
 		$md->integer('week')->default(0)->comment('周');
 		$md->text('memo')->nullable()->comment('备注');
-		$md->dateTime('from_date')->nullable()->comment('开始日期');
-		$md->dateTime('to_date')->nullable()->comment('结束日期');
+		$md->timestamp('from_date')->nullable()->comment('开始日期');
+		$md->timestamp('to_date')->nullable()->comment('结束日期');
 		$md->timestamps();
 
 		$md->build();
