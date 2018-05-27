@@ -16,27 +16,27 @@
       <span class="flex"></span>
     </md-part-toolbar>
     <md-part-body>
-      <md-content class="flex layout-column">
-        <md-layout md-gutter>
-          <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="25" md-flex-large="20">
+      <md-content class="flex layout-column md-form">
+        <md-layout md-gutter md-row>
+          <md-layout md-flex-xs="100" md-flex-sm="50" md-flex-md="25" md-flex="20">
             <md-field>
               <label>编码</label>
               <md-input required v-model="model.main.code"></md-input>
             </md-field>
           </md-layout>
-          <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="25" md-flex-large="20">
+          <md-layout md-flex-xs="100" md-flex-sm="50" md-flex-md="25" md-flex="20">
             <md-field>
               <label>名称</label>
               <md-input required v-model="model.main.name"></md-input>
             </md-field>
           </md-layout>
-          <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="25" md-flex-large="20">
+          <md-layout md-flex-xs="100" md-flex-sm="50" md-flex-md="25" md-flex="20">
             <md-field>
               <label>期间类型</label>
               <md-enum required md-enum-id="suite.cbo.period.type.enum" v-model="model.main.type_enum" />
             </md-field>
           </md-layout>
-          <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="25" md-flex-large="20">
+          <md-layout md-flex-xs="100" md-flex-sm="50" md-flex-md="25" md-flex="20">
             <md-datepicker required md-label="起始日期" v-model="model.main.from_date"></md-datepicker>
           </md-layout>
         </md-layout>

@@ -5,6 +5,7 @@ use GAuth;
 use Gmf\Sys\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Log;
 use Suite\Cbo\Models;
 use Validator;
 
@@ -63,7 +64,7 @@ class PeriodCalendarController extends Controller {
 	 * @return [type]           [description]
 	 */
 	public function update(Request $request, $id) {
-		$input = $request->only(['code', 'name']);
+		$input = $request->only(['code', 'name', 'from_date']);
 		$validator = Validator::make($input, [
 			'code' => [
 				'required',
@@ -75,6 +76,7 @@ class PeriodCalendarController extends Controller {
 		if ($validator->fails()) {
 			return $this->toError($validator->errors());
 		}
+		Log::error($request->input('from_date'));
 		Models\PeriodCalendar::where('id', $id)->update($input);
 		return $this->show($request, $id);
 	}
