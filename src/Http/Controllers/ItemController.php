@@ -65,9 +65,9 @@ class ItemController extends Controller {
 			'datas.*.name' => 'required',
 		])->validate();
 		$datas = $request->input('datas');
-		foreach ($datas as $k => $v) {
-			Models\Item::fromImportItem($v);
-		}
+
+		Models\Item::BatchImport($datas);
+
 		return $this->toJson(true);
 	}
 }

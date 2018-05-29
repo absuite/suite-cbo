@@ -20,11 +20,22 @@ class CboPeriodAccountSeeder extends Seeder {
 		if (empty($this->entId)) {
 			return;
 		}
+		if (Models\PeriodCalendar::where('ent_id', $this->entId)->count()) {
+			return;
+		}
 		if (Models\PeriodAccount::where('ent_id', $this->entId)->count()) {
 			return;
 		}
 		$n = Carbon::now();
 		$from = Carbon::create($n->year - 1, 1, 1, 0, 0, 0);
+
+		Models\PeriodCalendar::build(function (Builder $b) use ($from) {
+			$b->ent_id($this->entId)
+				->code("month")
+				->name("默认月度日历")
+				->type_enum("months")
+				->from_date($from->format('Y-m-d'));
+		});
 		while (true) {
 			if ($from->year > $n->year) {
 				break;
@@ -34,8 +45,8 @@ class CboPeriodAccountSeeder extends Seeder {
 				$b->ent_id($this->entId)
 					->code($to->format('Ym'))
 					->name($to->format('Ym'))
-					->from_date($from->toDateString())
-					->to_date($to->toDateString())
+					->from_date($from->format('Y-m-d'))
+					->to_date($to->format('Y-m-d'))
 					->year($to->year)
 					->month($to->month)
 					->calendar("month");
