@@ -10,13 +10,14 @@ use Validator;
 
 class OrgController extends Controller {
 	public function index(Request $request) {
+		$size = $request->input('size', 10);
 		$query = Models\Org::with('manager');
-
-		$data = $query->get();
-
-		return $this->toJson($data);
+		return $this->toJson($query->paginate($size));
 	}
-	public function show(Request $request, string $id) {
+	public function show(Request $request, string $id='') {
+		if(empty($id)||$id=='show'){
+			$id=$request->input('id');
+		}
 		$query = Models\Org::with('manager');
 		$data = $query->where('id', $id)->orWhere('code', $id)->first();
 		return $this->toJson($data);
@@ -29,8 +30,18 @@ class OrgController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$data = Models\Org::fromImportItem($input);
-		return $this->show($request, $data->id);
+		$id= $request->input('id');
+		if($id){
+			$instance =Models\Org::find($id);
+			$instance->fillData($input);
+		}else{
+			$instance =Models\Org::createFromFill($input);
+			if($instance->exists()){
+				throw new \Exception('已经存在!');
+			}
+		}				
+		$instance->save();
+		return $this->show($request,$instance->id);
 	}
 	/**
 	 * PUT/PATCH
@@ -40,8 +51,10 @@ class OrgController extends Controller {
 	 */
 	public function update(Request $request, $id) {
 		$input = $request->all();
-		Models\Org::fromImportItem($input, $id);
-		return $this->show($request, $id);
+		$instance =Models\Org::find($id);
+		$instance->fillData($input);
+		$instance->save();
+		return $this->show($request, $instance->id);
 	}
 	/**
 	 * DELETE

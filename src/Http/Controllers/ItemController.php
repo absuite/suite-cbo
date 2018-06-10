@@ -9,13 +9,15 @@ use Validator;
 
 class ItemController extends Controller {
 	public function index(Request $request) {
+		$size = $request->input('size', 10);
 		$query = Models\Item::with('category', 'unit');
-
-		$data = $query->get();
-
-		return $this->toJson($data);
+		
+		return $this->toJson($query->paginate($size));
 	}
-	public function show(Request $request, string $id) {
+	public function show(Request $request, string $id='') {
+		if(empty($id)||$id=='show'){
+			$id=$request->input('id');
+		}
 		$query = Models\Item::with('category', 'unit');
 		$data = $query->where('id', $id)->orWhere('code', $id)->first();
 		if ($data) {
@@ -31,8 +33,18 @@ class ItemController extends Controller {
 	 */
 	public function store(Request $request) {
 		$input = $request->all();
-		$data = Models\Item::fromImportItem($input);
-		return $this->show($request, $data->id);
+		$id= $request->input('id');
+		if($id){
+			$instance =Models\Item::find($id);
+			$instance->fillData($input);
+		}else{
+			$instance =Models\Item::createFromFill($input);
+			if($instance->exists()){
+				throw new \Exception('已经存在!');
+			}
+		}				
+		$instance->save();
+		return $this->show($request,$instance->id);
 	}
 	/**
 	 * PUT/PATCH
@@ -42,8 +54,10 @@ class ItemController extends Controller {
 	 */
 	public function update(Request $request, $id) {
 		$input = $request->all();
-		Models\Item::fromImportItem($input);
-		return $this->show($request, $id);
+		$instance =Models\Item::find($id);
+		$instance->fillData($input);
+		$instance->save();
+		return $this->show($request, $instance->id);
 	}
 	/**
 	 * DELETE
@@ -65,7 +79,6 @@ class ItemController extends Controller {
 			'datas.*.name' => 'required',
 		])->validate();
 		$datas = $request->input('datas');
-
 		Models\Item::BatchImport($datas);
 
 		return $this->toJson(true);

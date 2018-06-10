@@ -9,9 +9,10 @@ use Gmf\Sys\Traits\HasGuard;
 use Gmf\Sys\Traits\Snapshotable;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
-
+use Gmf\Sys\Models\Entity;
+use Gmf\Sys\Database\Concerns\BatchImport;
 class Org extends Model {
-	use Snapshotable, HasGuard;
+	use Snapshotable, HasGuard,BatchImport;
 	protected $table = 'suite_cbo_orgs';
 	public $incrementing = false;
 	protected $fillable = ['id', 'ent_id', 'code', 'name', 'short_name', 'avatar', 'manager_id', 'is_effective'];
@@ -34,53 +35,39 @@ class Org extends Model {
 		return $this->belongsTo('Suite\Cbo\Models\Person');
 	}
 
-	public static function fromImport($datas) {
-		return $datas->map(function ($row) {
-			return static::fromImportItem($row);
-		});
-	}
-	public static function fromImportItem($row, $id = false) {
-		$entId = GAuth::entId();
-
-		$data = array_only($row, ['code', 'name', 'short_name', 'avatar', 'is_effective']);
-		$data = InputHelper::fillEntity($data, $row, [
-			'manager' => function ($v, $data) use ($entId) {
-				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
-				if (empty($v)) {
-					return false;
-				}
-				return Person::where('ent_id', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
-			},
-		]);
-
-		Validator::make($data, [
-			'code' => 'required',
-			'name' => 'required',
-		])->validate();
-		if ($id) {
-			return static::updateOrCreate(['ent_id' => $entId, 'id' => $id], $data);
-		} else {
-			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+	public function formatDefaultValue($attrs) {
+		if (empty($this->ent_id)) {
+			$this->ent_id = GAuth::entId();
+		}
+		if (empty($this->manager_id) && !empty($attrs['manager']) && $v = $attrs['manager']) {
+			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));
+			$this->manager_id = Person::where('code', $v)->where('ent_id', $this->ent_id)->value('id');
 		}
 	}
-
+	public function validate() {
+		Validator::make($this->toArray(), [
+			'ent_id' => ['required'],
+			'code' => ['required'],
+			'name' => ['required'],
+		])->validate();
+	}
+	public function uniqueQuery($query) {
+		$query->where([
+			'ent_id' => $this->ent_id,
+			'code' => $this->code,
+		]);
+	}
+	public static function fromImport($datas) {
+		$datas = $datas->map(function ($row) {
+			$row['ent_id'] = GAuth::entId();
+			return $row;
+		});
+		static::BatchImport($datas);
+	}
 	public static function build(Closure $callback) {
 		tap(new Builder, function ($builder) use ($callback) {
 			$callback($builder);
-
-			$data = array_only($builder->toArray(), ['id', 'ent_id', 'code', 'name', 'short_name', 'avatar', 'manager_id', 'is_effective']);
-
-			$tmpItem = false;
-			if (!empty($builder->manager)) {
-				$tmpItem = Person::where('ent_id', $builder->ent_id)->where(function ($query) use ($builder) {
-					$query->where('code', $builder->manager)->orWhere('name', $builder->manager);
-				})->first();
-			}
-			if ($tmpItem) {
-				$data['manager_id'] = $tmpItem->id;
-			}
-			$find = array_only($data, ['code', 'ent_id']);
-			static::updateOrCreate($find, $data);
+			static::BatchImport([$builder]);
 		});
 	}
 }

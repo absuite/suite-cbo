@@ -10,9 +10,9 @@ use Gmf\Sys\Traits\HasGuard;
 use Gmf\Sys\Traits\Snapshotable;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
-
+use Gmf\Sys\Database\Concerns\BatchImport;
 class Dept extends Model {
-	use Snapshotable, HasGuard;
+	use Snapshotable, HasGuard,BatchImport;
 	protected $table = 'suite_cbo_depts';
 	public $incrementing = false;
 	protected $keyType = 'string';
@@ -42,78 +42,47 @@ class Dept extends Model {
 		return $this->belongsTo('Suite\Cbo\Models\Person');
 	}
 
-	public static function fromImport($datas) {
-		return $datas->map(function ($row) {
-			return static::fromImportItem($row);
-		});
-	}
-	public static function fromImportItem($row, $id = false) {
-		$entId = GAuth::entId();
-
-		$data = array_only($row, ['code', 'name']);
-		$data = InputHelper::fillEntity($data, $row, [
-			'org' => function ($v, $data) use ($entId) {
-				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
-				if (empty($v)) {
-					return false;
-				}
-				return Org::where('ent_id', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
-			},
-			'manager' => function ($v, $data) use ($entId) {
-				if (!empty($v) && is_array($v) && !empty($v['code'])) {$v = $v['code'];} else if (!empty($v) && is_object($v) && !empty($v->code)) {$v = $v->code;}
-				if (empty($v)) {
-					return false;
-				}
-				return Person::where('ent_id', $entId)->where(function ($query) use ($v) {$query->where('code', $v)->orWhere('name', $v);})->value('id');
-			},
-		]);
-		$data = InputHelper::fillEnum($data, $row, [
-			'type' => 'suite.cbo.dept.type.enum',
-		]);
-		Validator::make($data, [
-			'code' => 'required',
-			'name' => 'required',
-		])->validate();
-		if ($id) {
-			return static::updateOrCreate(['ent_id' => $entId, 'id' => $id], $data);
-		} else {
-			return static::updateOrCreate(['ent_id' => $entId, 'code' => $data['code']], $data);
+	public function formatDefaultValue($attrs) {
+		if (empty($this->ent_id)) {
+			$this->ent_id = GAuth::entId();
+		}
+		if (empty($this->org_id) && !empty($attrs['org']) && $v = $attrs['org']) {
+			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));		
+			$this->org_id = Org::where('code', $v)->where('ent_id', $this->ent_id)->value('id');
+		}
+		if (empty($this->manager_id) && !empty($attrs['manager']) && $v = $attrs['manager']) {
+			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));
+			$this->manager_id = Person::where('code', $v)->where('ent_id', $this->ent_id)->value('id');
+		}
+		if (empty($this->type_enum) && !empty($attrs['type']) && $v = $attrs['type']) {
+			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));
+			$this->type_enum = Entity::getEnumValue('suite.cbo.dept.type.enum', $v);
 		}
 	}
-
+	public function validate() {
+		Validator::make($this->toArray(), [
+			'ent_id' => ['required'],
+			'code' => ['required'],
+			'name' => ['required'],
+		])->validate();
+	}
+	public function uniqueQuery($query) {
+		$query->where([
+			'ent_id' => $this->ent_id,
+			'code' => $this->code,
+		]);
+	}
+	public static function fromImport($datas) {
+		$datas = $datas->map(function ($row) {
+			$row['ent_id'] = GAuth::entId();
+			return $row;
+		});
+		static::BatchImport($datas);
+	}
 	public static function build(Closure $callback) {
 		tap(new Builder, function ($builder) use ($callback) {
 			$callback($builder);
-
-			$data = array_only($builder->toArray(), ['id', 'ent_id', 'code', 'name', 'org_id', 'type_enum', 'manager_id', 'is_effective']);
-			$tmpItem = false;
-			if (!empty($builder->org)) {
-				$tmpItem = Org::where('ent_id', $builder->ent_id)->where(function ($query) use ($builder) {
-					$query->where('code', $builder->org)->orWhere('name', $builder->org);
-				})->first();
-			}
-			if ($tmpItem) {
-				$data['org_id'] = $tmpItem->id;
-			}
-			$tmpItem = false;
-			if (!empty($builder->manager)) {
-				$tmpItem = Person::where('ent_id', $builder->ent_id)->where(function ($query) use ($builder) {
-					$query->where('code', $builder->manager)->orWhere('name', $builder->manager);
-				})->first();
-			}
-			if ($tmpItem) {
-				$data['manager_id'] = $tmpItem->id;
-			}
-			$tmpItem = false;
-			if (empty($builder->type_enum) && !empty($builder->type_name)) {
-				$tmpItem = Entity::getEnumItem('suite.cbo.dept.type.enum', $builder->type_name);
-			}
-			if ($tmpItem) {
-				$data['type_enum'] = $tmpItem->name;
-			}
-
-			$find = array_only($data, ['code', 'ent_id']);
-			static::updateOrCreate($find, $data);
+			static::BatchImport([$builder]);
 		});
 	}
 }

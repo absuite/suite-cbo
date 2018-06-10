@@ -10,6 +10,7 @@ use Gmf\Sys\Traits\HasGuard;
 use Gmf\Sys\Traits\Snapshotable;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
+use Log;
 
 class Item extends Model {
 	use Snapshotable, HasGuard, BatchImport;
@@ -50,23 +51,23 @@ class Item extends Model {
 			$this->ent_id = GAuth::entId();
 		}
 		if (empty($this->currency_id) && !empty($attrs['currency']) && $v = $attrs['currency']) {
-			$v = !empty($v['code']) ? $v['code'] : !empty($v->code) ? $v = $v->code : is_string($v) ? $v : false;
+			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));		
 			$this->currency_id = Currency::where('code', $v)->where('ent_id', $this->ent_id)->value('id');
 		}
 		if (empty($this->category_id) && !empty($attrs['category']) && $v = $attrs['category']) {
-			$v = !empty($v['code']) ? $v['code'] : !empty($v->code) ? $v = $v->code : is_string($v) ? $v : false;
+			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));
 			$this->category_id = ItemCategory::where('code', $v)->where('ent_id', $this->ent_id)->value('id');
 		}
 		if (empty($this->unit_id) && !empty($attrs['unit']) && $v = $attrs['unit']) {
-			$v = !empty($v['code']) ? $v['code'] : !empty($v->code) ? $v = $v->code : is_string($v) ? $v : false;
+			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));
 			$this->unit_id = Unit::where('code', $v)->where('ent_id', $this->ent_id)->value('id');
 		}
 		if (empty($this->trader_id) && !empty($attrs['trader']) && $v = $attrs['trader']) {
-			$v = !empty($v['code']) ? $v['code'] : !empty($v->code) ? $v = $v->code : is_string($v) ? $v : false;
+			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));
 			$this->trader_id = Trader::where('code', $v)->where('ent_id', $this->ent_id)->value('id');
 		}
 		if (empty($this->form_enum) && !empty($attrs['form']) && $v = $attrs['form']) {
-			$v = !empty($v['name']) ? $v['name'] : !empty($v->name) ? $v = $v->name : is_string($v) ? $v : false;
+			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));
 			$this->form_enum = Entity::getEnumValue('suite.cbo.item.form.enum', $v);
 		}
 	}
