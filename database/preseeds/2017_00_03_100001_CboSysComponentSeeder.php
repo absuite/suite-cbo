@@ -110,6 +110,11 @@ class CboSysComponentSeeder extends Seeder {
 			Models\Component::build(function (Builder $builder) {
 				$builder->code('dashboard')->name('首页')->type_enum('ui')->path('dashboard');
 			});
+
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('SysPublishEnt')->name('发布企业');
+			});
+
 		});
 	}
 

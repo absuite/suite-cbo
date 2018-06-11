@@ -155,6 +155,19 @@ class SysMenuSeeder extends Seeder {
 				$builder->id($id)->code('sys.dti.log')->name('接口日志')->parent('sys.dti')
 					->uri('sys.dti.log.list')->sequence($this->sequence . '0805')->tag($this->tag);
 			});
+
+			//企业发布
+			$id = "01e86d75cb4319e08c3449edf7fc3067";
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->code('sys.publish')->name('发布')->parent('sys')
+					->sequence($this->sequence . '0900')->tag($this->tag);
+			});
+			$id = "01e86d75c7b019a08dc4d7a96cbd567c";
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->id($id)->code('sys.publish.ent')->name('发布企业')->parent('sys.publish')
+					->uri('sys.publish.ent')
+					->sequence($this->sequence . '0901')->tag($this->tag);
+			});
 		});
 	}
 

@@ -46,6 +46,9 @@ class Dept extends Model {
 		if (empty($this->ent_id)) {
 			$this->ent_id = GAuth::entId();
 		}
+		if (empty($this->is_effective)) {
+			$this->is_effective =1;
+		}
 		if (empty($this->org_id) && !empty($attrs['org']) && $v = $attrs['org']) {
 			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));		
 			$this->org_id = Org::where('code', $v)->where('ent_id', $this->ent_id)->value('id');

@@ -46,6 +46,8 @@ class Item extends Model {
 	public function formatDefaultValue($attrs) {
 		if (empty($this->price)) {
 			$this->price = 0;
+		}else{
+			$this->price=\floatval($this->price);
 		}
 		if (empty($this->ent_id)) {
 			$this->ent_id = GAuth::entId();

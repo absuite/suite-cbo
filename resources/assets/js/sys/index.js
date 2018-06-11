@@ -40,48 +40,49 @@ import sysAuthorityRoleUserEdit from './sysAuthorityRoleUserEdit.vue';
 
 import sysAuthorityUserRoleList from './sysAuthorityUserRoleList.vue';
 import sysAuthorityUserRoleEdit from './sysAuthorityUserRoleEdit.vue';
-
+import SysPublishEnt from './Publish/Ent.vue';
 export default function install(Vue) {
-  Vue.component('sysLanguageList', sysLanguageList);
-  Vue.component('sysLanguageEdit', sysLanguageEdit);
+    Vue.component('sysLanguageList', sysLanguageList);
+    Vue.component('sysLanguageEdit', sysLanguageEdit);
 
-  Vue.component('sysProfileEdit', sysProfileEdit);
-  Vue.component('sysProfileList', sysProfileList);
+    Vue.component('sysProfileEdit', sysProfileEdit);
+    Vue.component('sysProfileList', sysProfileList);
 
-  Vue.component('sysEntList', sysEntList);
-  Vue.component('sysEntEdit', sysEntEdit);
+    Vue.component('sysEntList', sysEntList);
+    Vue.component('sysEntEdit', sysEntEdit);
 
-  Vue.component('sysDtiCategoryEdit', sysDtiCategoryEdit);
-  Vue.component('sysDtiCategoryList', sysDtiCategoryList);
+    Vue.component('sysDtiCategoryEdit', sysDtiCategoryEdit);
+    Vue.component('sysDtiCategoryList', sysDtiCategoryList);
 
-  Vue.component('sysDtiParamEdit', sysDtiParamEdit);
-  Vue.component('sysDtiParamList', sysDtiParamList);
+    Vue.component('sysDtiParamEdit', sysDtiParamEdit);
+    Vue.component('sysDtiParamList', sysDtiParamList);
 
-  Vue.component('sysDtiLogList', sysDtiLogList);
+    Vue.component('sysDtiLogList', sysDtiLogList);
 
-  Vue.component('sysDtiItemEdit', sysDtiItemEdit);
-  Vue.component('sysDtiItemList', sysDtiItemList);
+    Vue.component('sysDtiItemEdit', sysDtiItemEdit);
+    Vue.component('sysDtiItemList', sysDtiItemList);
 
-  Vue.component('sysAuthorityPermitEdit', sysAuthorityPermitEdit);
-  Vue.component('sysAuthorityPermitList', sysAuthorityPermitList);
+    Vue.component('sysAuthorityPermitEdit', sysAuthorityPermitEdit);
+    Vue.component('sysAuthorityPermitList', sysAuthorityPermitList);
 
-  Vue.component('sysAuthorityRoleEdit', sysAuthorityRoleEdit);
-  Vue.component('sysAuthorityRoleList', sysAuthorityRoleList);
+    Vue.component('sysAuthorityRoleEdit', sysAuthorityRoleEdit);
+    Vue.component('sysAuthorityRoleList', sysAuthorityRoleList);
 
 
-  Vue.component('sysAuthorityRoleEntityList', sysAuthorityRoleEntityList);
-  Vue.component('sysAuthorityRoleEntityEdit', sysAuthorityRoleEntityEdit);
+    Vue.component('sysAuthorityRoleEntityList', sysAuthorityRoleEntityList);
+    Vue.component('sysAuthorityRoleEntityEdit', sysAuthorityRoleEntityEdit);
 
-  Vue.component('sysAuthorityRoleMenuList', sysAuthorityRoleMenuList);
-  Vue.component('sysAuthorityRoleMenuEdit', sysAuthorityRoleMenuEdit);
+    Vue.component('sysAuthorityRoleMenuList', sysAuthorityRoleMenuList);
+    Vue.component('sysAuthorityRoleMenuEdit', sysAuthorityRoleMenuEdit);
 
-  Vue.component('sysAuthorityRolePermitList', sysAuthorityRolePermitList);
-  Vue.component('sysAuthorityRolePermitEdit', sysAuthorityRolePermitEdit);
+    Vue.component('sysAuthorityRolePermitList', sysAuthorityRolePermitList);
+    Vue.component('sysAuthorityRolePermitEdit', sysAuthorityRolePermitEdit);
 
-  Vue.component('sysAuthorityRoleUserList', sysAuthorityRoleUserList);
-  Vue.component('sysAuthorityRoleUserEdit', sysAuthorityRoleUserEdit);
+    Vue.component('sysAuthorityRoleUserList', sysAuthorityRoleUserList);
+    Vue.component('sysAuthorityRoleUserEdit', sysAuthorityRoleUserEdit);
 
-  Vue.component('sysAuthorityUserRoleList', sysAuthorityUserRoleList);
-  Vue.component('sysAuthorityUserRoleEdit', sysAuthorityUserRoleEdit);
+    Vue.component('sysAuthorityUserRoleList', sysAuthorityUserRoleList);
+    Vue.component('sysAuthorityUserRoleEdit', sysAuthorityUserRoleEdit);
+    Vue.component(SysPublishEnt.name, SysPublishEnt);
 
 }

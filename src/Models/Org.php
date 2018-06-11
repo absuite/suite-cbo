@@ -43,6 +43,10 @@ class Org extends Model {
 			$v = (!empty($v['code'])) ? $v['code'] : ((!empty($v->code)) ? $v = $v->code : (is_string($v) ? $v : false));
 			$this->manager_id = Person::where('code', $v)->where('ent_id', $this->ent_id)->value('id');
 		}
+		if (empty($this->is_effective)) {
+			$this->is_effective =1;
+		}
+		
 	}
 	public function validate() {
 		Validator::make($this->toArray(), [
