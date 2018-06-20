@@ -42,7 +42,7 @@
         data() {
             return {
                 mainData: {
-                    discover: 'http://m.myamiba.com'
+                    discover: 'http://m.myamiba.cn'
                 }
             };
         },
