@@ -9,11 +9,11 @@
             </md-card-content>
             <md-card-content>
                 <md-field>
-                    <label>账号</label>
+                    <label>用户账号</label>
                     <md-input v-model="mainData.account"></md-input>
                 </md-field>
                 <md-field>
-                    <label>Token</label>
+                    <label>用户密钥</label>
                     <md-input v-model="mainData.token" type="password"></md-input>
                 </md-field>
                 <md-field>

@@ -114,6 +114,9 @@ class CboSysComponentSeeder extends Seeder {
 			Models\Component::build(function (Builder $builder) {
 				$builder->code('SysPublishEnt')->name('发布企业');
 			});
+			Models\Component::build(function (Builder $builder) {
+				$builder->code('SysPublishEntToken')->name('发布密钥');
+			});
 
 		});
 	}

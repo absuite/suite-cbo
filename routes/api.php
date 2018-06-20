@@ -1,6 +1,10 @@
 <?php
 $ns = 'Suite\Cbo\Http\Controllers';
 Route::prefix('api/cbo')->middleware(['api'])->namespace($ns)->group(function () {
+	Route::post('/ents/injection', 'EntController@injection');
+});
+
+Route::prefix('api/cbo')->middleware(['api'])->namespace($ns)->group(function () {
 	//dti
 	Route::post('/dti/run/{spName?}', 'DtiController@run');
 	Route::get('/dti/run/{spName?}', 'DtiController@run');
