@@ -33,7 +33,7 @@ class Dept extends Model {
 	}
 
 	public function ent() {
-		return $this->belongsTo('Gmf\Sys\Models\Ent');
+		return $this->belongsTo('Gmf\Sys\Models\Ent\Ent');
 	}
 	public function org() {
 		return $this->belongsTo('Suite\Cbo\Models\Org');

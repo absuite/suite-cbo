@@ -2,7 +2,7 @@
 
 use Gmf\Sys\Builder;
 use Gmf\Sys\Models\Authority\RoleUser;
-use Gmf\Sys\Models\Ent;
+use Gmf\Sys\Models\Ent\Ent;
 use Gmf\Sys\Models\User;
 use Illuminate\Database\Seeder;
 
