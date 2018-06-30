@@ -16,7 +16,7 @@ class DashboardController extends Controller {
 		$value = CboModels\Org::where('ent_id', GAuth::entId())->count();
 		$rtn->orgs($value);
 		$rtn->groups(AmibaModels\Group::where('ent_id', GAuth::entId())->count());
-		$rtn->users(SysModels\EntUser::where('ent_id', GAuth::entId())->count());
+		$rtn->users(SysModels\Ent\EntUser::where('ent_id', GAuth::entId())->count());
 
 		$value = AmibaModels\DataAccounting::where('ent_id', GAuth::entId())->max('created_at');
 		$rtn->account_time(empty($value) ? '无' : date_format(new \DateTime($value), 'Y/m/d H:i'));
