@@ -33,6 +33,8 @@ class CreateSuiteCboBizTypeEnum extends Migration {
 		$md->string('voucher')->comment('收支凭证')->default(16);
 		$md->string('waste')->comment('废品')->default(17);
 		$md->string('reject')->comment('不良品')->default(18);
+		$md->string('other_rcv')->comment('其它入库')->default(20);
+		$md->string('other_ship')->comment('其它出库')->default(21);
 		$md->build();
 
 	}
