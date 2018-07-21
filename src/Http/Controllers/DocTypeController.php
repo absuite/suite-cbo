@@ -74,9 +74,7 @@ class DocTypeController extends Controller {
 			'datas.*.biz_type_enum' => 'required',
 		])->validate();
 		$datas = $request->input('datas');
-		foreach ($datas as $k => $v) {
-			Models\DocType::fromImportItem($v);
-		}
+		Models\DocType::BatchImport($datas);
 		return $this->toJson(true);
 	}
 

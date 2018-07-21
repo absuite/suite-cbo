@@ -78,9 +78,7 @@ class DeptController extends Controller {
 		])->validate();
 		$entId = GAuth::entId();
 		$datas = $request->input('datas');
-		foreach ($datas as $k => $v) {
-			Models\Dept::fromImportItem($v);
-		}
+		Models\Dept::BatchImport($datas);
 		return $this->toJson(true);
 	}
 }
