@@ -73,7 +73,7 @@ class CboSysComponentSeeder extends Seeder {
 			});
 
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityRoleUserEdit')->name('角色用户');
+				$builder->code('sysAuthorityRoleUserEdit')->name('用户角色');
 			});
 			Models\Component::build(function (Builder $builder) {
 				$builder->code('sysAuthorityRoleUserList')->name('角色用户列表');
@@ -94,10 +94,10 @@ class CboSysComponentSeeder extends Seeder {
 			});
 
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityUserRoleEdit')->name('用户角色');
+				$builder->code('sysAuthorityUserEdit')->name('用户');
 			});
 			Models\Component::build(function (Builder $builder) {
-				$builder->code('sysAuthorityUserRoleList')->name('用户角色列表');
+				$builder->code('sysAuthorityUserList')->name('用户列表');
 			});
 
 			Models\Component::build(function (Builder $builder) {

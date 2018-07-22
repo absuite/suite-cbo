@@ -5,8 +5,7 @@ import oauth from './oauth';
 import sys from './sys';
 import layouts from './layouts';
 import common from './common';
-import gapp from 'gmf/app';
-import routesCbo from './routes/cbo';
+
 const options = {
   components,
   oauth,
@@ -14,8 +13,6 @@ const options = {
   layouts,
   common,
 };
-gapp.route(routesCbo);
-
 options.install = (Vue) => {
   if (options.installed) {
     console.warn('Vue Material is already installed.');

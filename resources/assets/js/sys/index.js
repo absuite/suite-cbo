@@ -38,8 +38,8 @@ import sysAuthorityRolePermitEdit from './sysAuthorityRolePermitEdit.vue';
 import sysAuthorityRoleUserList from './sysAuthorityRoleUserList.vue';
 import sysAuthorityRoleUserEdit from './sysAuthorityRoleUserEdit.vue';
 
-import sysAuthorityUserRoleList from './sysAuthorityUserRoleList.vue';
-import sysAuthorityUserRoleEdit from './sysAuthorityUserRoleEdit.vue';
+import sysAuthorityUserList from './sysAuthorityUserList.vue';
+
 import SysPublishEnt from './Publish/Ent.vue';
 import SysPublishEntToken from './Publish/EntToken.vue';
 export default function install(Vue) {
@@ -82,8 +82,8 @@ export default function install(Vue) {
     Vue.component('sysAuthorityRoleUserList', sysAuthorityRoleUserList);
     Vue.component('sysAuthorityRoleUserEdit', sysAuthorityRoleUserEdit);
 
-    Vue.component('sysAuthorityUserRoleList', sysAuthorityUserRoleList);
-    Vue.component('sysAuthorityUserRoleEdit', sysAuthorityUserRoleEdit);
+    Vue.component(sysAuthorityUserList.name, sysAuthorityUserList);
+
     Vue.component(SysPublishEnt.name, SysPublishEnt);
     Vue.component(SysPublishEntToken.name, SysPublishEntToken);
 

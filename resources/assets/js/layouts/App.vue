@@ -130,8 +130,9 @@ export default new MdComponent({
     }
   }
   .md-part {
-    padding: 0 1.8rem;
+    overflow: hidden;
     width: 100%;
+    max-width: 100%;
     background-color: #F5F7FA;
     &.md-full {
       padding: 0px;

@@ -1,35 +1,12 @@
 import common from 'gmf/core/utils/common';
 import startsWith from 'lodash/startsWith'
-const wrapApp = {
-  template: '<md-wrap :name="wrap"></md-wrap>',
-  computed: {
-    wrap: function() {
-      return this.$route.params.app;
-    }
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (!vm.$root.configs.user) {
-        next({ name: 'auth.login' });
-      }
-    });
-  },
-  beforeRouteUpdate(to, from, next) {
-    if (!this.$root.configs.user) {
-      next({ name: 'auth.login' });
-    } else {
-      next();
-    }
-  },
-  beforeRouteLeave(to, from, next) {
-    next();
-  }
-};
+
+import App from '../layouts/App.vue';
 const wrapModule = {
   template: '<md-wrap :name="wrap"></md-wrap>',
   computed: {
     wrap: function() {
-      const app = common.snakeCase(this.$route.params.app);
+      const app = common.snakeCase(App.name);
       const module = common.snakeCase(this.$route.params.module);
       if (!startsWith(module, app) && module.indexOf('-') < 0) {
         return app + '-' + module;
@@ -59,7 +36,7 @@ const wrapExtend = {
   template: '<md-wrap :name="wrap"></md-wrap>',
   computed: {
     wrap: function() {
-      const app = common.snakeCase(this.$route.params.app);
+      const app = common.snakeCase(App.name);
       const module = common.snakeCase(this.$route.params.module);
       if (!startsWith(module, app) && module.indexOf('-') < 0) {
         return app + '-' + module;
@@ -86,8 +63,8 @@ const wrapExtend = {
   }
 };
 const defaultRoutes = [{
-  path: '/:app',
-  component: wrapApp,
+  path: '/app',
+  component: App,
   name: 'app',
   // meta: { requiresAuth: true },
   children: [{

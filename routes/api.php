@@ -11,6 +11,7 @@ Route::prefix('api/cbo')->middleware(['api'])->namespace($ns)->group(function ()
 });
 
 Route::prefix('api/cbo')->middleware(['api', 'auth:api'])->namespace($ns)->group(function () {
+	Route::get('/users/all', 'Sys\UserController@getEntUsers');
 
 	Route::get('/dashboards/media', 'DashboardController@getMedia');
 
