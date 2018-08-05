@@ -145,7 +145,7 @@ class SysQuerySeeder extends Seeder {
 			$id = "d6a64240b0a211e7b75ddb667ff64ce3";
 			Models\Query::build(function (Builder $builder) use ($id) {
 				$builder->id($id)->name('gmf.sys.authority.role.entity.list')->entity('gmf.sys.authority.role.entity')
-					->fields(['id', 'role.name', 'entity.comment', 'filter', 'operation_enum', 'is_revoked']);
+					->fields(['id', 'role.name', 'entity.comment','data_name', 'filter', 'operation_enum', 'is_revoked']);
 				$builder->orders(['role.name', 'entity.name', 'created_at' => 'desc']);
 				$builder->filter('a0.ent_id=#{entId}#');
 			});

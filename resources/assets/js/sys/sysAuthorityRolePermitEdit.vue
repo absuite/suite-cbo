@@ -13,7 +13,7 @@
     <md-part-body>
       <md-content class="flex layout-column">
         <md-layout md-gutter>
-          <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" md-flex-large="20" md-flex-xlarge="20">
+          <md-layout md-flex-xs="100" md-flex-sm="50" md-flex-md="33" md-flex="20">
             <md-ref-input md-label="角色" required md-ref-id="gmf.sys.authority.role.ref" v-model="model.role">
             </md-ref-input>
           </md-layout>
@@ -33,7 +33,9 @@
 <script>
 import _extend from 'lodash/extend'
 import _forEach from 'lodash/forEach'
+import MdValidate from 'cbo/mixins/MdValidate/MdValidate';
 export default {
+  mixins: [MdValidate],
   data() {
     return {
       model: {

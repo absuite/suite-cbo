@@ -8,10 +8,10 @@
       <div></div>
       <md-part-toolbar-group class="flex">
         <md-layout md-gutter md-align="end">
-          <md-layout md-flex-small="33" md-flex-medium="15" md-flex-large="15">
+          <md-layout md-flex-sm="33"  md-flex="15">
             <md-ref-input md-label="角色" md-ref-id="gmf.sys.authority.role.ref" v-model="model.role"></md-ref-input>
           </md-layout>
-          <md-layout md-flex-small="33" md-flex-medium="15" md-flex-large="15">
+          <md-layout md-flex-sm="33" md-flex="15">
             <md-ref-input md-label="权限" md-ref-id="gmf.sys.authority.permit.ref" v-model="model.permit"></md-ref-input>
           </md-layout>
           <md-layout>

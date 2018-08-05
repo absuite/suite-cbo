@@ -13,7 +13,7 @@
     <md-part-body>
       <md-content class="flex layout-column">
         <md-layout md-gutter>
-          <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" md-flex-large="20" md-flex-xlarge="20">
+          <md-layout md-flex-xs="100" md-flex-sm="50" md-flex-md="33" md-flex="20">
             <md-ref-input md-label="角色" required md-ref-id="gmf.sys.authority.role.ref" v-model="model.role">
             </md-ref-input>
           </md-layout>
@@ -30,6 +30,12 @@
                 {{ row.entity&&row.entity.name ||''}}
               </template>
             </md-grid-column>
+            <md-grid-column label="数据值" field="data" dataType="entity" :ref-init="init_line_ref" ref-id="suite.amiba.group.ref" width="200px" editable/>
+            <md-grid-column label="数据名称">
+              <template slot-scope="row">
+                {{ row.data_name}}
+              </template>
+            </md-grid-column>
             <md-grid-column label="条件" field="filter" width="200px" editable></md-grid-column>
             <md-grid-column label="操作类型" field="operation_enum" dataType="enum" ref-id="gmf.sys.authority.data.operation.type.enum" editable></md-grid-column>
           </md-grid>
@@ -43,9 +49,12 @@
 <script>
 import _forEach from 'lodash/forEach'
 import _extend from 'lodash/extend'
+import MdValidate from 'cbo/mixins/MdValidate/MdValidate';
 export default {
+  mixins: [MdValidate],
   data() {
     return {
+      lineRefID: '',
       model: {
         role: null,
       },
@@ -91,6 +100,13 @@ export default {
       this.loading++;
       this.$refs.grid.endEdit();
       const postDatas = this.$refs.grid.getPostDatas();
+      _forEach(postDatas, (v, k) => {
+        if(v.data){
+          v.data_name=v.data.name;
+          v.data_id=v.data.id;
+          v.data_type='Suite\\Amiba\\Models\\Group';
+        }
+      });
       this.$http.post(this.route, { datas: postDatas }).then(response => {
         this.loadLineData();
         this.loading--;
@@ -115,6 +131,9 @@ export default {
       _forEach(datas, (v, k) => {
         this.$refs.grid && this.$refs.grid.addDatas({ entity: v, role: this.model.role });
       });
+    },
+    init_line_ref(options){
+      //options.wheres.$leaf = { is_leaf: '1' };
     },
     init_Entity_ref(options) {
       options.wheres.type = 'entity';

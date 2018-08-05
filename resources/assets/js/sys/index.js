@@ -42,6 +42,7 @@ import sysAuthorityUserList from './sysAuthorityUserList.vue';
 
 import SysPublishEnt from './Publish/Ent.vue';
 import SysPublishEntToken from './Publish/EntToken.vue';
+
 export default function install(Vue) {
     Vue.component('sysLanguageList', sysLanguageList);
     Vue.component('sysLanguageEdit', sysLanguageEdit);
@@ -86,6 +87,4 @@ export default function install(Vue) {
 
     Vue.component(SysPublishEnt.name, SysPublishEnt);
     Vue.component(SysPublishEntToken.name, SysPublishEntToken);
-
-
 }
