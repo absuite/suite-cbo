@@ -111,6 +111,7 @@ class SysRefSeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.authority.role.ref')->entity('gmf.sys.authority.role')
 					->fields(['id', 'code' => '编码', 'name' => '名称', 'memo' => '备注']);
 				$builder->orders(['code', 'created_at' => 'desc']);
+				$builder->filter('a0.ent_id=#{entId}#');
 			});
 
 			$id = "d0ff907063b311e7af991d9a1697ca99";
@@ -118,6 +119,7 @@ class SysRefSeeder extends Seeder {
 				$builder->id($id)->name('gmf.sys.authority.permit.ref')->entity('gmf.sys.authority.permit')
 					->fields(['id', 'code' => '编码', 'name' => '名称', 'memo' => '备注']);
 				$builder->orders(['code', 'created_at' => 'desc']);
+				$builder->filter('a0.ent_id=#{entId}#');
 			});
 		});
 	}
