@@ -2,8 +2,7 @@
   <md-part>
     <md-part-toolbar>
       <md-part-toolbar-group>
-        <md-button @click.native="create">创建用户</md-button>
-        <md-button @click.native="create">添加用户</md-button>
+        <md-button @click.native="showCreateUser=true">添加用户</md-button>
       </md-part-toolbar-group>
       <div></div>
       <md-part-toolbar-group class="flex">
@@ -15,30 +14,37 @@
             <md-ref-input md-label="用户" md-ref-id="gmf.sys.user.ref" v-model="model.user"></md-ref-input>
           </md-layout>
           <md-layout>
-            <md-button @click.native="loadData">查询</md-button>
+            <md-button @click.native="loadData()">查询</md-button>
           </md-layout>
         </md-layout>
       </md-part-toolbar-group>
     </md-part-toolbar>
     <md-part-body>
-      <md-layout md-gutter>
-        <md-card class="user-card" v-for="item in mainDatas.data" :key="item.id">
-          <md-card-header>
+      <md-table v-model="mainDatas" md-card>
+        <md-table-row slot="md-table-row" slot-scope="{ item }">
+          <md-table-cell md-label="头像" width="160px">
             <md-avatar>
               <img :src="item.avatar" alt="Avatar">
             </md-avatar>
-            <div class="md-title">{{item.name}}</div>
-            <div class="md-subhead">{{item.account}}</div>
-          </md-card-header>
-        </md-card>
-      </md-layout>
+          </md-table-cell>
+          <md-table-cell md-label="姓名" width="200px">{{ item.name }}</md-table-cell>
+          <md-table-cell md-label="账号">{{ item.account }}</md-table-cell>
+          <md-table-cell md-label="状态"  width="150px">{{ item.is_effective>0?'正常':'未生效' }}</md-table-cell>
+          <md-table-cell md-label="操作"  width="250px">
+            <md-button class="md-primary" @click="onEditItem(item)">编辑</md-button>
+            <md-button :disabled="item.is_effective<=0" @click="setDisabled(item)">停用</md-button>
+            <md-button :disabled="item.is_effective>0" class="md-primary" @click="setEffective(item)">启用</md-button>
+          </md-table-cell>
+        </md-table-row>
+      </md-table>
+      <md-pagination :pager="mainPager" @pagination="loadData"></md-pagination>
       <md-loading :loading="loading"></md-loading>
     </md-part-body>
-    <md-drawer class="md-right" :md-active.sync="showCreateUser">
+    <user-add-dia :md-active.sync="showCreateUser" @md-confirm="onUserCreate"></user-add-dia>
+    <md-drawer class="md-right" :md-active.sync="showEditUser">
       <md-toolbar class="md-transparent" md-elevation="0">
-        <span class="md-title">Favorites</span>
+        <span class="md-title">输入</span>
       </md-toolbar>
-
       <md-list>
         <md-list-item>
           <span class="md-list-item-text">Abbey Christansen</span>
@@ -68,64 +74,104 @@
   </md-part>
 </template>
 <script>
-  import _map from 'lodash/map'
-  export default {
-    name: 'sysAuthorityUserList',
-    data() {
-      return {
-        mainDatas: {},
-        showCreateUser: false,
-        loading: 0,
-        model: {
-          role: null,
-          user: null
-        }
-      };
-    },
-    watch: {
-      'model.role': function (value) {
-        this.loadData();
-      },
-      'model.user': function (value) {
-        this.loadData();
-      },
-    },
-    methods: {
-      create() {
-        this.showCreateUser = true;
-      },
-      remove() {},
-      loadData() {
-        const options = {
-          params: {}
-        };
-        this.loading++;
-        this.$http.get('cbo/users/all', options).then(response => {
-          this.mainDatas = response.data;
-          this.loading--;
-        }, response => {
-          this.$toast(response);
-          this.loading--;
-        });
+import _map from "lodash/map";
+import UserAddDia from "./components/UserAddDia";
+export default {
+  name: "sysAuthorityUserList",
+  components: {
+    UserAddDia,
+  },
+  data() {
+    return {
+      mainDatas: [],
+      mainPager: false,
+      showCreateUser: false,
+      showEditUser: false,
+      loading: 0,
+      model: {
+        role: null,
+        user: null
       }
-    },
-    mounted() {
+    };
+  },
+  watch: {
+    "model.role": function(value) {
       this.loadData();
     },
-  };
+    "model.user": function(value) {
+      this.loadData();
+    }
+  },
+  methods: {
+    onUserCreate(item) {
+      this.mainDatas.push(item);
+    },
+    onEditItem(item) {},
+    setDisabled(item) {
+      this.$http.post("cbo/users/disabled", { ids: item.id }).then(
+        res => {
+          item.is_effective = 0;
+        },
+        err => {
+          this.$toast(err);
+        }
+      );
+    },
+    setEffective(item) {
+      this.$http.post("cbo/users/effective", { ids: item.id }).then(
+        res => {
+          item.is_effective = 1;
+        },
+        err => {
+          this.$toast(err);
+        }
+      );
+    },
+    loadData(pager) {
+      const options = {
+        params: {}
+      };
+      if (pager) {
+        options.params.page = pager.page;
+        options.params.size = pager.size;
+      }
+      this.loading++;
+      this.$http.get("cbo/users/all", options).then(
+        res => {
+          this.mainDatas = res.data.data;
+          this.mainPager = res.data.pager;
+          this.loading--;
+        },
+        err => {
+          this.$toast(err);
+          this.loading--;
+        }
+      );
+    }
+  },
+  mounted() {
+    this.loadData();
+  }
+};
 </script>
 <style lang="scss" scoped>
-  .user-card {
-    width: 300px;
-    max-width: 100%;
-    margin: 15px;
-  }
+.user-card {
+  width: 300px;
+  max-width: 100%;
+  margin: 15px;
+}
 
-  .md-part {
-    padding: 0px;
-    max-width: 100%;
-    overflow: hidden;
-  }
+.md-part {
+  padding: 0px;
+  max-width: 100%;
+  overflow: hidden;
+}
 
-  .md-part-body {}
+.md-part-body {
+}
+.md-table {
+  .md-button {
+    min-width: 0px;
+  }
+}
 </style>
