@@ -12,6 +12,8 @@ Route::prefix('api/cbo')->middleware(['api'])->namespace($ns)->group(function ()
 
 Route::prefix('api/cbo')->middleware(['api', 'auth:api'])->namespace($ns)->group(function () {
 	Route::get('/users/all', 'Sys\UserController@getEntUsers');
+	Route::post('/users/checker', 'Sys\UserController@postChecker');
+	Route::post('/users/join', 'Sys\UserController@postJoin');
 	Route::post('/users/create', 'Sys\UserController@postCreate');
 	Route::post('/users/disabled', 'Sys\UserController@setDisabled');
 	Route::post('/users/effective', 'Sys\UserController@setEffective');
