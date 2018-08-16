@@ -12,11 +12,11 @@ class User extends Resource {
    * @return array
    */
   public function toArray($request) {
-    if (empty($this->ent_id)) {
+    if (empty($this->user_id)) {
       return false;
     }
     $rtn = [
-      'id' => $this->ent_id,
+      'id' => $this->user_id,
       'type_enum' => $this->type_enum,
       'is_effective' => \boolval($this->is_effective),
       'created_at' => $this->created_at . '',

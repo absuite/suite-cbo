@@ -16,6 +16,7 @@ class UserController extends Controller {
     $size = $request->input('size', 20);
 
     $query = EntUser::with('user')->where('ent_id', GAuth::entId());
+    $query->orderBy('is_effective','desc');
     $query->orderBy('created_at', 'desc');
     $query->orderBy('id', 'desc');
     return $this->toJson(UserRes::collection($query->paginate($size)));
@@ -65,5 +66,33 @@ class UserController extends Controller {
     $em = config('gmf.ent.model')::addUser(GAuth::entId(), $user->id);
     return $this->toJson(new UserRes($em));
 
+  }
+  public function show(Request $request, $id) {
+    $item = EntUser::with('user')->where('ent_id', GAuth::entId())->where('user_id', $id)->first();
+    return $this->toJson(new UserRes($item));
+  }
+  public function setPassword(Request $request) {
+    $input = $request->all();
+    Validator::make($input, [
+      'id' => 'required',
+      'password' => 'required',
+    ])->validate();
+
+    $id = $input['id'];
+    $item = EntUser::where('ent_id', GAuth::entId())->where('user_id', $id)->first();
+    $user = config('gmf.user.model')::find($item->user_id);
+    $user->resetPassword($input['password']);
+    return $this->show($request, $id);
+  }
+  public function setInfos(Request $request) {
+    $input = $request->all();
+    Validator::make($input, [
+      'id' => 'required',
+    ])->validate();
+
+    $id = $input['id'];
+    $item = EntUser::where('ent_id', GAuth::entId())->where('user_id', $id)->first();
+    $user = config('gmf.user.model')::where('id', $id)->update(array_only($input, ['name', 'nick_name']));
+    return $this->show($request, $id);
   }
 }
