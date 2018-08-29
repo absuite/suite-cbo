@@ -68,7 +68,7 @@ class UserController extends Controller {
     $query->whereIn('u.id', $ids)->where('e.id', GAuth::entId());
     $query->whereNotNull('e.discover');
     $query->where('u.type', 'wx');
-    $datas = $query - get();
+    $datas = $query->get();
     try {
       foreach ($datas as $key => $item) {
         $client = new GuzzleHttp\Client(['base_uri' => $item->discover]);
