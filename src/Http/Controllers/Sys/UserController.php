@@ -61,9 +61,9 @@ class UserController extends Controller {
       ->join('gmf_sys_ent_users as eu', 'e.id', '=', 'eu.ent_id')
       ->join('gmf_sys_users as u', 'u.id', '=', 'eu.user_id');
     $query->select('u.openid as user_openid');
-    $query->select('e.openid as ent_openid');
-    $query->select('e.token as token');
-    $query->select('e.discover as discover');
+    $query->addSelect('e.openid as ent_openid');
+    $query->addSelect('e.token as token');
+    $query->addSelect('e.discover as discover');
 
     $query->whereIn('u.id', $ids)->where('e.id', GAuth::entId());
     $query->whereNotNull('e.discover');
@@ -72,7 +72,8 @@ class UserController extends Controller {
     try {
       foreach ($datas as $key => $item) {
         $client = new GuzzleHttp\Client(['base_uri' => $item->discover]);
-        $params = ['ent_openid' => $item->ent_openid,
+        $params = [
+          'ent_openid' => $item->ent_openid,
           'user_openid' => $item->user_openid,
           'token' => $item->token,
           'is_effective' => $is_effective,
