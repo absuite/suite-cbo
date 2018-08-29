@@ -57,8 +57,8 @@ class UserController extends Controller {
   }
   private function pushAuditing(Array $ids, $is_effective) {
 
-    $query = DB::table('gmf_sys_ents as l')
-      ->join('gmf_sys_ent_users as eu', 'l.id', '=', 'eu.ent_id')
+    $query = DB::table('gmf_sys_ents as e')
+      ->join('gmf_sys_ent_users as eu', 'e.id', '=', 'eu.ent_id')
       ->join('gmf_sys_users as u', 'u.id', '=', 'eu.user_id');
     $query->select('u.openid as user_openid');
     $query->select('e.openid as ent_openid');
