@@ -63,7 +63,7 @@
         methods: {
             postFormData() {
                 this.$tip.waiting("正在发布...");
-                this.$http.post("sys/apps/publish", this.mainData)
+                this.$http.post("sys/ents/publish", this.mainData)
                     .then(
                         res => {
                             this.$tip.clear();
