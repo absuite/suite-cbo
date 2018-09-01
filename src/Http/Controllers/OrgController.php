@@ -75,11 +75,8 @@ class OrgController extends Controller {
 			'datas.*.code' => 'required',
 			'datas.*.name' => 'required',
 		])->validate();
-		$entId = GAuth::entId();
 		$datas = $request->input('datas');
-		foreach ($datas as $k => $v) {
-			Models\Org::fromImportItem($v);
-		}
+		Models\Org::BatchImport($datas);
 		return $this->toJson(true);
 	}
 }

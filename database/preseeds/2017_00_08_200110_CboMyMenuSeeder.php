@@ -56,6 +56,14 @@ class CboMyMenuSeeder extends Seeder {
 				$builder->id($id)->code('my.profile')->name('个人资料')->parent('my')
 					->uri('my.profile')->sequence($this->sequence . '0700')->tag($this->tag);
 			});
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->code('my.profile.user')->name('资料修改')->parent('my.profile')
+					->uri('my.profile.user')->sequence($this->sequence . '0701')->tag($this->tag);
+			});
+			Menu::build(function (Builder $builder) use ($id) {
+				$builder->code('my.profile.passwrod')->name('密码修改')->parent('my.profile')
+					->uri('my.profile.passwrod')->sequence($this->sequence . '0701')->tag($this->tag);
+			});
 		});
 	}
 

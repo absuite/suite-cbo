@@ -105,6 +105,9 @@ class UserController extends Controller {
 
   }
   public function show(Request $request, $id) {
+    if ($id == '-1') {
+      $id = GAuth::id();
+    }
     $item = EntUser::with('user')->where('ent_id', GAuth::entId())->where('user_id', $id)->first();
     return $this->toJson(new UserRes($item));
   }
@@ -116,6 +119,9 @@ class UserController extends Controller {
     ])->validate();
 
     $id = $input['id'];
+    if ($id == '-1') {
+      $id = GAuth::id();
+    }
     $item = EntUser::where('ent_id', GAuth::entId())->where('user_id', $id)->first();
     $user = config('gmf.user.model')::find($item->user_id);
     $user->resetPassword($input['password']);
@@ -128,6 +134,9 @@ class UserController extends Controller {
     ])->validate();
 
     $id = $input['id'];
+    if ($id == '-1') {
+      $id = GAuth::id();
+    }
     $item = EntUser::where('ent_id', GAuth::entId())->where('user_id', $id)->first();
     $user = config('gmf.user.model')::where('id', $id)->update(array_only($input, ['name', 'nick_name']));
     return $this->show($request, $id);

@@ -21,51 +21,51 @@
   </form>
 </template>
 <script>
-export default {
-  name: "SysPublishEntToken",
-  data() {
-    return {
-      mainData: {
-        token: ""
+  export default {
+    name: "SysPublishEntToken",
+    data() {
+      return {
+        mainData: {
+          token: ""
+        }
+      };
+    },
+    methods: {
+      getToken() {
+        this.$http.get("sys/ents/token").then(
+          res => {
+            this.mainData.token = res.data.data;
+          },
+          err => {
+            this.$toast(err);
+          }
+        );
+      },
+      postFormData() {
+        this.$tip.waiting("正在生成口令...");
+        this.$http.post("sys/ents/token").then(
+          res => {
+            this.mainData.token = res.data.data;
+            this.$tip.clear();
+            this.$toast("发布成功");
+          },
+          err => {
+            this.$toast(err);
+          }
+        );
+      },
+      validateForm() {
+        this.postFormData();
       }
-    };
-  },
-  methods: {
-    getToken() {
-      this.$http.get("sys/ents/token").then(
-        res => {
-          this.mainData.token = res.data.data;
-        },
-        err => {
-          this.$toast(err);
-        }
-      );
     },
-    postFormData() {
-      this.$tip.waiting("正在生成口令...");
-      this.$http.post("sys/ents/token").then(
-        res => {
-          this.mainData.token = res.data.data;
-          this.$tip.clear();
-          this.$toast("发布成功");
-        },
-        err => {
-          this.$toast(err);
-        }
-      );
-    },
-    validateForm() {
-      this.postFormData();
+    mounted() {
+      this.getToken();
     }
-  },
-  mounted() {
-    this.getToken();
-  }
-};
+  };
 </script>
 <style scoped>
-form {
-  max-width: 600px;
-  margin: 10px auto;
-}
+  form {
+    max-width: 600px;
+    margin: 10px auto;
+  }
 </style>

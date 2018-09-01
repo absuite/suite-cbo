@@ -8,17 +8,22 @@
                 <span>将企业发布到移动服务，即可在移动端使用。移动端不存储任何业务数据!</span>
             </md-card-content>
             <md-card-content>
-                <md-field>
+                <md-field :class="getValidationClass('account')">
                     <label>用户账号</label>
                     <md-input v-model="mainData.account"></md-input>
                 </md-field>
-                <md-field>
+                <md-field :class="getValidationClass('token')">
                     <label>用户密钥</label>
                     <md-input v-model="mainData.token" type="password"></md-input>
                 </md-field>
-                <md-field>
+                <md-field :class="getValidationClass('discover')">
                     <label>移动服务地址</label>
                     <md-input v-model="mainData.discover"></md-input>
+                </md-field>
+                <md-field :class="getValidationClass('gateway')">
+                    <label>网关地址</label>
+                    <md-input v-model="mainData.gateway"></md-input>
+                    <span class="md-helper-text">如：http://192.168.12.18:8635</span>
                 </md-field>
             </md-card-content>
             <md-card-actions>
@@ -57,10 +62,21 @@
                 },
                 discover: {
                     required
+                },
+                gateway: {
+                    required
                 }
             }
         },
         methods: {
+            getValidationClass(fieldName) {
+                const field = this.$v.mainData[fieldName];
+                if (field) {
+                    return {
+                        "md-invalid": field.$invalid && field.$dirty
+                    };
+                }
+            },
             postFormData() {
                 this.$tip.waiting("正在发布...");
                 this.$http.post("sys/ents/publish", this.mainData)
