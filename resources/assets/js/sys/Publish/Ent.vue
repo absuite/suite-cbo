@@ -82,8 +82,7 @@
                 this.$http.post("sys/ents/publish", this.mainData)
                     .then(
                         res => {
-                            this.$tip.clear();
-                            this.$toast('发布成功');
+                            this.$tip.success('发布成功');
                         },
                         err => {
                             this.$toast(err);

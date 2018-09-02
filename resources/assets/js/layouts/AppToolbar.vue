@@ -21,7 +21,7 @@
       <div class="md-toolbar-section-end">
         <md-button class="md-icon-button md-avatar" @click.native="toggleSider()">
           <md-avatar>
-            <img src="/assets/vendor/gmf-sys/avatar/1.jpg">
+            <img :src="user&&user.avatar_url">
           </md-avatar>
         </md-button>
       </div>
@@ -29,19 +29,17 @@
   </div>
 </template>
 <script>
-import PageTabMixin from './PageTabMixin';
-import screenfull from 'screenfull';
-import { mapState, mapActions, mapMutations } from 'vuex'
-import * as types from 'gmf/store/mutation-types'
+import PageTabMixin from "./PageTabMixin";
+import screenfull from "screenfull";
+import { mapState, mapActions, mapMutations } from "vuex";
+import * as types from "gmf/store/mutation-types";
 
 export default {
-  props: {
-
-  },
+  props: {},
   mixins: [PageTabMixin],
   data() {
     return {
-      search_q: '',
+      search_q: "",
       search_options: [],
       showSidepanel: false,
       screenfull: false
@@ -49,8 +47,11 @@ export default {
   },
   computed: {
     ...mapState({
-      menuVisible: 'menuVisible'
-    })
+      menuVisible: "menuVisible"
+    }),
+    user() {
+      return this.$root.configs.user;
+    }
   },
   methods: {
     ...mapMutations({
@@ -61,7 +62,7 @@ export default {
       this.showMenu();
     },
     toggleSider() {
-      this.$emit('toggleSider');
+      this.$emit("toggleSider");
     },
     toggleScreenfull() {
       if (screenfull.enabled) {
@@ -74,12 +75,12 @@ export default {
   },
   mounted() {
     if (screenfull.enabled) {
-      screenfull.on('change', this.screenfullChange);
+      screenfull.on("change", this.screenfullChange);
     }
   },
   destroyed() {
     if (screenfull.enabled) {
-      screenfull.off('change', this.screenfullChange);
+      screenfull.off("change", this.screenfullChange);
     }
   }
 };
@@ -105,7 +106,7 @@ export default {
     padding-left: 0px;
     .md-pag-item {
       margin: 0px;
-      opacity: .8;
+      opacity: 0.8;
       min-width: 60px;
       min-height: 28px;
       height: auto;

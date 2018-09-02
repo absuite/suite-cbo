@@ -46,8 +46,7 @@
         this.$http.post("sys/ents/token").then(
           res => {
             this.mainData.token = res.data.data;
-            this.$tip.clear();
-            this.$toast("发布成功");
+            this.$tip.success('生成成功');
           },
           err => {
             this.$toast(err);

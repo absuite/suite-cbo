@@ -138,7 +138,7 @@ class UserController extends Controller {
       $id = GAuth::id();
     }
     $item = EntUser::where('ent_id', GAuth::entId())->where('user_id', $id)->first();
-    $user = config('gmf.user.model')::where('id', $id)->update(array_only($input, ['name', 'nick_name']));
+    $user = config('gmf.user.model')::where('id', $id)->update(array_only($input, ['name', 'nick_name','avatar_id']));
     return $this->show($request, $id);
   }
 }

@@ -5,16 +5,21 @@
         <div class="md-title">修改账号{{user.accent}}信息</div>
       </md-card-header>
       <md-card-content>
-        <md-field :class="getValidationClass('name','userForm')">
-          <label>姓名</label>
-          <md-input v-model="userForm.name" :disabled="sending"></md-input>
-          <span class="md-error">此项不能为空，请输入用户姓名</span>
-        </md-field>
-        <md-field :class="getValidationClass('name','userForm')">
-          <label>显示名称</label>
-          <md-input v-model="userForm.nick_name" :disabled="sending"></md-input>
-          <span class="md-error">此项不能为空，请输入显示名称</span>
-        </md-field>
+        <div class="layout-row">
+          <div class="flex">
+            <md-field :class="getValidationClass('name','userForm')">
+              <label>姓名</label>
+              <md-input v-model="userForm.name" :disabled="sending"></md-input>
+              <span class="md-error">此项不能为空，请输入用户姓名</span>
+            </md-field>
+            <md-field :class="getValidationClass('name','userForm')">
+              <label>显示名称</label>
+              <md-input v-model="userForm.nick_name" :disabled="sending"></md-input>
+              <span class="md-error">此项不能为空，请输入显示名称</span>
+            </md-field>
+          </div>
+          <avatar-upload v-model="userForm.avatar_id" :disabled="sending" style="padding-left: 10px;padding-top: 30px;" />
+        </div>
       </md-card-content>
       <md-card-actions>
         <md-button type="submit" class="md-accent md-raised" :disabled="sending">保存</md-button>
@@ -23,6 +28,7 @@
   </form>
 </template>
 <script>
+  import AvatarUpload from "../common/AvatarUpload";
   import {
     validationMixin
   } from "vuelidate";
@@ -33,6 +39,9 @@
   export default {
     name: "myProfileUser",
     mixins: [validationMixin],
+    components: {
+      AvatarUpload
+    },
     data() {
       return {
         sending: false,
@@ -73,7 +82,6 @@
         this.$tip.waiting("正在保存资料...");
         this.$http.post("cbo/users/infos", this.userForm).then(
           res => {
-            this.$emit("md-confirm", res.data.data);
             this.$tip.success('保存资料成功');
             this.sending = false;
           },
